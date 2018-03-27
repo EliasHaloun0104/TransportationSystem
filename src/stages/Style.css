@@ -1,0 +1,29 @@
+Button{
+    -fx-background-color: lightblue;
+    -fx-font-weight: bold;
+}
+
+Button:hover{
+    -fx-background-color: lightGreen;
+}
+Label{
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
+
+ComboBox{
+    -fx-background-color: lightblue;
+    -fx-font-size: 0.8em;
+}
+
+
+TextField{
+    -fx-background-color: lightblue;
+    -fx-font-weight: bold;
+    -fx-font-size: 2em;
+    -fx-alignment: center;
+    -fx-prompt-text-fill: rgba(200, 150, 100, 0.8) ;
+
+
+
+}
