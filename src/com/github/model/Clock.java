@@ -1,4 +1,4 @@
-package stage2;
+package com.github.model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 import java.util.Calendar;
 
 public class Clock {
-
 
     float x;
     float y;

@@ -1,4 +1,4 @@
-package stages;
+package com.github.controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -8,13 +8,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import stage2.Clock;
-import stage2.Train;
+import com.github.model.Clock;
+import com.github.model.Train;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Stage_2_Controller implements Initializable, EventHandler<KeyEvent> {
+public class Stage2Controller implements Initializable, EventHandler<KeyEvent> {
     @FXML
     private Canvas ctx_1;
     private GraphicsContext gc_1;
@@ -24,8 +24,6 @@ public class Stage_2_Controller implements Initializable, EventHandler<KeyEvent>
     private Train train_south;
     private Clock clock;
 
-
-
     @Override
     public void handle(KeyEvent keyEvent) {
 
@@ -33,7 +31,7 @@ public class Stage_2_Controller implements Initializable, EventHandler<KeyEvent>
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        image = new Image("Asset/city.png");
+        image = new Image("resources/city.png");
         train_north = new Train(970,0,-100, -100);
         train_south = new Train(100,465,1170, -100);
         clock = new Clock();

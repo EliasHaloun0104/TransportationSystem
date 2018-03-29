@@ -1,4 +1,4 @@
-package stage2;
+package com.github.model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -11,7 +11,7 @@ public class Train {
     private SuperPoint2D variable;
 
     public Train(float x, float y, float xEnd, float yEnd) {
-        image = new Image("Asset/wagon.png");
+        image = new Image("resources/wagon.png");
         startPosition = new SuperPoint2D(x,y);
         position = new SuperPoint2D(x,y);
         exitPosition = new SuperPoint2D(x,y);

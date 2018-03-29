@@ -1,4 +1,4 @@
-package stages;
+package com.github.controller;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,7 +8,7 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Stage_1_Controller implements Initializable, EventHandler<KeyEvent> {
+public class Stage1Controller implements Initializable, EventHandler<KeyEvent> {
     @Override
     public void handle(KeyEvent keyEvent) {
 

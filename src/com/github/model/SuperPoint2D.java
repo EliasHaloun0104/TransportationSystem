@@ -1,5 +1,4 @@
-package stage2;
-
+package com.github.model;
 
 import javafx.geometry.Point2D;
 
