@@ -13,6 +13,7 @@ public class StageManager {
     private static StageManager stageManager = new StageManager();
     private Stage stage_1;
     private Stage stage_2;
+    private Stage taxiInterface;
 
     public static StageManager getInstance() {
         return stageManager;
@@ -21,23 +22,26 @@ public class StageManager {
     private StageManager() {
         stage_1 = new Stage();
         stage_2 = new Stage();
+        taxiInterface = new Stage();
         try {
+            //Stage 1
             Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/stage1.fxml"));
             Scene scene = new Scene(rootPrimary);
             scene.getStylesheets().add("com/github/view/style.css");
             stage_1.setTitle("List");
             stage_1.setScene(scene);
-            stage_1.setOnCloseRequest(we -> {
-                //InOut.writeToFile("Record.ser", Stage1Controller.items);
-            });
+            //Stage 2
             rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/stage2.fxml"));
             scene = new Scene(rootPrimary);
             scene.getStylesheets().add("com/github/view/style.css");
             stage_2.setTitle("List");
             stage_2.setScene(scene);
-            stage_2.setOnCloseRequest(we -> {
-                //InOut.writeToFile("Record.ser", Stage1Controller.items);
-            });
+            //Taxi Interface
+            rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/taxiInterface.fxml"));
+            scene = new Scene(rootPrimary);
+            scene.getStylesheets().add("com/github/view/style.css");
+            taxiInterface.setTitle("TAXI");
+            taxiInterface.setScene(scene);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,5 +56,9 @@ public class StageManager {
     public void showStage_2() {
         stage_2.show();
         stage_1.hide();
+    }
+    public void showTaxiInterface(){
+        stage_1.hide();
+        taxiInterface.show();
     }
 }
