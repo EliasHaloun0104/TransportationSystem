@@ -14,7 +14,7 @@ import com.github.model.Train;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Stage2Controller implements Initializable, EventHandler<KeyEvent> {
+public class Stage2Controller {
     @FXML
     private Canvas ctx_1;
     private GraphicsContext gc_1;
@@ -24,13 +24,7 @@ public class Stage2Controller implements Initializable, EventHandler<KeyEvent> {
     private Train train_south;
     private Clock clock;
 
-    @Override
-    public void handle(KeyEvent keyEvent) {
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         image = new Image("resources/city.png");
         train_north = new Train(970,0,-100, -100);
         train_south = new Train(100,465,1170, -100);
@@ -57,8 +51,6 @@ public class Stage2Controller implements Initializable, EventHandler<KeyEvent> {
                     gc_1.strokeLine(0 , y ,1120, y);
                 }
                 clock.timeSet(gc_1);
-
-
 
             }
 
