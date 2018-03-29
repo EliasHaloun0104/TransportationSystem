@@ -22,8 +22,7 @@ public class StageManager {
         stage_1 = new Stage();
         stage_2 = new Stage();
         try {
-            Path path = Paths.get("/com/github/view/stage1.fxml");
-            Parent rootPrimary = FXMLLoader.load(getClass().getResource(path.toString()));
+            Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/stage1.fxml"));
             Scene scene = new Scene(rootPrimary);
             scene.getStylesheets().add("com/github/view/style.css");
             stage_1.setTitle("List");
@@ -31,8 +30,7 @@ public class StageManager {
             stage_1.setOnCloseRequest(we -> {
                 //InOut.writeToFile("Record.ser", Stage1Controller.items);
             });
-            path = Paths.get("/com/github/view/stage2.fxml");
-            rootPrimary = FXMLLoader.load(getClass().getResource(path.toString()));
+            rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/stage2.fxml"));
             scene = new Scene(rootPrimary);
             scene.getStylesheets().add("com/github/view/style.css");
             stage_2.setTitle("List");
