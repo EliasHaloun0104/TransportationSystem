@@ -2,39 +2,72 @@ package com.github.model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class Train {
-    Image image;
-    private SuperPoint2D startPosition;
-    private SuperPoint2D position;
-    private SuperPoint2D exitPosition;
-    private SuperPoint2D variable;
+    private Image image;
+    private Vector2D startPosition;
+    private Vector2D position;
+    private Vector2D exitPosition;
+    private Vector2D variable;
+    private int stopTimer;
+    private boolean isStop;
+
+
 
     public Train(float x, float y, float xEnd, float yEnd) {
         image = new Image("resources/wagon.png");
-        startPosition = new SuperPoint2D(x,y);
-        position = new SuperPoint2D(x,y);
-        exitPosition = new SuperPoint2D(x,y);
+        startPosition = new Vector2D(x,y);
+        position = new Vector2D(x,y);
+        exitPosition = new Vector2D(x,y);
 
         if(x > xEnd)
-            variable = new SuperPoint2D(-0.6f,0.3f);
+            variable = new Vector2D(-1f,0.5f);
         else
-            variable = new SuperPoint2D(0.6f,-0.3f);
+            variable = new Vector2D(2f,-1f);
+        stopTimer = 0;
+        isStop = false;
+
+
 
     }
 
     public void update(){
-        position.addToX(variable.x);
-        position.addToY(variable.y);
-        if(position.x < exitPosition.x ||position.y < exitPosition.y){
-            position = startPosition;
+        if(!isStop){
+            position.add(variable);
+            //Stop for new Passengers
+            if(position.getX() <17.5*20 && position.getX()> 17.44*20){
+                isStop = true;
+                stopTimer = 300;
+            }
+            //Change path
+            if(position.getX() < 10.5*20 && position.getX() > 9.5*20){
+                variable.set(-0.5f,1);
+            }
+            //Continue to path
+            if(position.getX() < 9.5*20 && position.getX() > 8.5*20){
+                variable.set(-1,0.5f);
+            }
+
+            //Back to beginning
+            if(position.getX() < -200){
+                position.set(startPosition.getX(),startPosition.getY());
+            }
+
+
+        }else{
+            stopTimer--;
+            if(stopTimer == 0){
+                isStop = false;
+            }
         }
-        if(position.getX() < 8*20 && position.getX() > 7*20 && position.getY()< 21*20 && position.getY()>20*20){
-            System.out.println("1");
-        }
+
+
     }
     public void draw(GraphicsContext gc){
         gc.drawImage(image,position.getX(),position.getY());
+        gc.setFill(Color.BLACK);
         gc.fillOval(12*20,21*20,20,20);
+        gc.fillText(position.toString(),14*20,21*20);
     }
 }
