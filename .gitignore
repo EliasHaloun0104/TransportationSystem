@@ -2,4 +2,4 @@
 .idea
 TransportationSystem.iml
 out/
-src/resources/db.properties
+src/resources/files/db.properties

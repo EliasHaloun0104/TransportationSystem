@@ -16,7 +16,7 @@ public class Train {
 
 
     public Train(float x, float y, float xEnd, float yEnd) {
-        image = new Image("resources/wagon.png");
+        image = new Image("resources/img/wagon.png");
         startPosition = new Vector2D(x,y);
         position = new Vector2D(x,y);
         exitPosition = new Vector2D(x,y);

@@ -3,7 +3,9 @@ package com.github.controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,11 +27,15 @@ public class StageManager {
         stage1 = new Stage();
         stage2 = new Stage();
         taxiInterface = new Stage();
+
         try {
             // login
             Parent root = FXMLLoader.load(getClass().getResource("/com/github/view/login.fxml"));
+            Scene scene = new Scene(root, 350, 500);
+            scene.setFill(Color.TRANSPARENT);
             login.setTitle("Login");
-            login.setScene(new Scene(root, 300, 400));
+            login.setScene(scene);
+            login.initStyle(StageStyle.TRANSPARENT);
             // stage1
             root = FXMLLoader.load(getClass().getResource("/com/github/view/stage1.fxml"));
             stage1.setTitle("List");

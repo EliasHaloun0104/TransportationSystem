@@ -1,18 +1,12 @@
 package com.github.controller;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import com.github.model.Clock;
 import com.github.model.Train;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class Stage2Controller {
     @FXML
@@ -25,7 +19,7 @@ public class Stage2Controller {
     private Clock clock;
 
     public void initialize() {
-        image = new Image("resources/city.png");
+        image = new Image("resources/img/city.png");
         train_north = new Train(970,0,-100, -100);
         train_south = new Train(100,465,1170, -100);
         clock = new Clock();

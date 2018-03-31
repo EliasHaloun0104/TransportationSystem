@@ -12,7 +12,7 @@ public class DBConnection {
 
         // load properties file
         Properties prop = new Properties();
-        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/db.properties")) {
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/files/db.properties")) {
             prop.load(in);
         } catch (IOException e) {
             e.printStackTrace();

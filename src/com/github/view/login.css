@@ -1,7 +1,52 @@
-#login {
-    -fx-background-color: blue;
+@font-face {
+    font-family: Ubuntu;
+    src: url('/resources/fonts/Ubuntu-Regular.ttf');
 }
 
-#registration {
-    -fx-background-color: red;
+#root {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Ubuntu';
+}
+
+#loginPane, #registrationPane  {
+    -fx-background-color: #0FA1BA;
+    -fx-effect: dropshadow(gaussian, #0FA1BA, 10, 0, 0, 0);
+}
+
+
+#loginLabel {
+    -fx-font-size: 32;
+    -fx-text-fill: #373738;
+}
+#newUserLabel {
+    -fx-font-size: 24;
+    -fx-text-fill: #373738;
+}
+
+#exitLoginButton, #exitRegistrationButton {
+    -fx-background-color: transparent;
+    -fx-background-image: url('/resources/icons/close.png');
+    -fx-background-size: 24;
+}
+
+#loginButton, #signUpButton {
+    -fx-background-color: #FBB637;
+    -fx-text-fill: #373738;
+}
+
+#loginButton:hover {
+    -fx-cursor: hand;
+}
+
+#newUserButton, #forgotPasswordButton {
+    -fx-font-size: 10;
+    -fx-background-color: transparent;
+}
+
+#newUserButton:hover, #forgotPasswordButton:hover {
+    -fx-text-fill: #4E4E4F;
+}
+
+#specialAccountDetails {
+    -fx-font-size: 10;
 }
