@@ -10,7 +10,7 @@ public class Stage1Controller {
     }
 
     @FXML private void simulation() {
-        StageManager.getInstance().showStage_2();
+        StageManager.getInstance().showStage2();
     }
 
     @FXML private void taxiInterface() {

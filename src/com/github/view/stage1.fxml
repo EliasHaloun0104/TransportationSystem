@@ -5,16 +5,19 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" prefHeight="230.0" prefWidth="129.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.Stage1Controller">
+<GridPane stylesheets="@style.css" alignment="center" hgap="10" prefHeight="230.0" prefWidth="129.0" vgap="10"
+          xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.github.controller.Stage1Controller">
    <columnConstraints>
-      <ColumnConstraints />
+      <ColumnConstraints/>
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints/>
    </rowConstraints>
-   <children>
-      <Button mnemonicParsing="false" onAction="#simulation" prefHeight="25.0" prefWidth="88.0" text="Simulation" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER" />
-      <Button mnemonicParsing="false" onAction="#taxiInterface" text="Taxi Interface" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="TOP" GridPane.vgrow="NEVER" />
-   </children>
+   <Button mnemonicParsing="false" onAction="#simulation" prefHeight="25.0" prefWidth="88.0" text="Simulation"
+           GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="TOP"
+           GridPane.vgrow="NEVER"/>
+   <Button mnemonicParsing="false" onAction="#taxiInterface" text="Taxi Interface" GridPane.halignment="CENTER"
+           GridPane.hgrow="NEVER" GridPane.valignment="TOP" GridPane.vgrow="NEVER"/>
 </GridPane>
