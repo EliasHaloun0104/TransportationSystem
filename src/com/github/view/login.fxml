@@ -25,7 +25,7 @@
             <HBox alignment="CENTER">
                <VBox>
                   <Button id="newUserButton" mnemonicParsing="false" onAction="#handleNewUserButton" prefHeight="21.0" prefWidth="99.0" text="New user?" />
-                  <Button id="forgotPasswordButton" mnemonicParsing="false" prefHeight="21.0" prefWidth="99.0" text="Forgot password?" />
+                  <Button id="forgotPasswordButton" mnemonicParsing="false" onAction="#handleForgotPasswordButton" prefHeight="21.0" prefWidth="99.0" text="Forgot password?" />
                </VBox>
             </HBox>
          </VBox>
@@ -50,6 +50,23 @@
             <Label id="specialAccountDetails" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="219.0" text="If you require an account with special access contact helpdesk" textAlignment="CENTER" wrapText="true">
             </Label>
          </HBox>
+      </VBox>
+   </Pane>
+   <Pane id="resetPasswordPane" fx:id="resetPasswordPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0" visible="false">
+      <Button id="exitResetButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitResetPasswordButton" prefHeight="24.0" prefWidth="24.0" />
+      <VBox layoutX="59.0" layoutY="59.0" prefHeight="323.0" prefWidth="219.0" spacing="10.0">
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="219.0">
+            <Label id="resetLabel" text="Reset Password" />
+         </HBox>
+         <TextField id="usernameField" prefHeight="40.0" prefWidth="219.0" promptText="Email address" />
+         <VBox spacing="10.0">
+            <HBox alignment="CENTER">
+               <Button id="resetPasswordButton" mnemonicParsing="false" onAction="#handleResetPasswordButton" prefHeight="40.0" prefWidth="219.0" text="RESET" />
+            </HBox>
+            <HBox alignment="CENTER">
+               <Label id="resetPasswordMsgLabel" fx:id="resetPasswordMsgLabel" alignment="CENTER" prefHeight="50.0" prefWidth="219.0" textAlignment="CENTER" />
+            </HBox>
+         </VBox>
       </VBox>
    </Pane>
 </AnchorPane>
