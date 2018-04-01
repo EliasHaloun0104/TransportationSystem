@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBConnection {
-    public DBConnection() {
+    // constructor needs a connection type argument
+    public enum ConnectionType {NEW_ACCOUNT}
+
+    public DBConnection(ConnectionType connectionType) {
 
         // load properties file
         Properties prop = new Properties();
@@ -24,6 +27,7 @@ public class DBConnection {
                 + "myKeyStore");
         System.setProperty("javax.net.ssl.trustStorePassword", prop.getProperty("trustStorePassword"));
 
+        // depending on connection type create correct access to db
         // db credentials
         String url = prop.getProperty("database");
         String user = prop.getProperty("user");
@@ -35,5 +39,9 @@ public class DBConnection {
         }catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private void usernameExists() {
+
     }
 }

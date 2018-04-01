@@ -34,7 +34,7 @@
     -fx-text-fill: #373738;
 }
 
-#loginButton:hover {
+#loginButton:hover, #signUpButton:hover, #resetPasswordButton:hover {
     -fx-cursor: hand;
 }
 

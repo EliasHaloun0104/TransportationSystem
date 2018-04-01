@@ -11,7 +11,7 @@
 
 <AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.LoginController">
    <Pane id="loginPane" fx:id="loginPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0">
-      <Button id="exitLoginButton" fx:id="exitLoginButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="24.0" prefWidth="24.0" />
+      <Button id="exitLoginButton" fx:id="exitLoginButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitAppButton" prefHeight="24.0" prefWidth="24.0" />
       <VBox layoutX="59.0" layoutY="59.0" prefHeight="323.0" prefWidth="219.0" spacing="10.0">
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="219.0">
             <Label id="loginLabel" text="Jala Jala" />
@@ -32,22 +32,22 @@
       </VBox>
    </Pane>
    <Pane id="registrationPane" fx:id="registrationPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0" visible="false">
-      <Button id="exitRegistrationButton" fx:id="exitRegistrationButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitRegistrationButton" prefHeight="24.0" prefWidth="24.0" />
+      <Button id="exitRegistrationButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitRegistrationButton" prefHeight="24.0" prefWidth="24.0" />
       <VBox layoutX="59.0" layoutY="41.0" prefHeight="419.0" prefWidth="219.0" spacing="10.0">
          <HBox alignment="CENTER" prefHeight="54.0" prefWidth="219.0">
             <Label id="newUserLabel" text="Registration" />
          </HBox>
-         <TextField promptText="*First Name" />
-         <TextField promptText="*Last Name" />
-         <TextField promptText="*Username" />
-         <TextField promptText="*Email" />
-         <TextField promptText="Phone number" />
-         <TextField promptText="Address" />
-         <TextField promptText="Zip Code" />
-         <TextField promptText="City" />
-         <Button id="signUpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="225.0" text="SIGN UP" />
+         <TextField fx:id="tfFirstName" promptText="*First Name" />
+         <TextField fx:id="tfLastName" promptText="*Last Name" />
+         <TextField fx:id="tfUsernameReg" promptText="*Username" />
+         <TextField fx:id="tfEmailReg" promptText="*Email" />
+         <TextField fx:id="tfPhoneNbr" promptText="Phone number" />
+         <TextField fx:id="tfAddress" promptText="Address" />
+         <TextField fx:id="tfZipCode" promptText="Zip Code" />
+         <TextField fx:id="tfCity" promptText="City" />
+         <Button id="signUpButton" onAction="#handleSignUpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="225.0" text="SIGN UP" />
          <HBox alignment="CENTER" centerShape="false">
-            <Label id="specialAccountDetails" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="219.0" text="If you require an account with special access contact helpdesk" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="newUserMsgLabel" id="specialAccountDetails" alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="219.0" textAlignment="CENTER" wrapText="true">
             </Label>
          </HBox>
       </VBox>
