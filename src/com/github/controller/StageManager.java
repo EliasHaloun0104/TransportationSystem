@@ -13,6 +13,7 @@ public class StageManager {
     private static StageManager stageManager = new StageManager();
     private Stage stage_1;
     private Stage stage_2;
+    private Stage stage_3;
     private Stage taxiInterface;
 
     public static StageManager getInstance() {
@@ -22,6 +23,7 @@ public class StageManager {
     private StageManager() {
         stage_1 = new Stage();
         stage_2 = new Stage();
+        stage_3 = new Stage();
         taxiInterface = new Stage();
         try {
             //Stage 1
@@ -42,6 +44,12 @@ public class StageManager {
             scene.getStylesheets().add("com/github/view/style.css");
             taxiInterface.setTitle("TAXI");
             taxiInterface.setScene(scene);
+            //Stage 3
+            rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/stage3.fxml"));
+            scene = new Scene(rootPrimary);
+            scene.getStylesheets().add("com/github/view/style.css");
+            stage_3.setTitle("List");
+            stage_3.setScene(scene);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,6 +63,10 @@ public class StageManager {
 
     public void showStage_2() {
         stage_2.show();
+        stage_1.hide();
+    }
+    public void showStage_3() {
+        stage_3.show();
         stage_1.hide();
     }
     public void showTaxiInterface(){

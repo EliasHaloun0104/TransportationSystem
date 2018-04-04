@@ -1,6 +1,7 @@
 Button{
     -fx-background-color: lightblue;
     -fx-font-weight: bold;
+    -fx-pref-width: 200;
 }
 
 Button:hover{
