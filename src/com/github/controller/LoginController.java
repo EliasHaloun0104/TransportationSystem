@@ -92,9 +92,8 @@ public class LoginController {
     @FXML
     private void handleRegistrationPaneNextButton() {
 
-//        DBConnection db = new DBConnection(DBConnection.ConnectionType.NEW_ACCOUNT);
+//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         if (validateFirstName() && validateLastName() && validateUsername() && validateEmail()) {
-            newUserMsgLabel.setText("All good!");
             passwordPane.setVisible(true);
             passwordPane.setOpacity(0);
             Timeline timeline = new Timeline();
@@ -151,6 +150,12 @@ public class LoginController {
     }
 
     private boolean validateEmail() {
+        // checking for a good regex but...
+        // not so important because to setup a password user needs
+        // to check his email for confirmation code (avoiding fake emails...)
+
+        // check db for existing email
+
         return true;
     }
 
@@ -194,5 +199,4 @@ public class LoginController {
             passwordPane.setVisible(false);
         }).start();
     }
-
 }

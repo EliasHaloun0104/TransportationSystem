@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class DBConnection {
     // constructor needs a connection type argument
-    public enum ConnectionType {NEW_ACCOUNT}
+    public enum ConnectionType {ACCOUNT_SETUP}
 
     public DBConnection(ConnectionType connectionType) {
 
