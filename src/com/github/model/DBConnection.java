@@ -2,14 +2,16 @@ package com.github.model;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class DBConnection {
     // constructor needs a connection type argument
     public enum ConnectionType {ACCOUNT_SETUP}
+    private Connection c;
+    private String url;
+    private String user;
+    private String password;
 
     public DBConnection(ConnectionType connectionType) {
 
@@ -29,19 +31,76 @@ public class DBConnection {
 
         // depending on connection type create correct access to db
         // db credentials
-        String url = prop.getProperty("database");
-        String user = prop.getProperty("user");
-        String password = prop.getProperty("password");
+        if (connectionType == ConnectionType.ACCOUNT_SETUP) {
+            url = prop.getProperty("database");
+            user = prop.getProperty("user");
+            password = prop.getProperty("password");
+        }
 
         // db connection
-        try (Connection c = DriverManager.getConnection(url, user, password)) {
+        try {
+            c = DriverManager.getConnection(url, user, password);
             System.out.println("It's working!");
         }catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    private void usernameExists() {
+    public boolean usernameExists(String username) {
 
+        int count = 0;
+        // temp table userTest (for testing...)
+        String query = "SELECT count(*) FROM userTest WHERE accountID = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Query failed.");
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return count > 0;
+    }
+
+    public boolean emailExists(String email) {
+
+        int count = 0;
+        // temp table userTest (for testing...)
+        String query = "SELECT count(*) FROM userTest WHERE email = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, email);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Query failed.");
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return count >= 0;
     }
 }

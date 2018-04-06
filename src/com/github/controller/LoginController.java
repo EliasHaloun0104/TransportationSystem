@@ -144,7 +144,11 @@ public class LoginController {
             newUserMsgLabel.setText("'Username' is a mandatory field");
             ok = false;
         } else {
-            // check database for existing username
+             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+             if (db.usernameExists(tfUsernameReg.getText())) {
+                 newUserMsgLabel.setText("'Username' is already taken.");
+                 ok = false;
+             }
         }
         return ok;
     }
@@ -155,8 +159,18 @@ public class LoginController {
         // to check his email for confirmation code (avoiding fake emails...)
 
         // check db for existing email
-
-        return true;
+        boolean ok = true;
+        if (tfEmailReg.getText().isEmpty()) {
+            newUserMsgLabel.setText("'Email' is a mandatory field");
+            ok = false;
+        } else {
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            if (db.emailExists(tfUsernameReg.getText())) {
+                newUserMsgLabel.setText("'Email' is already taken.");
+                ok = false;
+            }
+        }
+        return ok;
     }
 
     // fades in login pane and fades out new user pane
