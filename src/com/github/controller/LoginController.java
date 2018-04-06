@@ -15,7 +15,7 @@ public class LoginController {
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
     @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg;
-    @FXML private Label newUserMsgLabel, resetPasswordMsgLabel;
+    @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
     public void initialize() {
         // exit app button animation
@@ -92,8 +92,8 @@ public class LoginController {
     @FXML
     private void handleRegistrationPaneNextButton() {
 
-//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         if (validateFirstName() && validateLastName() && validateUsername() && validateEmail()) {
+            passwordDetailsLabel.setText("An email was sent to " + tfEmailReg.getText() + " \nwith the confirmation code.");
             passwordPane.setVisible(true);
             passwordPane.setOpacity(0);
             Timeline timeline = new Timeline();

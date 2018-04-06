@@ -51,6 +51,6 @@
     -fx-text-fill: #4E4E4F;
 }
 
-#specialAccountDetails {
+#specialAccountDetails, #passwordDetailsLabel {
     -fx-font-size: 10;
 }

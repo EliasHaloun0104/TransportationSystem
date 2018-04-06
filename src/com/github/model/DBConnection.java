@@ -103,4 +103,12 @@ public class DBConnection {
 
         return count > 0;
     }
+
+    public void addConfirmationCode() {
+
+    }
+
+    public void addUser(String accountID, String firstName, String lastName, String email) {
+
+    }
 }
