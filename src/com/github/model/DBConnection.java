@@ -101,6 +101,6 @@ public class DBConnection {
             }
         }
 
-        return count >= 0;
+        return count > 0;
     }
 }
