@@ -8,7 +8,7 @@
     -fx-font-family: 'Ubuntu';
 }
 
-#loginPane, #registrationPane, #resetPasswordPane  {
+#loginPane, #registrationPane, #passwordPane, #resetPasswordPane  {
     -fx-background-color: #0FA1BA;
     -fx-effect: dropshadow(gaussian, #0FA1BA, 10, 0, 0, 0);
 }
@@ -29,7 +29,7 @@
     -fx-background-size: 24;
 }
 
-#loginButton, #signUpButton, #resetPasswordButton {
+#loginButton, #nextButton, #finishButton {
     -fx-background-color: #FBB637;
     -fx-text-fill: #373738;
 }

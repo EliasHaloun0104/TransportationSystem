@@ -1,6 +1,5 @@
 package com.github.controller;
 
-//import com.github.model.DBConnection;
 import com.github.model.DBConnection;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -9,15 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class LoginController {
 
     @FXML private Button exitLoginButton;
-    @FXML private Pane loginPane, registrationPane, resetPasswordPane;
-    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfPhoneNbr,
-                            tfAddress, tfZipCode, tfCity;
+    @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
+    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel;
 
     public void initialize() {
@@ -34,19 +31,87 @@ public class LoginController {
         Platform.exit();
     }
 
+    // fades in new user pane and fades out login pane
+    @FXML
+    private void handleNewUserButton() {
+        newUserMsgLabel.setText("If you require an account with special access contact helpdesk");
+        registrationPane.setVisible(true);
+        registrationPane.setOpacity(0);
+        Timeline timeline = new Timeline();
+        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 0);
+        KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 1);
+        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
+        timeline.getKeyFrames().add(kf);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    // fades in forgot password pane and fades out login pane
+    @FXML
+    private void handleForgotPasswordButton() {
+        resetPasswordPane.setVisible(true);
+        resetPasswordPane.setOpacity(0);
+        Timeline timeline = new Timeline();
+        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 0);
+        KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 1);
+        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
+        timeline.getKeyFrames().add(kf);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
     // RESET PASSWORD PANE
     @FXML
-    private void handleResetPasswordButton() {
-        resetPasswordMsgLabel.setText("Further instructions email sent to\nblabla");
+    private void handleResetPasswordNextButton() {
+//        resetPasswordMsgLabel.setText("Further instructions email sent to\nblabla");
+    }
+
+    // fade out reset password and fade in login pane
+    @FXML
+    private void handleExitResetPasswordButton() {
+        Timeline timeline = new Timeline();
+        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
+        KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
+        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
+        timeline.getKeyFrames().add(kf);
+        timeline.setCycleCount(1);
+        timeline.play();
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            resetPasswordPane.setVisible(false);
+        }).start();
+        resetPasswordMsgLabel.setText("");
     }
 
     // SIGN UP PANE
+    // account details
     @FXML
-    private void handleSignUpButton() {
+    private void handleRegistrationPaneNextButton() {
 
 //        DBConnection db = new DBConnection(DBConnection.ConnectionType.NEW_ACCOUNT);
-        if (validateFirstName() && validateLastName() && validateUsername()) {
+        if (validateFirstName() && validateLastName() && validateUsername() && validateEmail()) {
             newUserMsgLabel.setText("All good!");
+            passwordPane.setVisible(true);
+            passwordPane.setOpacity(0);
+            Timeline timeline = new Timeline();
+            KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
+            KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 0);
+            KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
+            timeline.getKeyFrames().add(kf);
+            timeline.setCycleCount(1);
+            timeline.play();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                registrationPane.setVisible(false);
+            }).start();
         }
     }
 
@@ -89,34 +154,6 @@ public class LoginController {
         return true;
     }
 
-    private boolean validatePhoneNumber() {
-        return true;
-    }
-
-    private boolean validateZipCode() {
-        return true;
-    }
-
-    private boolean validateCity() {
-        return true;
-    }
-
-    // PANEL TRANSITIONS
-    // fades in new user pane and fades out login pane
-    @FXML
-    private void handleNewUserButton() {
-        newUserMsgLabel.setText("If you require an account with special access contact helpdesk");
-        registrationPane.setVisible(true);
-        registrationPane.setOpacity(0);
-        Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 0);
-        KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 1);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-
     // fades in login pane and fades out new user pane
     @FXML
     private void handleExitRegistrationButton() {
@@ -137,26 +174,13 @@ public class LoginController {
         }).start();
     }
 
-    // fades in forgot password pane and fades out login pane
+    // set up password
+    // fades in login pane and fades out password pane
     @FXML
-    private void handleForgotPasswordButton() {
-        resetPasswordPane.setVisible(true);
-        resetPasswordPane.setOpacity(0);
-        Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 0);
-        KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 1);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-
-    // fades in login pane and fades out reset password pane
-    @FXML
-    private void handleExitResetPasswordButton() {
+    private void handleExitPasswordPaneButton() {
         Timeline timeline = new Timeline();
         KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
-        KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
+        KeyValue kv2 = new KeyValue(passwordPane.opacityProperty(), 0);
         KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
         timeline.getKeyFrames().add(kf);
         timeline.setCycleCount(1);
@@ -167,8 +191,8 @@ public class LoginController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            resetPasswordPane.setVisible(false);
+            passwordPane.setVisible(false);
         }).start();
-        resetPasswordMsgLabel.setText("");
     }
+
 }
