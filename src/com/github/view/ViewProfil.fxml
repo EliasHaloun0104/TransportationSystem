@@ -19,10 +19,10 @@
             <Label layoutX="19.0" layoutY="190.0" text="First Name:" />
             <Label layoutX="20.0" layoutY="254.0" text="Last Name:" />
             <Label layoutX="18.0" layoutY="335.0" text="Email Address:" />
-            <TextField fx:id="UserName" layoutX="134.0" layoutY="119.0" />
-            <TextField fx:id="FirstName" layoutX="134.0" layoutY="186.0" />
-            <TextField fx:id="LastName" layoutX="134.0" layoutY="259.0" />
-            <TextField fx:id="EmailAdderss" layoutX="134.0" layoutY="331.0" />
+            <TextField fx:id="UserName" editable="false" layoutX="134.0" layoutY="119.0" />
+            <TextField fx:id="FirstName" editable="false" layoutX="134.0" layoutY="186.0" />
+            <TextField fx:id="LastName" editable="false" layoutX="134.0" layoutY="259.0" />
+            <TextField fx:id="EmailAdderss" editable="false" layoutX="134.0" layoutY="331.0" />
             <Button fx:id="BackToSearch" layoutX="115.0" layoutY="407.0" mnemonicParsing="false" onAction="#BackButtonPressed" prefHeight="29.0" prefWidth="121.0" style="-fx-background-radius: 5; -fx-background-color: #FBB637;" text="Back">
                <font>
                   <Font size="13.0" />
