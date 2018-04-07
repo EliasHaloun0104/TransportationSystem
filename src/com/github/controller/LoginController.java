@@ -25,6 +25,12 @@ public class LoginController {
         exitLoginButton.setOnMouseEntered(e -> rotation.play());
     }
 
+    //Login Button
+    @FXML
+    private void loginButtonPressed(){
+    StageManager.getInstance().setUserLoggedscrn();
+    }
+
     // LOGIN PANE
     @FXML
     private void handleExitAppButton() {

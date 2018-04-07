@@ -4,12 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class StageManager {
     private static StageManager stageManager = new StageManager();
@@ -17,6 +16,8 @@ public class StageManager {
     private Stage stage1;
     private Stage stage2;
     private Stage taxiInterface;
+    private Stage userLoggedscrn;
+    private Stage signOutWindow;
 
     public static StageManager getInstance() {
         return stageManager;
@@ -27,6 +28,8 @@ public class StageManager {
         stage1 = new Stage();
         stage2 = new Stage();
         taxiInterface = new Stage();
+        userLoggedscrn = new Stage();
+        signOutWindow = new Stage();
 
         try {
             // login
@@ -48,10 +51,31 @@ public class StageManager {
             root = FXMLLoader.load(getClass().getResource("/com/github/view/taxiInterface.fxml"));
             taxiInterface.setTitle("TAXI");
             taxiInterface.setScene(new Scene(root));
+            // logged in user stage
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/UserLoginScrn.fxml"));
+            userLoggedscrn.setScene(new Scene(root));
+            userLoggedscrn.initStyle(StageStyle.TRANSPARENT);
+            // Sign out window
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/signOutScrn.fxml"));
+            signOutWindow.setScene(new Scene(root));
+            signOutWindow.initStyle(StageStyle.TRANSPARENT);
+            signOutWindow.initModality(Modality.APPLICATION_MODAL);
+
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void setSignOutWindow(){
+        signOutWindow.show();
+    }
+
+    public void setUserLoggedscrn(){
+        userLoggedscrn.show();
+        login.hide();
     }
 
     public void showLogin() {
