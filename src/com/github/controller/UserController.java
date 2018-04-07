@@ -31,7 +31,7 @@ public class UserController implements Initializable{
     }
     @FXML
     private void viewProfilePressed(){
-
+        StageManager.getInstance().setViewProfil();
     }
     @FXML
     private void editProfilePressed(){

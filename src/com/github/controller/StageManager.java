@@ -18,6 +18,7 @@ public class StageManager {
     private Stage taxiInterface;
     private Stage userLoggedscrn;
     private Stage signOutWindow;
+    private Stage viewProfil;
 
     public static StageManager getInstance() {
         return stageManager;
@@ -30,7 +31,7 @@ public class StageManager {
         taxiInterface = new Stage();
         userLoggedscrn = new Stage();
         signOutWindow = new Stage();
-
+        viewProfil = new Stage();
         try {
             // login
             Parent root = FXMLLoader.load(getClass().getResource("/com/github/view/login.fxml"));
@@ -60,9 +61,10 @@ public class StageManager {
             signOutWindow.setScene(new Scene(root));
             signOutWindow.initStyle(StageStyle.TRANSPARENT);
             signOutWindow.initModality(Modality.APPLICATION_MODAL);
-
-
-
+            // View User Profil
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/ViewProfil.fxml"));
+            viewProfil.setScene(new Scene(root));
+            viewProfil.initStyle(StageStyle.TRANSPARENT);
 
 
         } catch (IOException e) {
@@ -94,5 +96,9 @@ public class StageManager {
     public void showTaxiInterface(){
         stage1.hide();
         taxiInterface.show();
+    }
+    public void setViewProfil(){
+        viewProfil.show();
+        userLoggedscrn.hide();
     }
 }
