@@ -37,6 +37,24 @@ public class Vector2D {
         x += point.getX();
         y += point.getY();
     }
+    public void add(float x, float y){
+        this.x += x;
+        this.y += y;
+    }
+
+    public boolean inRange(Vector2D point){
+        return (x >= point.getX()-2 && x <= point.getX()+20 && y >= point.getY()-2 && y<= point.getY()+20);
+    }
+
+    //hypotenuse
+    public float distance(Vector2D point){
+        return (float) Math.pow(Math.pow(point.getY()-y,2) + Math.pow(point.getX()-x,2),0.5);
+    }
+
+    public float angle(Vector2D point){
+        return (float) Math.asin((point.getX()-x)/distance(point));
+    }
+
 
     @Override
     public String toString() {
