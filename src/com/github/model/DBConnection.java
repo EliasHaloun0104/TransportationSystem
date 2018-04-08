@@ -105,11 +105,49 @@ public class DBConnection {
     }
 
 
-    public void addUser(String accountID, String firstName, String lastName, String email, String confirmationCode) {
+    public boolean addUser(String accountID, String firstName, String lastName, String email, String confirmationCode) {
 
+        boolean status = true;
+        String addUser = "INSERT INTO userTest (accountId, firstName, lastName, email) VALUES (?, ?, ? ,?)";
+        String addConfirmationCode = "INSERT INTO passwordTest (accountId, confirmationCode) VALUES (?, ?)";
+
+
+        try (PreparedStatement ps = c.prepareStatement(addUser)) {
+            ps.setString(1, accountID);
+            ps.setString(2, firstName);
+            ps.setString(3, lastName);
+            ps.setString(4, email);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("add user failed.");
+            status = false;
+        }
+
+        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
+            ps.setString(1, accountID);
+            ps.setString(2, confirmationCode);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("add code failed.");
+            status = false;
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return status;
     }
 
-    public void setupPassword(String confirmationCode, String password) {
+    public boolean setupPassword(String confirmationCode, String password) {
+        boolean status = true;
 
+
+        return status;
     }
 }

@@ -129,28 +129,29 @@ public class LoginController {
 
             // add user to db and send email with confirmation code to setup password
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
-            db.addUser(accountId, firstName, lastName, email, confirmationCode);
-            sendConfirmationCodeEmail(email, confirmationCode);
+            if (db.addUser(accountId, firstName, lastName, email, confirmationCode)) {
+                sendConfirmationCodeEmail(email, confirmationCode);
 
-            // fade out registration pane and fade in password pane
-            passwordDetailsLabel.setText("An email was sent to " + email + " \nwith the confirmation code.");
-            passwordPane.setVisible(true);
-            passwordPane.setOpacity(0);
-            Timeline timeline = new Timeline();
-            KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
-            KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 0);
-            KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-            timeline.getKeyFrames().add(kf);
-            timeline.setCycleCount(1);
-            timeline.play();
-            new Thread(() -> {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                registrationPane.setVisible(false);
-            }).start();
+                // fade out registration pane and fade in password pane
+                passwordDetailsLabel.setText("An email was sent to " + email + " \nwith the confirmation code.");
+                passwordPane.setVisible(true);
+                passwordPane.setOpacity(0);
+                Timeline timeline = new Timeline();
+                KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
+                KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 0);
+                KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
+                timeline.getKeyFrames().add(kf);
+                timeline.setCycleCount(1);
+                timeline.play();
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    registrationPane.setVisible(false);
+                }).start();
+            }
         }
     }
 
@@ -205,7 +206,7 @@ public class LoginController {
             ok = false;
         } else {
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
-            if (db.emailExists(tfUsernameReg.getText())) {
+            if (db.emailExists(tfEmailReg.getText())) {
                 newUserMsgLabel.setText("'Email' is already taken.");
                 ok = false;
             }
