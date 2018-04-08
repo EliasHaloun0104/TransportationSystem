@@ -1,5 +1,6 @@
 package com.github.controller;
 
+import com.github.model.Account;
 import com.github.model.DBConnection;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -9,6 +10,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.SecureRandom;
+import java.util.Properties;
 
 public class LoginController {
 
@@ -87,13 +96,38 @@ public class LoginController {
         resetPasswordMsgLabel.setText("");
     }
 
-    // SIGN UP PANE
-    // account details
+    // REGISTRATION PANE
     @FXML
     private void handleRegistrationPaneNextButton() {
 
         if (validateFirstName() && validateLastName() && validateUsername() && validateEmail()) {
-            passwordDetailsLabel.setText("An email was sent to " + tfEmailReg.getText() + " \nwith the confirmation code.");
+
+            // create random confirmation code
+            SecureRandom random = new SecureRandom();
+            String confirmationCode = "";
+
+            for (int i = 0; i < 8; i++) {
+                confirmationCode += random.nextInt(9);
+            }
+
+            String accountId = tfUsernameReg.getText();
+            String firstName = tfFirstName.getText();
+            String lastName = tfLastName.getText();
+            String email = tfEmailReg.getText();
+
+            Account.getInstance().setAccountId(accountId);
+            Account.getInstance().setFirstName(firstName);
+            Account.getInstance().setLastName(lastName);
+            Account.getInstance().setEmail(email);
+            Account.getInstance().setConfirmationCode(confirmationCode);
+
+            // add user to db and send email with confirmation code to setup password
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            db.addUser(accountId, firstName, lastName, email, confirmationCode);
+            sendConfirmationCodeEmail(email, confirmationCode);
+
+            // fade out registration pane and fade in password pane
+            passwordDetailsLabel.setText("An email was sent to " + email + " \nwith the confirmation code.");
             passwordPane.setVisible(true);
             passwordPane.setOpacity(0);
             Timeline timeline = new Timeline();
@@ -173,7 +207,49 @@ public class LoginController {
         return ok;
     }
 
-    // fades in login pane and fades out new user pane
+    private void sendConfirmationCodeEmail(String email, String confirmationCode) {
+//        final String username = "jalatrafiken@gmail.com";
+//        final String password = "HKR65452!";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Properties prop = new Properties();
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/files/db.properties")) {
+            prop.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(prop.getProperty("sendEmailUsername"), prop.getProperty("sendEmailPassword"));
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("jalatrafiken@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("njpcunha@gmail.com"));
+            message.setSubject("Confirmation code");
+            message.setText(confirmationCode);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // fades in login pane and fades out registration pane
     @FXML
     private void handleExitRegistrationButton() {
         Timeline timeline = new Timeline();
@@ -193,7 +269,7 @@ public class LoginController {
         }).start();
     }
 
-    // set up password
+    // PASSWORD PANE
     // fades in login pane and fades out password pane
     @FXML
     private void handleExitPasswordPaneButton() {
@@ -213,4 +289,5 @@ public class LoginController {
             passwordPane.setVisible(false);
         }).start();
     }
+
 }
