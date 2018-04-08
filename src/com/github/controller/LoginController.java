@@ -214,18 +214,15 @@ public class LoginController {
     }
 
     private void sendConfirmationCodeEmail(String email, String confirmationCode) {
-//        final String username = "jalatrafiken@gmail.com";
-//        final String password = "HKR65452!";
-
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
 
         Properties prop = new Properties();
         try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/files/db.properties")) {
             prop.load(in);
+            prop.put("mail.smtp.auth", "true");
+            prop.put("mail.smtp.starttls.enable", "true");
+            prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            prop.put("mail.smtp.host", "smtp.gmail.com");
+            prop.put("mail.smtp.port", "587");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -238,17 +235,14 @@ public class LoginController {
                 });
 
         try {
-
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("jalatrafiken@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("njpcunha@gmail.com"));
-            message.setSubject("Confirmation code");
-            message.setText(confirmationCode);
+            message.setSubject("Jala Trafiken: Confirmation code");
+            message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
 
             Transport.send(message);
-
-            System.out.println("Done");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
