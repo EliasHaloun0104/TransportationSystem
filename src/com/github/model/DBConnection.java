@@ -111,7 +111,6 @@ public class DBConnection {
         String addUser = "INSERT INTO userTest (accountId, firstName, lastName, email) VALUES (?, ?, ? ,?)";
         String addConfirmationCode = "INSERT INTO passwordTest (accountId, confirmationCode) VALUES (?, ?)";
 
-
         try (PreparedStatement ps = c.prepareStatement(addUser)) {
             ps.setString(1, accountID);
             ps.setString(2, firstName);
@@ -144,10 +143,57 @@ public class DBConnection {
         return status;
     }
 
-    public boolean setupPassword(String confirmationCode, String password) {
+    public boolean validateConfirmationCode(String account, String code) {
+
+        // temp table userTest (for testing...)
+        int count = 0;
+        String query = "SELECT count(*) FROM passwordTest WHERE accountId = ? && confirmationCode = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, account);
+            ps.setString(2, code);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Query failed.");
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return count == 1;
+    }
+
+    public boolean setupPassword(String account, String password) {
         boolean status = true;
+        String addConfirmationCode = "UPDATE passwordTest SET password = ? WHERE accountId = ?";
 
-
+        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
+            ps.setString(1, password);
+            ps.setString(2, account);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("set password failed.");
+            status = false;
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return status;
     }
 }

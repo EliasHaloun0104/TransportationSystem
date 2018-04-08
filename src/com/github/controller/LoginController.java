@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -23,7 +24,8 @@ public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg;
+    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass;
+    @FXML private PasswordField pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
     public void initialize() {
@@ -129,6 +131,9 @@ public class LoginController {
 
             // add user to db and send email with confirmation code to setup password
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+
+            // TODO: needs better handling
+            // account should only be added if email is succesfully sent...
             if (db.addUser(accountId, firstName, lastName, email, confirmationCode)) {
                 sendConfirmationCodeEmail(email, confirmationCode);
 
@@ -269,6 +274,32 @@ public class LoginController {
     }
 
     // PASSWORD PANE
+
+    @FXML
+    private void handleFinishButtonPressed() {
+        String account = tfAccountPass.getText();
+        String confirmationCode = pfConfirmationCode.getText();
+        String password = pfPasswordPass.getText();
+        String passwordConfirmation = pfPasswordConfirm.getText();
+
+        // add confimrmation password validation!!!!!!!
+
+        if (validateConfirmationCode(account, confirmationCode)) {
+            System.out.println("ok");
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            if (db.setupPassword(account, password)) {
+                passwordDetailsLabel.setText("Account is setup!");
+            }
+        } else {
+            passwordDetailsLabel.setText("Invalid confirmation code or account ID");
+        }
+    }
+
+    private boolean validateConfirmationCode(String account, String confirmationCode) {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        return db.validateConfirmationCode(account, confirmationCode);
+    }
+
     // fades in login pane and fades out password pane
     @FXML
     private void handleExitPasswordPaneButton() {
@@ -288,5 +319,4 @@ public class LoginController {
             passwordPane.setVisible(false);
         }).start();
     }
-
 }
