@@ -236,14 +236,12 @@ public class LoginController {
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("jalatrafiken@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("njpcunha@gmail.com"));
+            message.setFrom(new InternetAddress(prop.getProperty("sendEmailUsername")));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("Jala Trafiken: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
 
             Transport.send(message);
-
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

@@ -33,8 +33,8 @@ public class DBConnection {
         // db credentials
         if (connectionType == ConnectionType.ACCOUNT_SETUP) {
             url = prop.getProperty("database");
-            user = prop.getProperty("user");
-            password = prop.getProperty("password");
+            user = prop.getProperty("userAccountSetup");
+            password = prop.getProperty("passwordAccountSetup");
         }
 
         // db connection
