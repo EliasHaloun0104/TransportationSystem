@@ -70,7 +70,7 @@
          <HBox alignment="CENTER" prefHeight="117.0" prefWidth="219.0">
             <Label id="resetLabel" text="Reset Password" />
          </HBox>
-         <TextField id="usernameField" prefHeight="40.0" prefWidth="219.0" promptText="*Email" />
+         <TextField id="emailField" fx:id="tfEmailReset" prefHeight="40.0" prefWidth="219.0" promptText="*Email" />
          <VBox spacing="10.0">
             <HBox alignment="CENTER">
                <Button id="nextButton" mnemonicParsing="false" onAction="#handleResetPasswordNextButton" prefHeight="40.0" prefWidth="219.0" text="Next &gt;" />

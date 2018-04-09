@@ -24,7 +24,7 @@ public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass;
+    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private PasswordField pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
@@ -39,7 +39,7 @@ public class LoginController {
     //Login Button
     @FXML
     private void loginButtonPressed(){
-    StageManager.getInstance().setUserLoggedscrn();
+        StageManager.getInstance().setUserLoggedscrn();
     }
 
     // LOGIN PANE
@@ -80,14 +80,49 @@ public class LoginController {
     // RESET PASSWORD PANE
     @FXML
     private void handleResetPasswordNextButton() {
-//        resetPasswordMsgLabel.setText("Further instructions email sent to\nblabla");
+        if (!tfEmailReset.getText().trim().isEmpty() && validateEmail(tfEmailReset.getText())) {
+            passwordDetailsLabel.setText("Email with confirmation code sent to\n" + tfEmailReg);
+
+            // create random confirmation code
+            SecureRandom random = new SecureRandom();
+            String confirmationCode = "";
+
+            for (int i = 0; i < 8; i++) {
+                confirmationCode += random.nextInt(9);
+            }
+
+            sendConfirmationCodeEmail(tfEmailReset.getText(), confirmationCode);
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
+
+            passwordPane.setVisible(true);
+            passwordPane.setOpacity(0);
+            Timeline timeline = new Timeline();
+            KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
+            KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
+            KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
+            timeline.getKeyFrames().add(kf);
+            timeline.setCycleCount(1);
+            timeline.play();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                resetPasswordPane.setVisible(false);
+            }).start();
+
+        } else {
+            resetPasswordMsgLabel.setText("Invalid email.");
+        }
     }
 
     // fade out reset password and fade in login pane
     @FXML
     private void handleExitResetPasswordButton() {
         Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
+        KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
         KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
         KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
         timeline.getKeyFrames().add(kf);
@@ -108,7 +143,7 @@ public class LoginController {
     @FXML
     private void handleRegistrationPaneNextButton() {
 
-        if (validateFirstName() && validateLastName() && validateUsername() && validateEmail()) {
+        if (validateFirstName() && validateLastName() && validateUsername() && validateEmail(tfEmailReg.getText())) {
 
             // create random confirmation code
             SecureRandom random = new SecureRandom();
@@ -199,24 +234,16 @@ public class LoginController {
         return ok;
     }
 
-    private boolean validateEmail() {
+    private boolean validateEmail(String email) {
         // checking for a good regex but...
         // not so important because to setup a password user needs
         // to check his email for confirmation code (avoiding fake emails...)
 
         // check db for existing email
-        boolean ok = true;
-        if (tfEmailReg.getText().isEmpty()) {
-            newUserMsgLabel.setText("'Email' is a mandatory field");
-            ok = false;
-        } else {
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
-            if (db.emailExists(tfEmailReg.getText())) {
-                newUserMsgLabel.setText("'Email' is already taken.");
-                ok = false;
-            }
-        }
-        return ok;
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        return db.emailExists(email);
+
     }
 
     private void sendConfirmationCodeEmail(String email, String confirmationCode) {

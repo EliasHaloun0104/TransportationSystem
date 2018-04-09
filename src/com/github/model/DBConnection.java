@@ -196,4 +196,25 @@ public class DBConnection {
         }
         return status;
     }
+
+    public void addConfirmationCode(String email, String confirmationCode) {
+
+        String addConfirmationCode = "UPDATE passwordTest SET confirmationCode = ? WHERE accountId IN (SELECT accountID from userTest WHERE email = ?)";
+
+        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
+            ps.setString(2, email);
+            ps.setString(1, confirmationCode);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("add user failed.");
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
