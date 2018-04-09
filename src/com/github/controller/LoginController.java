@@ -5,10 +5,7 @@ import com.github.model.DBConnection;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -24,8 +21,8 @@ public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass, tfEmailReset;
-    @FXML private PasswordField pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
+    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass, tfEmailReset;
+    @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
     public void initialize() {
@@ -36,16 +33,30 @@ public class LoginController {
         exitLoginButton.setOnMouseEntered(e -> rotation.play());
     }
 
-    //Login Button
-    @FXML
-    private void loginButtonPressed(){
-        StageManager.getInstance().setUserLoggedscrn();
-    }
-
     // LOGIN PANE
     @FXML
     private void handleExitAppButton() {
         Platform.exit();
+    }
+
+    // login button
+    @FXML
+    private void loginButtonPressed() {
+        if (validatelogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
+
+            // TODO: needs to check the role in db to load the correct scene
+            StageManager.getInstance().setUserLoggedscrn();
+        } else {
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Wrong username or password", ButtonType.OK);
+            a.showAndWait();
+        }
+    }
+
+    private boolean validatelogin(String account, String password) {
+
+        // TODO: create new connection type
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        return  db.validateLogin(account, password);
     }
 
     // fades in new user pane and fades out login pane

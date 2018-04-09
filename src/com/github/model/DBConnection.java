@@ -217,4 +217,33 @@ public class DBConnection {
             }
         }
     }
+
+    public boolean validateLogin(String account, String password) {
+        int count = 0;
+        String query = "SELECT count(*) FROM passwordTest WHERE accountId = ? && password = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, account);
+            ps.setString(2, password);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Query failed.");
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return count == 1;
+    }
 }

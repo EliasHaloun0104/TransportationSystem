@@ -16,8 +16,8 @@
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="219.0">
             <Label id="loginLabel" text="Jala Trafiken" />
          </HBox>
-         <TextField id="usernameField" prefHeight="40.0" prefWidth="219.0" promptText="Username" />
-         <PasswordField id="passwordField" prefHeight="40.0" prefWidth="219.0" promptText="Password" />
+         <TextField id="usernameField" fx:id="tfAccountLogin" prefHeight="40.0" prefWidth="219.0" promptText="Username" />
+         <PasswordField id="passwordField" fx:id="pfPasswordLogin" prefHeight="40.0" prefWidth="219.0" promptText="Password" />
          <VBox spacing="10.0">
             <HBox alignment="CENTER">
                <Button id="loginButton" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="40.0" prefWidth="219.0" text="LOGIN" />
