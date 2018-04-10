@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 
 public class Stage3_Controller {
@@ -15,13 +16,16 @@ public class Stage3_Controller {
     private GraphicsContext gc;
     AnimationTimer timer;
     VehicleSimulation vehicleSimulation;
+    Font gameOfThrownFont = Font.loadFont(getClass().getResourceAsStream("/resources/GameOfThrones.ttf"), 14);
 
-    private Image image;
+    private Image backGround;
+    private Image train;
 
     public void initialize(){
-        image = new Image("resources/TrainMap.png");
+        backGround = new Image("resources/OldMap.jpg");
+        train = new Image("resources/TrainImage.png");
         gc = ctx.getGraphicsContext2D();
-        vehicleSimulation = new VehicleSimulation(640,120,795,310);
+        vehicleSimulation = new VehicleSimulation(ctx);
         ctx.setOnMouseMoved(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent mouseEvent) {
@@ -32,11 +36,10 @@ public class Stage3_Controller {
             @Override
             public void handle(long now) {
                 gc.clearRect(0,0,ctx.getWidth(),ctx.getHeight());
-                gc.drawImage(image,0,0,878,751);
+                gc.drawImage(backGround,0,0,878,751);
                 gc.setFill(Color.BLACK);
-                gc.fillOval(640,120,20,20);
-                gc.fillOval(795,310,20,20);
-                gc.fillOval(710, 450,20,20);
+                gc.setFont(gameOfThrownFont);
+                gc.fillText("North", 100,100);
                 vehicleSimulation.draw(gc);
                 vehicleSimulation.update();
             }

@@ -43,7 +43,7 @@ public class Vector2D {
     }
 
     public boolean inRange(Vector2D point){
-        return (x >= point.getX()-2 && x <= point.getX()+20 && y >= point.getY()-2 && y<= point.getY()+20);
+        return distance(point)<2;
     }
 
     //hypotenuse
