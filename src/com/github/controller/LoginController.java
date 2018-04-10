@@ -134,7 +134,7 @@ public class LoginController {
     @FXML
     private void handleExitResetPasswordButton() {
         Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
+        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
         KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
         KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
         timeline.getKeyFrames().add(kf);
