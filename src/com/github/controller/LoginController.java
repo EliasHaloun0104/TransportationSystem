@@ -53,7 +53,6 @@ public class LoginController {
     }
 
     private boolean validatelogin(String account, String password) {
-
         // TODO: create new connection type
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         return  db.validateLogin(account, password);
@@ -154,7 +153,7 @@ public class LoginController {
     @FXML
     private void handleRegistrationPaneNextButton() {
 
-        if (validateFirstName() && validateLastName() && validateUsername() && validateEmail(tfEmailReg.getText())) {
+        if (validateFirstName() && validateLastName() && validateUsername() && !validateEmail(tfEmailReg.getText())) {
 
             // create random confirmation code
             SecureRandom random = new SecureRandom();
