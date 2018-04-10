@@ -6,6 +6,8 @@ import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -319,7 +321,7 @@ public class LoginController {
         String password = pfPasswordPass.getText();
         String passwordConfirmation = pfPasswordConfirm.getText();
 
-        // add confimrmation password validation!!!!!!!
+        // TODO: add confimrmation password validation!!!!!!!
 
         if (validateConfirmationCode(account, confirmationCode)) {
             System.out.println("ok");
