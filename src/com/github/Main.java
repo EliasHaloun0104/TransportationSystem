@@ -8,7 +8,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        StageManager.getInstance().showLogin();
+    StageManager.getInstance().setSplashScreen();
+
     }
 
 
