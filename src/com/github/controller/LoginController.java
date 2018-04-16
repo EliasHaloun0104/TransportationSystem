@@ -47,7 +47,8 @@ public class LoginController {
         if (validatelogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
 
             // TODO: needs to check the role in db to load the correct scene
-            StageManager.getInstance().setUserLoggedscrn();
+//            StageManager.getInstance().setUserLoggedscrn();
+            StageManager.getInstance().setAdminScrn();
         } else {
             Alert a = new Alert(Alert.AlertType.INFORMATION, "Wrong username or password", ButtonType.OK);
             a.showAndWait();

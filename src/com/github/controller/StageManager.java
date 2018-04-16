@@ -20,6 +20,7 @@ public class StageManager {
     private Stage signOutWindow;
     private Stage viewProfil;
     private Stage splashScreen;
+    private Stage adminScrn;
 
     public static StageManager getInstance() {
         return stageManager;
@@ -34,6 +35,7 @@ public class StageManager {
         signOutWindow = new Stage();
         viewProfil = new Stage();
         splashScreen = new Stage();
+        adminScrn = new Stage();
 
         try {
             // login
@@ -72,11 +74,18 @@ public class StageManager {
             root = FXMLLoader.load(getClass().getResource("/com/github/view/SplashScreen.fxml"));
             splashScreen.setScene(new Scene(root));
             splashScreen.initStyle(StageStyle.TRANSPARENT);
-
+            //Admin
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/AdminLoginScrn.fxml"));
+            adminScrn.setScene(new Scene(root));
+            adminScrn.initStyle(StageStyle.TRANSPARENT);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void setAdminScrn(){
+        adminScrn.show();
+        login.hide();
     }
     public void setSplashScreen(){
         splashScreen.show();
