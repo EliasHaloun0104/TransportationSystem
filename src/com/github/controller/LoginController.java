@@ -48,7 +48,7 @@ public class LoginController {
 
             // TODO: needs to check the role in db to load the correct scene
 //            StageManager.getInstance().setUserLoggedscrn();
-            StageManager.getInstance().setAdminScrn();
+            StageManager.getInstance().setEmployeeMenu();
         } else {
             Alert a = new Alert(Alert.AlertType.INFORMATION, "Wrong username or password", ButtonType.OK);
             a.showAndWait();

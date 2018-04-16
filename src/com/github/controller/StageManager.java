@@ -21,6 +21,10 @@ public class StageManager {
     private Stage viewProfil;
     private Stage splashScreen;
     private Stage adminScrn;
+    private Stage employeeMenu;
+    private Stage taxiScrn;
+    private Stage busScrn;
+    private Stage trainScrn;
 
     public static StageManager getInstance() {
         return stageManager;
@@ -36,6 +40,10 @@ public class StageManager {
         viewProfil = new Stage();
         splashScreen = new Stage();
         adminScrn = new Stage();
+        employeeMenu = new Stage();
+        taxiScrn = new Stage();
+        busScrn = new Stage();
+        trainScrn = new Stage();
 
         try {
             // login
@@ -78,14 +86,46 @@ public class StageManager {
             root = FXMLLoader.load(getClass().getResource("/com/github/view/AdminLoginScrn.fxml"));
             adminScrn.setScene(new Scene(root));
             adminScrn.initStyle(StageStyle.TRANSPARENT);
+            //EmployeeMenu
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/EmployeeMenu.fxml"));
+            employeeMenu.setScene(new Scene(root));
+            employeeMenu.initStyle(StageStyle.TRANSPARENT);
+            //TaxiDriver
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/TaxiDriver.fxml"));
+            taxiScrn.setScene(new Scene(root));
+            taxiScrn.initStyle(StageStyle.TRANSPARENT);
+            //TrainDriver
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/TrainDriver.fxml"));
+            trainScrn.setScene(new Scene(root));
+            trainScrn.initStyle(StageStyle.TRANSPARENT);
+            //BusDriver
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/BusDriver.fxml"));
+            busScrn.setScene(new Scene(root));
+            busScrn.initStyle(StageStyle.TRANSPARENT);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    public void setEmployeeMenu(){
+        employeeMenu.show();
+        login.hide();
+    }
     public void setAdminScrn(){
         adminScrn.show();
-        login.hide();
+        employeeMenu.hide();
+    }
+    public void setTaxiDriver(){
+        taxiScrn.show();
+        employeeMenu.hide();
+    }
+    public void setTrainDriver(){
+        trainScrn.show();
+        employeeMenu.hide();
+    }
+    public void setBusDriver(){
+        busScrn.show();
+        employeeMenu.hide();
     }
     public void setSplashScreen(){
         splashScreen.show();
