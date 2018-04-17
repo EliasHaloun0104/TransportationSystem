@@ -4,8 +4,9 @@ import javafx.fxml.FXML;
 
 public class Stage1Controller {
 
+
     @FXML private void simulation() {
-        StageManager.getInstance().showStage_2();
+        StageManager.getInstance().showStage2();
     }
 
     @FXML private void taxiInterface() {
@@ -17,5 +18,6 @@ public class Stage1Controller {
     @FXML private void userGUI(){
         StageManager.getInstance().showUserGUI();
     }
+
 
 }

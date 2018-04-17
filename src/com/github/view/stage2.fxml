@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<!--<<<<<<< HEAD-->
 <AnchorPane prefHeight="372.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.Stage2Controller">
    <children>
       <TabPane layoutX="-12.0" layoutY="-11.0" prefHeight="392.0" prefWidth="583.0" tabClosingPolicy="UNAVAILABLE">
@@ -27,3 +28,15 @@
       </TabPane>
    </children>
 </AnchorPane>
+<!--=======-->
+<!--<GridPane stylesheets="@style.css" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112-ea"-->
+          <!--xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.Stage2Controller">-->
+   <!--<columnConstraints>-->
+      <!--<ColumnConstraints/>-->
+   <!--</columnConstraints>-->
+   <!--<rowConstraints>-->
+      <!--<RowConstraints/>-->
+   <!--</rowConstraints>-->
+   <!--<Canvas fx:id="ctx_1" height="960.0" width="1120.0"/>-->
+<!--</GridPane>-->
+<!--&gt;>>>>>> login_dev-->
