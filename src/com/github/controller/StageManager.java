@@ -171,20 +171,6 @@ public class StageManager {
         stage2.hide();
     }
 
-    public void showStage2() {
-        stage2.show();
-        stage1.hide();
-    }
-    public void showStage_3() {
-        stage3.show();
-        stage1.hide();
-    }
-
-
-    public void showUserGUI(){
-        stage1.hide();
-        userGUI.show();
-    }
 
     public void createStage(String stageName, String title, Stage stage) throws IOException {
         Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
