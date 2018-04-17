@@ -33,6 +33,7 @@ public class LoginController {
         rotation.setCycleCount(1);
         rotation.setByAngle(360);
         exitLoginButton.setOnMouseEntered(e -> rotation.play());
+
     }
 
     // LOGIN PANE
@@ -47,6 +48,8 @@ public class LoginController {
         if (validatelogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
 
             // TODO: needs to check the role in db to load the correct scene
+            tfAccountLogin.setText("");
+            pfPasswordLogin.setText("");
             StageManager.getInstance().setEmployeeMenu();
         } else {
             Alert a = new Alert(Alert.AlertType.INFORMATION, "Wrong username or password", ButtonType.OK);
