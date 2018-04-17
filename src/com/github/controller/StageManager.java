@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class StageManager {
     private static StageManager stageManager = new StageManager();
@@ -15,6 +13,7 @@ public class StageManager {
     private Stage stage_2;
     private Stage stage_3;
     private Stage taxiInterface;
+    private Stage userGUI;
 
     public static StageManager getInstance() {
         return stageManager;
@@ -25,6 +24,7 @@ public class StageManager {
         stage_2 = new Stage();
         stage_3 = new Stage();
         taxiInterface = new Stage();
+        userGUI = new Stage();
         try {
             //Stage 1
             Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/stage1.fxml"));
@@ -51,6 +51,13 @@ public class StageManager {
             stage_3.setTitle("List");
             stage_3.setScene(scene);
 
+            //UserGUI
+            rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/userGUI.fxml"));
+            scene = new Scene(rootPrimary);
+            scene.getStylesheets().add("com/github/view/style.css");
+            userGUI.setTitle("List");
+            userGUI.setScene(scene);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,5 +79,9 @@ public class StageManager {
     public void showTaxiInterface(){
         stage_1.hide();
         taxiInterface.show();
+    }
+    public void showUserGUI(){
+        stage_1.hide();
+        userGUI.show();
     }
 }
