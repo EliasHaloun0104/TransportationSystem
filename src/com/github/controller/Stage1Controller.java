@@ -14,5 +14,8 @@ public class Stage1Controller {
     @FXML private void stage_3(){
         StageManager.getInstance().showStage_3();
     }
+    @FXML private void userGUI(){
+        StageManager.getInstance().showUserGUI();
+    }
 
 }
