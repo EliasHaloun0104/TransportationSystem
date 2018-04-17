@@ -8,6 +8,10 @@ public class Vector2D {
         this.x = x;
         this.y = y;
     }
+
+
+
+
     public void set(float x, float y){
         this.x = x;
         this.y = y;

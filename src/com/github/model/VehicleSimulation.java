@@ -23,10 +23,7 @@ public class VehicleSimulation {
     double stopTime;
     boolean isUpdate;
     Image image;
-    Path path;
-    PathTransition pathTransition;
-    Animation animation;
-    Circle pen;
+
 
     public VehicleSimulation(Canvas ctx) {
         image = new Image("resources/TrainImage.png");
@@ -45,9 +42,7 @@ public class VehicleSimulation {
         path.setStrokeWidth(10);
         path.getElements().addAll(new MoveTo(20, 20), new CubicCurveTo(380, 0, 380, 120, 200, 120), new CubicCurveTo(0, 120, 0, 240, 380, 240), new LineTo(20,20));
 
-        pen = new Circle(0, 0, 4);
-        pathTransition = new PathTransition(Duration.seconds(10),path,pen);
-        pathTransition.playFromStart();
+
 
         position = destinations.poll();
         destination = destinations.poll();
@@ -58,7 +53,6 @@ public class VehicleSimulation {
 
     public void draw(GraphicsContext gc){
         gc.drawImage(image,position.getX(),position.getY(),12,12);
-        gc.fillOval(pen.getCenterX(), pen.getCenterY(),20,20);
     }
 
     public void update(){
