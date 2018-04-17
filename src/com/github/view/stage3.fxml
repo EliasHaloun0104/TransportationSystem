@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="650.0" prefWidth="1063.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.Stage3_Controller">
    <children>
-      <Canvas fx:id="ctx" height="610.0" layoutX="130.0" layoutY="20.0" width="870.0" />
+      <Canvas fx:id="ctx" height="640.0" layoutX="14.0" layoutY="20.0" width="960.0" />
       <Button fx:id="move" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" onAction="#action" prefHeight="43.0" prefWidth="76.0" text="Button" />
       <Button layoutX="14.0" layoutY="147.0" mnemonicParsing="false" onAction="#replaceBackground" prefHeight="43.0" prefWidth="76.0" text="ZoomIn" />
    </children>

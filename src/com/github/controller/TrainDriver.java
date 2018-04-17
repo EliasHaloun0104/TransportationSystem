@@ -10,8 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TrainDriver implements Initializable {
 
@@ -19,10 +18,15 @@ public class TrainDriver implements Initializable {
     @FXML private TextField userNameTextField,firstNameTextField,lastNameTextField,
             emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField,
             createdDateTextField;
+    ArrayList<TextField> textFields;
+    ArrayList<Button> buttons;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField,emailTextField,phoneNbrTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField));
+        buttons = new ArrayList<>(Arrays.asList(signoutButton,editButton,saveButton));
+
         // exit app button animation
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), signoutButton);
         rotation.setCycleCount(1);
@@ -44,37 +48,18 @@ public class TrainDriver implements Initializable {
     }
     @FXML
     private void editButtonPressed(){
-
-        firstNameTextField.setEditable(true);
-        lastNameTextField.setEditable(true);
-        phoneNbrTextField.setEditable(true);
-        roleTextField.setEditable(true);
-        newPasswordTextField.setEditable(true);
-        confirmPasswordTextField.setEditable(true);
-
-        firstNameTextField.setDisable(false);
-        lastNameTextField.setDisable(false);
-        phoneNbrTextField.setDisable(false);
-        roleTextField.setDisable(false);
-        newPasswordTextField.setDisable(false);
-        confirmPasswordTextField.setDisable(false);
+        for (TextField t: textFields) {
+            t.setEditable(true);
+            t.setDisable(false);
+        }
 
     }
     @FXML
     private void saveButtonPressed(){
-        firstNameTextField.setEditable(false);
-        lastNameTextField.setEditable(false);
-        phoneNbrTextField.setEditable(false);
-        roleTextField.setEditable(false);
-        newPasswordTextField.setEditable(false);
-        confirmPasswordTextField.setEditable(false);
-
-        firstNameTextField.setDisable(true);
-        lastNameTextField.setDisable(true);
-        phoneNbrTextField.setDisable(true);
-        roleTextField.setDisable(true);
-        newPasswordTextField.setDisable(true);
-        confirmPasswordTextField.setDisable(true);
+        for (TextField t: textFields) {
+            t.setEditable(false);
+            t.setDisable(true);
+        }
 
     }
 

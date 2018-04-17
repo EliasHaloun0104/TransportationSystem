@@ -26,7 +26,7 @@ public class VehicleSimulation {
 
 
     public VehicleSimulation(Canvas ctx) {
-        image = new Image("resources/TrainImage.png");
+        image = new Image("resources/img/TrainImage.png");
         destinations = new ArrayDeque<>();
         //This data should fetch from server
         destinations.add(new Vector2D((float) (ctx.getWidth()*640/878),(float) (ctx.getHeight()*120/751)));

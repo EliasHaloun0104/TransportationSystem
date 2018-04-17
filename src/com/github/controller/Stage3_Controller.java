@@ -19,7 +19,7 @@ public class Stage3_Controller {
 
     public void initialize(){
         map = new Map(ctx);
-        train = new Image("resources/TrainImage.png");
+        train = new Image("resources/img/TrainImage.png");
         gc = ctx.getGraphicsContext2D();
         vehicleSimulation = new VehicleSimulation(ctx);
         ctx.setOnMouseMoved(mouseEvent -> System.out.println(mouseEvent.getX() + ", " + mouseEvent.getY()));

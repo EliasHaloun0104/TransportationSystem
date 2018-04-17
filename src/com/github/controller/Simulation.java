@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import com.github.model.Clock;
 import com.github.model.Train;
 
-public class Stage2Controller {
+public class Simulation {
     @FXML
     private Canvas ctx_1;
     private GraphicsContext gc_1;
@@ -20,10 +20,7 @@ public class Stage2Controller {
 
     public void initialize() {
 
-        image = new Image("resources/StationMap.png");
-
-        image = new Image("resources/img/city.png");
-
+        image = new Image("resources/img/StationMap.png");
         train_north = new Train(970,0,-100, -100);
         train_south = new Train(100,465,1170, -100);
         clock = new Clock();

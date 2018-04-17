@@ -39,7 +39,7 @@ public class LoginController {
     // LOGIN PANE
     @FXML
     private void handleExitAppButton() {
-        Platform.exit();
+        StageManager.getInstance().getLogin().hide();
     }
 
     // login button

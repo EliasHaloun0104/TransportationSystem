@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -16,53 +15,94 @@ public class StageManager {
     private Stage login;
     private Stage stage1;
     private Stage stage2;
-    private Stage taxiInterface;
+    private Stage stage3;
     private Stage splashScreen;
     private Stage adminScrn;
     private Stage employeeMenu;
     private Stage taxiScrn;
     private Stage busScrn;
     private Stage trainScrn;
+    private Stage userGUI;
 
+    public Stage getLogin() {
+        return login;
+    }
+
+    public Stage getStage1() {
+        return stage1;
+    }
+
+    public Stage getStage2() {
+        return stage2;
+    }
+
+    public Stage getStage3() {
+        return stage3;
+    }
+
+    public Stage getSplashScreen() {
+        return splashScreen;
+    }
+
+    public Stage getAdminScrn() {
+        return adminScrn;
+    }
+
+    public Stage getEmployeeMenu() {
+        return employeeMenu;
+    }
+
+    public Stage getTaxiScrn() {
+        return taxiScrn;
+    }
+
+    public Stage getBusScrn() {
+        return busScrn;
+    }
+
+    public Stage getTrainScrn() {
+        return trainScrn;
+    }
+
+    public Stage getUserGUI() {
+        return userGUI;
+    }
+    public void switchStage(Stage toShow, Stage toHide){
+        toShow.show();
+        toHide.hide();
+    }
 
     public static StageManager getInstance() {
         return stageManager;
     }
 
     private StageManager() {
-
-
         login = new Stage();
         stage1 = new Stage();
         stage2 = new Stage();
-        taxiInterface = new Stage();
+        stage3 = new Stage();
         splashScreen = new Stage();
         adminScrn = new Stage();
         employeeMenu = new Stage();
         taxiScrn = new Stage();
         busScrn = new Stage();
         trainScrn = new Stage();
+        userGUI = new Stage();
 
         try {
             // login
+            createStage("developerMenu.fxml", "Developer Menu", stage1);
+            createStage("simulation.fxml", "stage_2", stage2);
+            createStage("userGUI.fxml", "userGUI", userGUI);
+            createStage("stage3.fxml", "stage3", stage3);
+
             Parent root = FXMLLoader.load(getClass().getResource("/com/github/view/login.fxml"));
             Scene scene = new Scene(root, 350, 500);
             scene.setFill(Color.TRANSPARENT);
             login.setTitle("Login");
             login.setScene(scene);
             login.initStyle(StageStyle.TRANSPARENT);
-            // stage1
-            root = FXMLLoader.load(getClass().getResource("/com/github/view/stage1.fxml"));
-            stage1.setTitle("List");
-            stage1.setScene(new Scene(root));
-            // stage2
-            root = FXMLLoader.load(getClass().getResource("/com/github/view/stage2.fxml"));
-            stage2.setTitle("List");
-            stage2.setScene(new Scene(root));
-            // taxi interface
-            root = FXMLLoader.load(getClass().getResource("/com/github/view/taxiInterface.fxml"));
-            taxiInterface.setTitle("TAXI");
-            taxiInterface.setScene(new Scene(root));
+
             //SplashScreen
             root = FXMLLoader.load(getClass().getResource("/com/github/view/SplashScreen.fxml"));
             splashScreen.setScene(new Scene(root));
@@ -135,27 +175,23 @@ public class StageManager {
         stage2.show();
         stage1.hide();
     }
-//    public void showStage_3() {
-//        stage_3.show();
-//        stage_1.hide();
-//    }
-
-    public void showTaxiInterface(){
+    public void showStage_3() {
+        stage3.show();
         stage1.hide();
-        taxiInterface.show();
     }
 
-//    public void showUserGUI(){
-//        stage_1.hide();
-//        userGUI.show();
-//    }
-//
-//    public void createStage(String stageName, String title, Stage stage) throws IOException {
-//        Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
-//        Scene scene = new Scene(rootPrimary);
-//        scene.getStylesheets().add("com/github/view/style.css");
-//        stage.setTitle(title);
-//        stage.setScene(scene);
-//    }
+
+    public void showUserGUI(){
+        stage1.hide();
+        userGUI.show();
+    }
+
+    public void createStage(String stageName, String title, Stage stage) throws IOException {
+        Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
+        Scene scene = new Scene(rootPrimary);
+        scene.getStylesheets().add("resources/Style/style.css");
+        stage.setTitle(title);
+        stage.setScene(scene);
+    }
 
 }

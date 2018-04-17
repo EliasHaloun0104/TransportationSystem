@@ -23,8 +23,8 @@ public class SplashScreenController implements Initializable{
         fadeTransition.setFromValue(1);
         fadeTransition.setToValue(0);
         fadeTransition.setNode(rootPane);
-        fadeTransition.setOnFinished(event ->
-                StageManager.getInstance().showLogin());
+//        fadeTransition.setOnFinished(event ->
+//                StageManager.getInstance().showLogin());
         fadeTransition.play();
 
     }
