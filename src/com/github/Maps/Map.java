@@ -39,7 +39,7 @@ public class Map {
         currentMap = CurrentMap.REGION;
         cityMap = new Image("resources/CityMap.png");
         regionMap = new Image("resources/TrainMap.png");
-        stationMap = new Image("resources/city.png");
+        stationMap = new Image("resources/StationMap.png");
         float canvasWidth = (float) canvas.getWidth();
         float canvasHeight = (float) canvas.getHeight();
         float fadeSpeed = 0.04f;

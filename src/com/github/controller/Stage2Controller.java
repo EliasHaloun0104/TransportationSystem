@@ -25,7 +25,7 @@ public class Stage2Controller {
     private Clock clock;
 
     public void initialize() {
-        image = new Image("resources/city.png");
+        image = new Image("resources/StationMap.png");
         train_north = new Train(970,0,-100, -100);
         train_south = new Train(100,465,1170, -100);
         clock = new Clock();
@@ -36,7 +36,7 @@ public class Stage2Controller {
             public void handle(long now) {
                 gc_1.clearRect(0,0,ctx_1.getWidth(),ctx_1.getHeight());
 
-                gc_1.drawImage(image,0,0);
+                gc_1.drawImage(image,0,0, 960,640);
                 //gc_1.fillText("x: " + x+ "y: "+ y,150,300);
                 train_north.draw(gc_1);
                 //train_south.draw(gc_1);
