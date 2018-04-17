@@ -5,11 +5,14 @@ package com.github.controller;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable{
@@ -33,7 +36,13 @@ public class AdminController implements Initializable{
 
     @FXML
     private void handleExitAppButton() {
-        StageManager.getInstance().setSignOutWindow();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Sign out!");
+        alert.setHeaderText("Do you wish to sign out");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get()==ButtonType.OK){
+            StageManager.getInstance().showLogin();
+        }
     }
     @FXML
     private void editButtonPressed(){

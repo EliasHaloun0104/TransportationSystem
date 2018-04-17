@@ -16,9 +16,6 @@ public class StageManager {
     private Stage stage1;
     private Stage stage2;
     private Stage taxiInterface;
-    private Stage userLoggedscrn;
-    private Stage signOutWindow;
-    private Stage viewProfil;
     private Stage splashScreen;
     private Stage adminScrn;
     private Stage employeeMenu;
@@ -35,9 +32,6 @@ public class StageManager {
         stage1 = new Stage();
         stage2 = new Stage();
         taxiInterface = new Stage();
-        userLoggedscrn = new Stage();
-        signOutWindow = new Stage();
-        viewProfil = new Stage();
         splashScreen = new Stage();
         adminScrn = new Stage();
         employeeMenu = new Stage();
@@ -65,19 +59,6 @@ public class StageManager {
             root = FXMLLoader.load(getClass().getResource("/com/github/view/taxiInterface.fxml"));
             taxiInterface.setTitle("TAXI");
             taxiInterface.setScene(new Scene(root));
-            // logged in user stage
-            root = FXMLLoader.load(getClass().getResource("/com/github/view/UserLoginScrn.fxml"));
-            userLoggedscrn.setScene(new Scene(root));
-            userLoggedscrn.initStyle(StageStyle.TRANSPARENT);
-            // Sign out window
-            root = FXMLLoader.load(getClass().getResource("/com/github/view/signOutScrn.fxml"));
-            signOutWindow.setScene(new Scene(root));
-            signOutWindow.initStyle(StageStyle.TRANSPARENT);
-            signOutWindow.initModality(Modality.APPLICATION_MODAL);
-            // View User Profil
-            root = FXMLLoader.load(getClass().getResource("/com/github/view/ViewProfil.fxml"));
-            viewProfil.setScene(new Scene(root));
-            viewProfil.initStyle(StageStyle.TRANSPARENT);
             //SplashScreen
             root = FXMLLoader.load(getClass().getResource("/com/github/view/SplashScreen.fxml"));
             splashScreen.setScene(new Scene(root));
@@ -130,18 +111,14 @@ public class StageManager {
     public void setSplashScreen(){
         splashScreen.show();
     }
-    public void setSignOutWindow(){
-        signOutWindow.show();
-    }
-
-    public void setUserLoggedscrn(){
-        userLoggedscrn.show();
-        login.hide();
-    }
 
     public void showLogin() {
         login.show();
         splashScreen.hide();
+        adminScrn.hide();
+        taxiScrn.hide();
+        trainScrn.hide();
+        busScrn.hide();
     }
 
     public void showStage1() {
@@ -157,8 +134,5 @@ public class StageManager {
         stage1.hide();
         taxiInterface.show();
     }
-    public void setViewProfil(){
-        viewProfil.show();
-        userLoggedscrn.hide();
-    }
+
 }
