@@ -2,16 +2,10 @@ package com.github.controller;
 
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TaxiDriver implements Initializable {

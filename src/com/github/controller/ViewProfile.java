@@ -1,8 +1,6 @@
 package com.github.controller;
 
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
