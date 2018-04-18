@@ -16,32 +16,28 @@ import java.util.ResourceBundle;
 
 public class TaxiDriver implements Initializable {
 
-    @FXML private Button signoutButton;
-    @FXML private TabPane tabPane;
-
+    @FXML private Button signoutButton,editButton,saveButton;
+    @FXML private TextField userNameTextField,firstNameTextField,lastNameTextField,
+            emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField,
+            createdDateTextField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // exit app button animation
         ViewProfile viewProfile = new ViewProfile();
-        tabPane.getTabs().add(viewProfile.getTab());
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), signoutButton);
         rotation.setCycleCount(1);
         rotation.setByAngle(360);
         signoutButton.setOnMouseEntered(e -> rotation.play());
-
+        editButton.setOnAction(event -> viewProfile.editButtonPressed(userNameTextField,firstNameTextField,lastNameTextField,
+                phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
+                ));
+        saveButton.setOnAction(event -> viewProfile.saveButtonPressed(userNameTextField,firstNameTextField,lastNameTextField,
+                phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
+                ));
+        signoutButton.setOnAction(event -> viewProfile.signOutButtonPressed());
 
     }
 
-    @FXML
-    private void handleExitAppButton() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Sign out!");
-        alert.setHeaderText("Do you wish to sign out");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get()==ButtonType.OK){
-            StageManager.getInstance().showLogin();
-        }
-    }
+
 
 }
