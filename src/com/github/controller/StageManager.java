@@ -15,7 +15,6 @@ public class StageManager {
     private Stage login;
     private Stage stage1;
     private Stage stage2;
-    private Stage stage3;
     private Stage splashScreen;
     private Stage adminScrn;
     private Stage employeeMenu;
@@ -36,9 +35,6 @@ public class StageManager {
         return stage2;
     }
 
-    public Stage getStage3() {
-        return stage3;
-    }
 
     public Stage getSplashScreen() {
         return splashScreen;
@@ -80,7 +76,6 @@ public class StageManager {
         login = new Stage();
         stage1 = new Stage();
         stage2 = new Stage();
-        stage3 = new Stage();
         splashScreen = new Stage();
         adminScrn = new Stage();
         employeeMenu = new Stage();
@@ -94,7 +89,6 @@ public class StageManager {
             createStage("developerMenu.fxml", "Developer Menu", stage1);
             createStage("simulation.fxml", "stage_2", stage2);
             createStage("userGUI.fxml", "userGUI", userGUI);
-            createStage("stage3.fxml", "stage3", stage3);
 
             Parent root = FXMLLoader.load(getClass().getResource("/com/github/view/login.fxml"));
             Scene scene = new Scene(root, 350, 500);
