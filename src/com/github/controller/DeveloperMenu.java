@@ -8,10 +8,7 @@ public class DeveloperMenu {
     @FXML private void simulation() {
         StageManager.getInstance().switchStage(StageManager.getInstance().getStage2(), StageManager.getInstance().getStage1());
     }
-    @FXML private void stage3(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getStage3(), StageManager.getInstance().getStage1());
 
-    }
     @FXML private void userGUI(){
         StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getStage1());
     }
