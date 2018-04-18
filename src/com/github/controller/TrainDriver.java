@@ -4,6 +4,8 @@ import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import java.net.URL;
@@ -16,6 +18,8 @@ public class TrainDriver implements Initializable {
             emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField,
             createdDateTextField;
 
+    @FXML private ComboBox delay;
+    @FXML private TextArea description;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ViewProfile viewProfile = new ViewProfile();
@@ -30,6 +34,10 @@ public class TrainDriver implements Initializable {
                 phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
         ));
         signoutButton.setOnAction(event -> viewProfile.signOutButtonPressed());
+        //delay
+        delay.getItems().addAll("2min","4min","6min","8min","10min","12min","14min");
+    }
+    public void handleDescription(){
 
     }
 

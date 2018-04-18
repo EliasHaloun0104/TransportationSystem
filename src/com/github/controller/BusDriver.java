@@ -1,13 +1,14 @@
 package com.github.controller;
 
 import javafx.animation.RotateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class BusDriver implements Initializable {
@@ -17,6 +18,8 @@ public class BusDriver implements Initializable {
     private TextField userNameTextField, firstNameTextField, lastNameTextField,
             emailTextField, phoneNbrTextField, roleTextField, newPasswordTextField, confirmPasswordTextField,
             createdDateTextField;
+    @FXML private ComboBox delay;
+    @FXML private TextArea description;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -32,6 +35,14 @@ public class BusDriver implements Initializable {
                 phoneNbrTextField, newPasswordTextField, confirmPasswordTextField
         ));
         signoutButton.setOnAction(event -> viewProfile.signOutButtonPressed());
+        //delay
+        delay.getItems().addAll("2min","4min","6min","8min","10min","12min","14min");
+    }
+    public void handleDescription(){
 
     }
+
+
+
+
 }

@@ -15,6 +15,8 @@ public class TaxiDriver implements Initializable {
             emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField,
             createdDateTextField;
 
+    @FXML private ComboBox delay;
+    @FXML private TextArea description;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ViewProfile viewProfile = new ViewProfile();
@@ -29,9 +31,11 @@ public class TaxiDriver implements Initializable {
                 phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
                 ));
         signoutButton.setOnAction(event -> viewProfile.signOutButtonPressed());
+        //delay
+        delay.getItems().addAll("2min","4min","6min","8min","10min","12min","14min");
+    }
+    public void handleDescription(){
 
     }
-
-
 
 }
