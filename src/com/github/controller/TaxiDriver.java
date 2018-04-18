@@ -2,25 +2,29 @@ package com.github.controller;
 
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TaxiDriver implements Initializable {
 
-    @FXML private Button signoutButton,editButton,saveButton;
-    @FXML private TextField userNameTextField,firstNameTextField,lastNameTextField,
-            emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField,
-            createdDateTextField;
+    @FXML private Button signoutButton;
+    @FXML private TabPane tabPane;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // exit app button animation
+        ViewProfile viewProfile = new ViewProfile();
+        tabPane.getTabs().add(viewProfile.getTab());
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), signoutButton);
         rotation.setCycleCount(1);
         rotation.setByAngle(360);
@@ -38,41 +42,6 @@ public class TaxiDriver implements Initializable {
         if (result.get()==ButtonType.OK){
             StageManager.getInstance().showLogin();
         }
-    }
-    @FXML
-    private void editButtonPressed(){
-
-        firstNameTextField.setEditable(true);
-        lastNameTextField.setEditable(true);
-        phoneNbrTextField.setEditable(true);
-        roleTextField.setEditable(true);
-        newPasswordTextField.setEditable(true);
-        confirmPasswordTextField.setEditable(true);
-
-        firstNameTextField.setDisable(false);
-        lastNameTextField.setDisable(false);
-        phoneNbrTextField.setDisable(false);
-        roleTextField.setDisable(false);
-        newPasswordTextField.setDisable(false);
-        confirmPasswordTextField.setDisable(false);
-
-    }
-    @FXML
-    private void saveButtonPressed(){
-        firstNameTextField.setEditable(false);
-        lastNameTextField.setEditable(false);
-        phoneNbrTextField.setEditable(false);
-        roleTextField.setEditable(false);
-        newPasswordTextField.setEditable(false);
-        confirmPasswordTextField.setEditable(false);
-
-        firstNameTextField.setDisable(true);
-        lastNameTextField.setDisable(true);
-        phoneNbrTextField.setDisable(true);
-        roleTextField.setDisable(true);
-        newPasswordTextField.setDisable(true);
-        confirmPasswordTextField.setDisable(true);
-
     }
 
 }
