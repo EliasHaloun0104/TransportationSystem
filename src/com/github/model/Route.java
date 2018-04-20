@@ -4,31 +4,95 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Route {
-    enum Type{
-        CITY_BUS, REGION_BUS, TRAIN
-    }
-    Type type;
-    Type type2;
+
+    int ID;
+
+
+
+    Enumeration.VehicleType type;
+    Enumeration.VehicleType type2;
     List<Region> route;
 
-    public Route(Type type, Region...regions) {
+    public Route(Route route) {
+        this.ID = route.getID();
+        this.type = route.getType();
+        this.type2 = route.getType2();
+        this.route = route.getRoute();
+        this.fixedTime = route.getFixedTime();
+    }
+
+    public List<Integer> getFixedTime() {
+        return fixedTime;
+    }
+
+    public void setFixedTime(List<Integer> fixedTime) {
+        this.fixedTime = fixedTime;
+    }
+
+    List<Integer> fixedTime;
+
+
+    public Route(int ID, Enumeration.VehicleType type, Region...regions) {
+        this.ID = ID;
         this.type = type;
         route = new ArrayList<>();
+        fixedTime = new ArrayList<>();
+        fixedTime.add(0); //startPoint Always
+        float scale;
+        if(this.type== Enumeration.VehicleType.TRAIN || this.type == Enumeration.VehicleType.REGION_BUS) {
+            scale = 0.1f;
+        }else if(type == Enumeration.VehicleType.CITY_BUS){
+            scale = 0.05f;
+        }else{
+            scale = 1;
+        }
+            for (int i = 0; i < regions.length - 1; i++) {
+                //Calculate Distance - multiply to minute *60 -  multiply Map scale 1/10  - divide by vehicle speed
+                //get time in minute
+                int distanceTime = (int) (fixedTime.get(i) + regions[i].getPosition().distance(regions[i + 1].getPosition()) * 60 *scale/ Enumeration.VehicleType.getVehicleSpeed(type));
+
+                if (distanceTime < 60) {
+                    fixedTime.add(distanceTime);
+                } else {
+                    fixedTime.add(distanceTime - 60);
+                }
+            }
+
+        //System.out.println(fixedTime.toString());
         for (Region r: regions) {
             route.add(r);
         }
     }
-    public Route (Type type, List<Region> route){
+    public Route (Enumeration.VehicleType type, List<Region> route){
         this.type = type;
         this.route = route;
     }
+    public int getID() {
+        return ID;
+    }
 
-    public void setType2(Type type2) {
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public Enumeration.VehicleType getType() {
+        return type;
+    }
+
+    public void setType(Enumeration.VehicleType type) {
+        this.type = type;
+    }
+
+    public Enumeration.VehicleType getType2() {
+        return type2;
+    }
+
+    public void setType2(Enumeration.VehicleType type2) {
         this.type2 = type2;
     }
 
-    public Type getType() {
-        return type;
+    public void setRoute(List<Region> route) {
+        this.route = route;
     }
 
     public List<Region> getRoute() {

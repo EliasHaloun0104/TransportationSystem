@@ -37,9 +37,6 @@ public class Region {
         return position;
     }
 
-    public void setPosition(Vector2D position) {
-        this.position = position;
-    }
 
     public boolean equals(String otherRegion){
         return toString().equals(otherRegion);
