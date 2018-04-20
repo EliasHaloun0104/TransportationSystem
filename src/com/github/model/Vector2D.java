@@ -8,6 +8,14 @@ public class Vector2D {
         this.x = x;
         this.y = y;
     }
+    public Vector2D(double x, double y) {
+        this.x = (float) x;
+        this.y = (float) y;
+    }
+    public Vector2D(Vector2D vector2D) {
+        this.x = vector2D.getX();
+        this.y = vector2D.getY();
+    }
 
 
 
@@ -16,6 +24,7 @@ public class Vector2D {
         this.x = x;
         this.y = y;
     }
+
     public void setX(float x) {
         this.x = x;
     }

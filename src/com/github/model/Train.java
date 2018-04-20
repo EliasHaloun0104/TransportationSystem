@@ -32,7 +32,7 @@ public class Train {
 
     }
 
-    public void update(){
+    private void update(){
         if(!isStop){
             position.add(variable);
             //Stop for new Passengers
@@ -65,9 +65,7 @@ public class Train {
 
     }
     public void draw(GraphicsContext gc){
-        gc.drawImage(image,position.getX(),position.getY());
-        gc.setFill(Color.BLACK);
-        gc.fillOval(12*20,21*20,20,20);
-        gc.fillText(position.toString(),14*20,21*20);
+        gc.drawImage(image,position.getX(),position.getY(),80,64);
+        update();
     }
 }
