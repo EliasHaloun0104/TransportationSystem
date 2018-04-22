@@ -286,7 +286,7 @@ public class LoginController {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(prop.getProperty("sendEmailUsername")));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Jala Trafiken: Confirmation code");
+            message.setSubject("Westeros Traffic: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
             Transport.send(message);
         } catch (MessagingException e) {
