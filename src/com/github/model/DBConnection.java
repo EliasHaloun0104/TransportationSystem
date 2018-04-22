@@ -222,7 +222,7 @@ public class DBConnection {
         return count == 1;
     }
 
-    public void loginToTheCorrespondingScene() {
+    public String loginToTheCorrespondingScene() {
         String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
         String role ="";
         try {
@@ -232,49 +232,12 @@ public class DBConnection {
                 role = resultSet.getString(7);
                 System.out.println(role);
 
-                if (role.equals("Admin")) {
-                    try {
-                        StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScrn(), StageManager.getInstance().getLogin());
-                    } catch (Exception e) {
-                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
-                    }
-                } else if (role.equals("Bus Driver")) {
-                    try {
-                        StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
-
-                    } catch (Exception e) {
-                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
-
-                    }
-                } else if (role.equals("Taxi Driver")) {
-                    try {
-                        StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScrn(), StageManager.getInstance().getLogin());
-
-                    } catch (Exception e) {
-                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
-                    }
-                } else if (role.equals("User")) {
-                    try {
-
-                        StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getLogin());
-
-
-                    } catch (Exception e) {
-                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
-
-                    }
-                } else if (role.equals("Train Driver")) {
-                    try {
-                        StageManager.getInstance().switchStage(StageManager.getInstance().getTrainScrn(), StageManager.getInstance().getLogin());
-
-                    } catch (Exception e) {
-                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
-                    }
-                }
-
             }
-        } catch (SQLException e) {
+        }catch (SQLException e){
+         e.printStackTrace();
+            }
 
-        }
+
+   return role;
     }
 }

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginController {
 
@@ -53,9 +55,7 @@ public class LoginController {
             Account.getInstance().setAccountId(userName);
             tfAccountLogin.setText("");
             pfPasswordLogin.setText("");
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
-            db.loginToTheCorrespondingScene();
-
+            switchSceneUponLoginAccount();
 //            StageManager.getInstance().setEmployeeMenu();
         } else {
             invalidLogin();
@@ -375,5 +375,46 @@ public class LoginController {
             }
             passwordPane.setVisible(false);
         }).start();
+    }
+    private void switchSceneUponLoginAccount(){
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        switch (db.loginToTheCorrespondingScene()){
+            case "User":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Admin":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Bus Driver":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Train Driver":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getTrainScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Taxi Driver":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+
+                }
+                break;
+        }
     }
 }
