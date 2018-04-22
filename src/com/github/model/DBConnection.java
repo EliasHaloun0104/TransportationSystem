@@ -47,7 +47,6 @@ public class DBConnection {
     }
 
     public boolean usernameExists(String username) {
-
         int count = 0;
         String query = "SELECT count(*) FROM Account WHERE userName = ?";
 
@@ -73,7 +72,6 @@ public class DBConnection {
     }
 
     public boolean emailExists(String email) {
-
         int count = 0;
         String query = "SELECT count(*) FROM Account WHERE email = ?";
 
@@ -98,9 +96,7 @@ public class DBConnection {
         return count > 0;
     }
 
-
     public boolean addUser(String userName, String firstName, String lastName, String email, String phone, String confirmationCode) {
-
         boolean status = true;
         String query = "INSERT INTO Account (userName, firstName, lastName, email, phoneNumber, confirmationCode) VALUES (?, ?, ? ,?, ?, ?)";
 
@@ -127,23 +123,16 @@ public class DBConnection {
         return status;
     }
 
-    public boolean validateConfirmationCode(String userName, String confirmationCode) {
+    public void addConfirmationCode(String email, String confirmationCode) {
+        String addConfirmationCode = "UPDATE Account SET confirmationCode = ? WHERE email = ?";
 
-        int count = 0;
-        String query = "SELECT count(*) FROM Account WHERE userName = ? && confirmationCode = ?";
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, userName);
-            ps.setString(2, confirmationCode);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    count = rs.getInt(1);
-                }
-            }
-
+        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
+            ps.setString(2, email);
+            ps.setString(1, confirmationCode);
+            ps.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("Query failed.");
+            ex.printStackTrace();
+            System.out.println("add confirmation code failed.");
         }
         finally {
             try {
@@ -152,8 +141,6 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
-        return count == 1;
     }
 
     public boolean setupPassword(String userName, String password) {
@@ -179,17 +166,21 @@ public class DBConnection {
         return status;
     }
 
-    public void addConfirmationCode(String email, String confirmationCode) {
+    public boolean validateConfirmationCode(String userName, String confirmationCode) {
+        int count = 0;
+        String query = "SELECT count(*) FROM Account WHERE userName = ? && confirmationCode = ?";
 
-        String addConfirmationCode = "UPDATE Account SET confirmationCode = ? WHERE email = ?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, userName);
+            ps.setString(2, confirmationCode);
 
-        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
-            ps.setString(2, email);
-            ps.setString(1, confirmationCode);
-            ps.executeUpdate();
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("add confirmation code failed.");
+            System.out.println("Query failed.");
         }
         finally {
             try {
@@ -198,6 +189,8 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
+
+        return count == 1;
     }
 
     public boolean validateLogin(String userName, String password) {

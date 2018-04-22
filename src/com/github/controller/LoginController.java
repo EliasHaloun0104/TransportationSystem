@@ -52,9 +52,13 @@ public class LoginController {
             pfPasswordLogin.setText("");
             StageManager.getInstance().setEmployeeMenu();
         } else {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Wrong username or password", ButtonType.OK);
-            a.showAndWait();
+            invalidLogin();
         }
+    }
+
+    private void invalidLogin() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid login.\nCheck your Account ID and/or password.", ButtonType.OK);
+        a.showAndWait();
     }
 
     private boolean validateLogin(String account, String password) {
@@ -96,17 +100,12 @@ public class LoginController {
     @FXML
     private void handleResetPasswordNextButtonPressed() {
         if (!tfEmailReset.getText().trim().isEmpty() && validateEmail(tfEmailReset.getText())) {
-            passwordDetailsLabel.setText("Email with confirmation code sent to\n" + tfEmailReg);
+            passwordDetailsLabel.setText("Check your email account for the confirmation code.");
 
-            // create random confirmation code
-            SecureRandom random = new SecureRandom();
-            String confirmationCode = "";
-
-            for (int i = 0; i < 8; i++) {
-                confirmationCode += random.nextInt(9);
-            }
-
+            // create random confirmation code and add it to database
+            String confirmationCode = generateConfirmationCode();
             sendConfirmationCodeEmail(tfEmailReset.getText(), confirmationCode);
+
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
             db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
 
@@ -130,8 +129,24 @@ public class LoginController {
             }).start();
 
         } else {
-            resetPasswordMsgLabel.setText("Invalid email.");
+            invalidEmail();
         }
+    }
+
+    private String generateConfirmationCode() {
+        SecureRandom random = new SecureRandom();
+        String confirmationCode = "";
+
+        for (int i = 0; i < 8; i++) {
+            confirmationCode += random.nextInt(9);
+        }
+
+        return confirmationCode;
+    }
+
+    private void invalidEmail() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid email address.", ButtonType.OK);
+        a.showAndWait();
     }
 
     // fade out reset password and fade in login pane
@@ -162,12 +177,7 @@ public class LoginController {
         if (validateFirstName() && validateLastName() && validateUsername() && !validateEmail(tfEmailReg.getText())) {
 
             // create random confirmation code
-            SecureRandom random = new SecureRandom();
-            String confirmationCode = "";
-
-            for (int i = 0; i < 8; i++) {
-                confirmationCode += random.nextInt(9);
-            }
+            String confirmationCode =  generateConfirmationCode();
 
             String accountId = tfUsernameReg.getText();
             String firstName = tfFirstName.getText();
@@ -191,7 +201,7 @@ public class LoginController {
                 sendConfirmationCodeEmail(email, confirmationCode);
 
                 // fade out registration pane and fade in password pane
-                passwordDetailsLabel.setText("An email was sent to " + email + " \nwith the confirmation code.");
+                passwordDetailsLabel.setText("Check your email account for the confirmation code.");
                 passwordPane.setVisible(true);
                 passwordPane.setOpacity(0);
                 Timeline timeline = new Timeline();
@@ -213,6 +223,7 @@ public class LoginController {
         }
     }
 
+    // TODO: review validations....
     private boolean validateFirstName() {
         boolean ok = true;
         if (tfFirstName.getText().isEmpty()) {
@@ -258,10 +269,8 @@ public class LoginController {
         // to check his email for confirmation code (avoiding fake emails...)
 
         // check db for existing email
-
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         return db.emailExists(email);
-
     }
 
     private void sendConfirmationCodeEmail(String email, String confirmationCode) {
@@ -324,7 +333,7 @@ public class LoginController {
         String password = pfPasswordPass.getText();
         String passwordConfirmation = pfPasswordConfirm.getText();
 
-        // TODO: add confimrmation password validation!!!!!!!
+        // TODO: add password confirmation validation!
 
         if (validateConfirmationCode(account, confirmationCode)) {
             System.out.println("ok");
