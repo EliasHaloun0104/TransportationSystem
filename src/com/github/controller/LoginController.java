@@ -28,25 +28,25 @@ public class LoginController {
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
     public void initialize() {
-        // exit app button animation
+        exitButtonAnimation();
+    }
+
+    // LOGIN PANE
+    private void exitButtonAnimation() {
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), exitLoginButton);
         rotation.setCycleCount(1);
         rotation.setByAngle(360);
         exitLoginButton.setOnMouseEntered(e -> rotation.play());
-
     }
 
-    // LOGIN PANE
     @FXML
-    private void handleExitAppButton() {
+    private void handleExitAppButtonPressed() {
         StageManager.getInstance().getLogin().hide();
     }
 
-    // login button
     @FXML
     private void loginButtonPressed() {
-        if (validatelogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
-
+        if (validateLogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
             // TODO: needs to check the role in db to load the correct scene
             tfAccountLogin.setText("");
             pfPasswordLogin.setText("");
@@ -57,15 +57,15 @@ public class LoginController {
         }
     }
 
-    private boolean validatelogin(String account, String password) {
+    private boolean validateLogin(String account, String password) {
         // TODO: create new connection type
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         return  db.validateLogin(account, password);
     }
 
-    // fades in new user pane and fades out login pane
+    // fades in new user registration pane and fades out login pane
     @FXML
-    private void handleNewUserButton() {
+    private void handleNewUserButtonPressed() {
         newUserMsgLabel.setText("If you require an account with special access contact helpdesk");
         registrationPane.setVisible(true);
         registrationPane.setOpacity(0);
@@ -80,7 +80,7 @@ public class LoginController {
 
     // fades in forgot password pane and fades out login pane
     @FXML
-    private void handleForgotPasswordButton() {
+    private void handleForgotPasswordButtonPressed() {
         resetPasswordPane.setVisible(true);
         resetPasswordPane.setOpacity(0);
         Timeline timeline = new Timeline();
@@ -94,7 +94,7 @@ public class LoginController {
 
     // RESET PASSWORD PANE
     @FXML
-    private void handleResetPasswordNextButton() {
+    private void handleResetPasswordNextButtonPressed() {
         if (!tfEmailReset.getText().trim().isEmpty() && validateEmail(tfEmailReset.getText())) {
             passwordDetailsLabel.setText("Email with confirmation code sent to\n" + tfEmailReg);
 
@@ -110,6 +110,7 @@ public class LoginController {
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
             db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
 
+            // fade in pane to set new password
             passwordPane.setVisible(true);
             passwordPane.setOpacity(0);
             Timeline timeline = new Timeline();
@@ -154,9 +155,9 @@ public class LoginController {
         resetPasswordMsgLabel.setText("");
     }
 
-    // REGISTRATION PANE
+    // NEW ACCOUNT REGISTRATION PANE
     @FXML
-    private void handleRegistrationPaneNextButton() {
+    private void handleRegistrationPaneNextButtonPressed() {
 
         if (validateFirstName() && validateLastName() && validateUsername() && !validateEmail(tfEmailReg.getText())) {
 
@@ -281,14 +282,12 @@ public class LoginController {
                         return new PasswordAuthentication(prop.getProperty("sendEmailUsername"), prop.getProperty("sendEmailPassword"));
                     }
                 });
-
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(prop.getProperty("sendEmailUsername")));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("Jala Trafiken: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
-
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -316,7 +315,6 @@ public class LoginController {
     }
 
     // PASSWORD PANE
-
     @FXML
     private void handleFinishButtonPressed() {
         String account = tfAccountPass.getText();

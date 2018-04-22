@@ -175,7 +175,7 @@ public class StageManager {
     public void createStage(String stageName, String title, Stage stage) throws IOException {
         Parent rootPrimary = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
         Scene scene = new Scene(rootPrimary);
-        scene.getStylesheets().add("resources/Style/style.css");
+        scene.getStylesheets().add("resources/style/style.css");
         stage.setTitle(title);
         stage.setScene(scene);
     }
