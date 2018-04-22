@@ -23,7 +23,7 @@ public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass, tfEmailReset;
+    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
@@ -173,11 +173,13 @@ public class LoginController {
             String firstName = tfFirstName.getText();
             String lastName = tfLastName.getText();
             String email = tfEmailReg.getText();
+            String phone = tfPhoneReg.getText();
 
             Account.getInstance().setAccountId(accountId);
             Account.getInstance().setFirstName(firstName);
             Account.getInstance().setLastName(lastName);
             Account.getInstance().setEmail(email);
+            Account.getInstance().setPhone(phone);
             Account.getInstance().setConfirmationCode(confirmationCode);
 
             // add user to db and send email with confirmation code to setup password
@@ -185,7 +187,7 @@ public class LoginController {
 
             // TODO: needs better handling
             // account should only be added if email is succesfully sent...
-            if (db.addUser(accountId, firstName, lastName, email, confirmationCode)) {
+            if (db.addUser(accountId, firstName, lastName, email, phone, confirmationCode)) {
                 sendConfirmationCodeEmail(email, confirmationCode);
 
                 // fade out registration pane and fade in password pane

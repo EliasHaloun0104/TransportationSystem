@@ -49,14 +49,11 @@ public class DBConnection {
     public boolean usernameExists(String username) {
 
         int count = 0;
-        // temp table userTest (for testing...)
-        String query = "SELECT count(*) FROM userTest WHERE accountID = ?";
+        String query = "SELECT count(*) FROM Account WHERE userName = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, username);
-
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
                     count = rs.getInt(1);
                 }
@@ -78,14 +75,11 @@ public class DBConnection {
     public boolean emailExists(String email) {
 
         int count = 0;
-        // temp table userTest (for testing...)
-        String query = "SELECT count(*) FROM userTest WHERE email = ?";
+        String query = "SELECT count(*) FROM Account WHERE email = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, email);
-
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
                     count = rs.getInt(1);
                 }
@@ -105,34 +99,24 @@ public class DBConnection {
     }
 
 
-    public boolean addUser(String accountID, String firstName, String lastName, String email, String confirmationCode) {
+    public boolean addUser(String userName, String firstName, String lastName, String email, String phone, String confirmationCode) {
 
         boolean status = true;
-        String addUser = "INSERT INTO userTest (accountId, firstName, lastName, email) VALUES (?, ?, ? ,?)";
-        String addConfirmationCode = "INSERT INTO passwordTest (accountId, confirmationCode) VALUES (?, ?)";
+        String query = "INSERT INTO Account (userName, firstName, lastName, email, phoneNumber, confirmationCode) VALUES (?, ?, ? ,?, ?, ?)";
 
-        try (PreparedStatement ps = c.prepareStatement(addUser)) {
-            ps.setString(1, accountID);
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, userName);
             ps.setString(2, firstName);
             ps.setString(3, lastName);
             ps.setString(4, email);
+            ps.setString(5, phone);
+            ps.setString(6, confirmationCode);
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("add user failed.");
             status = false;
-        }
-
-        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
-            ps.setString(1, accountID);
-            ps.setString(2, confirmationCode);
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("add code failed.");
-            status = false;
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -143,18 +127,16 @@ public class DBConnection {
         return status;
     }
 
-    public boolean validateConfirmationCode(String account, String code) {
+    public boolean validateConfirmationCode(String userName, String confirmationCode) {
 
-        // temp table userTest (for testing...)
         int count = 0;
-        String query = "SELECT count(*) FROM passwordTest WHERE accountId = ? && confirmationCode = ?";
+        String query = "SELECT count(*) FROM Account WHERE userName = ? && confirmationCode = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, account);
-            ps.setString(2, code);
+            ps.setString(1, userName);
+            ps.setString(2, confirmationCode);
 
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
                     count = rs.getInt(1);
                 }
@@ -174,13 +156,13 @@ public class DBConnection {
         return count == 1;
     }
 
-    public boolean setupPassword(String account, String password) {
+    public boolean setupPassword(String userName, String password) {
         boolean status = true;
-        String addConfirmationCode = "UPDATE passwordTest SET password = ? WHERE accountId = ?";
+        String query = "UPDATE Account SET password = ? WHERE userName = ?";
 
-        try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
+        try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, password);
-            ps.setString(2, account);
+            ps.setString(2, userName);
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -199,7 +181,7 @@ public class DBConnection {
 
     public void addConfirmationCode(String email, String confirmationCode) {
 
-        String addConfirmationCode = "UPDATE passwordTest SET confirmationCode = ? WHERE accountId IN (SELECT accountID from userTest WHERE email = ?)";
+        String addConfirmationCode = "UPDATE Account SET confirmationCode = ? WHERE email = ?";
 
         try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
             ps.setString(2, email);
@@ -207,7 +189,7 @@ public class DBConnection {
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("add user failed.");
+            System.out.println("add confirmation code failed.");
         }
         finally {
             try {
@@ -218,12 +200,12 @@ public class DBConnection {
         }
     }
 
-    public boolean validateLogin(String account, String password) {
+    public boolean validateLogin(String userName, String password) {
         int count = 0;
-        String query = "SELECT count(*) FROM passwordTest WHERE accountId = ? && password = ?";
+        String query = "SELECT count(*) FROM Account WHERE userName = ? && password = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, account);
+            ps.setString(1, userName);
             ps.setString(2, password);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -232,9 +214,9 @@ public class DBConnection {
                     count = rs.getInt(1);
                 }
             }
-
         } catch (SQLException ex) {
-            System.out.println("Query failed.");
+            System.out.println("validate login failed.");
+            ex.printStackTrace();
         }
         finally {
             try {
@@ -243,7 +225,6 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
         return count == 1;
     }
 }

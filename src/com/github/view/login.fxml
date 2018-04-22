@@ -46,7 +46,7 @@
          </HBox>
          <TextField fx:id="tfFirstName" prefHeight="40.0" prefWidth="219.0" promptText="*First Name" />
          <TextField fx:id="tfLastName" prefHeight="40.0" prefWidth="219.0" promptText="*Last Name" />
-         <TextField prefHeight="40.0" prefWidth="219.0" promptText="*Phone Number" />
+         <TextField fx:id="tfPhoneReg" prefHeight="40.0" prefWidth="219.0" promptText="*Phone Number" />
          <TextField fx:id="tfUsernameReg" prefHeight="40.0" prefWidth="219.0" promptText="*Username" />
          <TextField fx:id="tfEmailReg" prefHeight="40.0" prefWidth="219.0" promptText="*Email" />
          <Button id="nextButton" mnemonicParsing="false" onAction="#handleRegistrationPaneNextButtonPressed" prefHeight="40.0" prefWidth="219.0" text="NEXT &gt;" />
