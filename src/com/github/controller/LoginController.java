@@ -46,11 +46,17 @@ public class LoginController {
 
     @FXML
     private void loginButtonPressed() {
+
         if (validateLogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
             // TODO: needs to check the role in db to load the correct scene
+            String userName = tfAccountLogin.getText();
+            Account.getInstance().setAccountId(userName);
             tfAccountLogin.setText("");
             pfPasswordLogin.setText("");
-            StageManager.getInstance().setEmployeeMenu();
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            db.loginToTheCorrespondingScene();
+
+//            StageManager.getInstance().setEmployeeMenu();
         } else {
             invalidLogin();
         }

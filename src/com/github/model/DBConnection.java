@@ -1,13 +1,20 @@
 package com.github.model;
 
+import com.github.controller.StageManager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBConnection {
     // constructor needs a connection type argument
-    public enum ConnectionType {ACCOUNT_SETUP}
+    public enum ConnectionType {
+        ACCOUNT_SETUP
+    }
+
     private Connection c;
     private String url;
     private String user;
@@ -41,7 +48,7 @@ public class DBConnection {
         try {
             c = DriverManager.getConnection(url, user, password);
             System.out.println("It's working!");
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -59,8 +66,7 @@ public class DBConnection {
             }
         } catch (SQLException ex) {
             System.out.println("Query failed.");
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -84,8 +90,7 @@ public class DBConnection {
             }
         } catch (SQLException ex) {
             System.out.println("Query failed.");
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -133,8 +138,7 @@ public class DBConnection {
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("add confirmation code failed.");
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -155,8 +159,7 @@ public class DBConnection {
             ex.printStackTrace();
             System.out.println("set password failed.");
             status = false;
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -181,8 +184,7 @@ public class DBConnection {
             }
         } catch (SQLException ex) {
             System.out.println("Query failed.");
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -210,8 +212,7 @@ public class DBConnection {
         } catch (SQLException ex) {
             System.out.println("validate login failed.");
             ex.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -219,5 +220,61 @@ public class DBConnection {
             }
         }
         return count == 1;
+    }
+
+    public void loginToTheCorrespondingScene() {
+        String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
+        String role ="";
+        try {
+            PreparedStatement preparedStatement = c.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                role = resultSet.getString(7);
+                System.out.println(role);
+
+                if (role.equals("Admin")) {
+                    try {
+                        StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScrn(), StageManager.getInstance().getLogin());
+                    } catch (Exception e) {
+                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                } else if (role.equals("Bus Driver")) {
+                    try {
+                        StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
+
+                    } catch (Exception e) {
+                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+                } else if (role.equals("Taxi Driver")) {
+                    try {
+                        StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScrn(), StageManager.getInstance().getLogin());
+
+                    } catch (Exception e) {
+                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                } else if (role.equals("User")) {
+                    try {
+
+                        StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getLogin());
+
+
+                    } catch (Exception e) {
+                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
+
+                    }
+                } else if (role.equals("Train Driver")) {
+                    try {
+                        StageManager.getInstance().switchStage(StageManager.getInstance().getTrainScrn(), StageManager.getInstance().getLogin());
+
+                    } catch (Exception e) {
+                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                }
+
+            }
+        } catch (SQLException e) {
+
+        }
     }
 }

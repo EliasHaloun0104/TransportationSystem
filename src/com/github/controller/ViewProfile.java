@@ -1,5 +1,6 @@
 package com.github.controller;
 
+
 import javafx.scene.control.*;
 
 import java.util.ArrayList;
@@ -41,4 +42,5 @@ public class ViewProfile {
             StageManager.getInstance().showLogin();
         }
     }
+
 }
