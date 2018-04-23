@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,21 +46,23 @@ public class LoginController {
 
     @FXML
     private void loginButtonPressed() {
-
         if (validateLogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
-            String userName = tfAccountLogin.getText();
-            Account.getInstance().setAccountId(userName);
+            loadAccount(tfAccountLogin.getText());
+            login(Account.getInstance().getAccountId());
             tfAccountLogin.setText("");
             pfPasswordLogin.setText("");
-            loadAccountDetails();
-            login(Account.getInstance().getAccountId());
         } else {
             invalidLogin();
         }
     }
 
-    private void loadAccountDetails() {
-
+    private void loadAccount(String userName) {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        ArrayList<String> userDetails = db.getAccountDetails(userName);
+        Account.getInstance().setAccountId(userDetails.get(0));
+        Account.getInstance().setFirstName(userDetails.get(1));
+        Account.getInstance().setLastName(userDetails.get(2));
+        Account.getInstance().setEmail(userDetails.get(3));
     }
 
     private void login(String userName){

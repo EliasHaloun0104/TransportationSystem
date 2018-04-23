@@ -24,7 +24,7 @@ public class ViewProfile {
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
 
-        db.fetch(userNameTextField,firstNameTextField,lastNameTextField,phoneNbrTextField);
+//        db.fetch(userNameTextField,firstNameTextField,lastNameTextField,phoneNbrTextField);
 
         ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField,
                 phoneNbrTextField,newPasswordTextField,confirmPasswordTextField

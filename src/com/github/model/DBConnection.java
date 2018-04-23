@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -236,27 +237,45 @@ public class DBConnection {
                     System.out.println(role);
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return role;
     }
-    public void fetch(TextField username, TextField firstName, TextField lastName, TextField phone){
-        String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
+    public ArrayList<String> getAccountDetails(String userName) {
+        ArrayList<String> userDetails = new ArrayList<>();
+        String query = "Select userName, firstName, lastName, email from Account where userName = ?";
 
-        try {
-            PreparedStatement ps = c.prepareStatement(query);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                username.setText(resultSet.getString(1));
-                firstName.setText(resultSet.getString(2));
-                lastName.setText(resultSet.getString(3));
-                phone.setText(resultSet.getString(5));
+        try (PreparedStatement ps = c.prepareStatement(query)){
+            ps.setString(1, userName);
 
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    for(int i = 1; i <= 4; i++) {
+                        userDetails.add(rs.getString(i));
+                    }
+                }
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
+        return userDetails;
     }
+
+//    public void updateAccountDetails() {
+//
+//    }
 }

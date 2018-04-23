@@ -1,45 +1,87 @@
 package com.github.controller;
 
-
+import com.github.model.Account;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
-public class AdminController implements Initializable {
+public class AdminController {
 
-    @FXML
-    private Button signoutButton, editButton, saveButton;
-    @FXML
-    private TextField userNameTextField, firstNameTextField, lastNameTextField,
+    @FXML private Button signoutButton, editButton, saveButton;
+    @FXML private TextField userNameTextField, firstNameTextField, lastNameTextField,
             emailTextField, phoneNbrTextField, roleTextField, newPasswordTextField, confirmPasswordTextField,
             createdDateTextField;
+    @FXML private Tab viewProfileTab;
+    @FXML private VBox textFieldsWrapper;
 
+    public void initialize() {
+        signoutButtonAnimation();
+        viewProfile();
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // exit app button animation
+    }
+
+    private void signoutButtonAnimation() {
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), signoutButton);
         rotation.setCycleCount(1);
         rotation.setByAngle(360);
         signoutButton.setOnMouseEntered(e -> rotation.play());
+    }
 
-        ViewProfile viewProfile = new ViewProfile();
-        editButton.setOnAction(event -> viewProfile.editButtonPressed(userNameTextField, firstNameTextField, lastNameTextField,
-                phoneNbrTextField, newPasswordTextField, confirmPasswordTextField
-        ));
-        saveButton.setOnAction(event -> viewProfile.saveButtonPressed(userNameTextField, firstNameTextField, lastNameTextField,
-                phoneNbrTextField, newPasswordTextField, confirmPasswordTextField
-        ));
-        signoutButton.setOnAction(event -> viewProfile.signOutButtonPressed());
+    private void viewProfile() {
+        viewProfileTab.setOnSelectionChanged(t -> {
+            if (viewProfileTab.isSelected()) {
+                userNameTextField.setText(Account.getInstance().getAccountId());
+                firstNameTextField.setText(Account.getInstance().getFirstName());
+                lastNameTextField.setText(Account.getInstance().getLastName());
+                emailTextField.setText(Account.getInstance().getEmail());
+            }
+        });
+    }
+
+    @FXML
+    private void handleEditButtonPressed() {
+        List<Node> allNodes = textFieldsWrapper.getChildren();
+        for (Node n : allNodes) {
+            if (n instanceof TextField) {
+                n.setDisable(false);
+                ((TextField) n).setEditable(true);
+            }
+        }
+        saveButton.setDisable(false);
+    }
+
+    @FXML
+    private void handleSaveButtonPressed() {
 
     }
 
+    @FXML
+    private void handleSignoutButtonPressed() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Sign out!");
+        alert.setHeaderText("Do you wish to sign out");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get()==ButtonType.OK){
+            StageManager.getInstance().showLogin();
+            List<Node> allNodes = textFieldsWrapper.getChildren();
+            for (Node n : allNodes) {
+                if (n instanceof TextField) {
+                    n.setDisable(true);
+                    ((TextField) n).setEditable(false);
+                }
+            }
+        }
+    }
 }
 
 
