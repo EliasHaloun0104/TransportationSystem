@@ -9,10 +9,22 @@ import java.util.Optional;
 
 public class ViewProfile {
 
+//    public void fetchValues(TextField userNameTextField,TextField firstNameTextField,TextField lastNameTextField,TextField email,
+//                            TextField phoneNbrTextField){
+//
+//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+//
+//        db.fetch(userNameTextField,firstNameTextField,lastNameTextField,phoneNbrTextField);
+//    }
 
     public void editButtonPressed(TextField userNameTextField,TextField firstNameTextField,TextField lastNameTextField,
                                   TextField phoneNbrTextField,TextField newPasswordTextField,
                                   TextField confirmPasswordTextField){
+
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+
+        db.fetch(userNameTextField,firstNameTextField,lastNameTextField,phoneNbrTextField);
 
         ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField,
                 phoneNbrTextField,newPasswordTextField,confirmPasswordTextField

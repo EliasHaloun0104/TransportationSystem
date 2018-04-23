@@ -21,7 +21,10 @@ public class TaxiDriver implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ViewProfile viewProfile = new ViewProfile();
-
+//
+//       if (viewprofile.isSelected()){
+//        viewProfile.fetchValues(userNameTextField,firstNameTextField,lastNameTextField,emailTextField,phoneNbrTextField);
+//        }
 
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), signoutButton);
         rotation.setCycleCount(1);
