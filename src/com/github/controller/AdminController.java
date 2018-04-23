@@ -1,6 +1,7 @@
 package com.github.controller;
 
 import com.github.model.Account;
+import com.github.model.DBConnection;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -55,6 +56,10 @@ public class AdminController {
             if (n instanceof TextField) {
                 n.setDisable(false);
                 ((TextField) n).setEditable(true);
+                userNameTextField.setDisable(true);
+                roleTextField.setDisable(true);
+                emailTextField.setDisable(true);
+                createdDateTextField.setDisable(true);
             }
         }
         saveButton.setDisable(false);
@@ -62,6 +67,30 @@ public class AdminController {
 
     @FXML
     private void handleSaveButtonPressed() {
+        boolean status = true;
+        if (firstNameTextField.getText().trim().isEmpty()||lastNameTextField.getText().trim().isEmpty()||
+                phoneNbrTextField.getText().trim().isEmpty()||newPasswordTextField.getText().trim().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid");
+            alert.setHeaderText("Fill the fields");
+            alert.setContentText("Please make sure that all the fields are filled with your info");
+            alert.showAndWait();
+            status = false;
+        }
+        if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid");
+            alert.setHeaderText("Confirmation password doesn't match");
+            alert.setContentText("Please make sure that both the new password and confirmation password match");
+            newPasswordTextField.setText("");
+            confirmPasswordTextField.setText("");
+            alert.showAndWait();
+            status =false;
+        }if (status){
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            dbConnection.updateAccountDetails(firstNameTextField.getText(),lastNameTextField.getText(),phoneNbrTextField.getText(),
+                    newPasswordTextField.getText());
+        }
 
     }
 

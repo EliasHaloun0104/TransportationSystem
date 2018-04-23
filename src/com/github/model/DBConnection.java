@@ -2,6 +2,7 @@ package com.github.model;
 
 import com.github.controller.StageManager;
 import javafx.scene.control.TextField;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -275,7 +276,29 @@ public class DBConnection {
         return userDetails;
     }
 
-//    public void updateAccountDetails() {
-//
-//    }
+    public void updateAccountDetails(String firstName,String lastName,
+                                     String phoneNumber, String newPassword) {
+
+        String query = "Update Account set firstName = ?, lastName= ?,phoneNumber = ?, password = ? where userName =?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)){
+            ps.setString(1,firstName);
+            ps.setString(2,lastName);
+            ps.setString(3,phoneNumber);
+            ps.setString(4,newPassword);
+            ps.setString(5,Account.getInstance().getAccountId());
+
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+
+    } finally {
+        try {
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    }
 }
