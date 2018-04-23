@@ -378,7 +378,7 @@ public class LoginController {
     }
     private void switchSceneUponLoginAccount(){
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
-        switch (db.loginToTheCorrespondingScene()){
+        switch (db.getRole()){
             case "User":
                 try {
                     StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getLogin());

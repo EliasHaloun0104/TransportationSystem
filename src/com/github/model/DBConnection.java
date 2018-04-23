@@ -224,7 +224,7 @@ public class DBConnection {
         return count == 1;
     }
 
-    public String loginToTheCorrespondingScene() {
+    public String getRole() {
         String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
         String role ="";
         try {
@@ -236,11 +236,9 @@ public class DBConnection {
 
             }
         }catch (SQLException e){
-         e.printStackTrace();
-            }
-
-
-   return role;
+            e.printStackTrace();
+        }
+        return role;
     }
     public void fetch(TextField username, TextField firstName, TextField lastName, TextField phone){
         String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
