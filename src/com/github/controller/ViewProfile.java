@@ -1,8 +1,7 @@
 package com.github.controller;
 
-
+import com.github.model.DBConnection;
 import javafx.scene.control.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -14,6 +13,7 @@ public class ViewProfile {
     public void editButtonPressed(TextField userNameTextField,TextField firstNameTextField,TextField lastNameTextField,
                                   TextField phoneNbrTextField,TextField newPasswordTextField,
                                   TextField confirmPasswordTextField){
+
         ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField,
                 phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
             ));

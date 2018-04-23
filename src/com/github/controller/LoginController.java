@@ -410,6 +410,7 @@ public class LoginController {
             case "Taxi Driver":
                 try {
                     StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScrn(), StageManager.getInstance().getLogin());
+
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
 

@@ -30,7 +30,7 @@
                   </children></AnchorPane>
             </content>
          </Tab>
-       <Tab style="-fx-background-radius: 20;" text="View Profile">
+       <Tab fx:id="viewprofile" style="-fx-background-radius: 20;" text="View Profile">
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0">
                   <children>

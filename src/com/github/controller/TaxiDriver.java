@@ -17,9 +17,12 @@ public class TaxiDriver implements Initializable {
 
     @FXML private ComboBox delay;
     @FXML private TextArea description;
+    @FXML private Tab viewprofile;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ViewProfile viewProfile = new ViewProfile();
+
+
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), signoutButton);
         rotation.setCycleCount(1);
         rotation.setByAngle(360);

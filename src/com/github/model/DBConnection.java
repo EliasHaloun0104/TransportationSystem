@@ -1,6 +1,7 @@
 package com.github.model;
 
 import com.github.controller.StageManager;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,6 +63,7 @@ public class DBConnection {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count = rs.getInt(1);
+
                 }
             }
         } catch (SQLException ex) {
@@ -227,9 +229,9 @@ public class DBConnection {
         String role ="";
         try {
             PreparedStatement preparedStatement = c.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                role = resultSet.getString(7);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                role = rs.getString(7);
                 System.out.println(role);
 
             }
@@ -239,5 +241,23 @@ public class DBConnection {
 
 
    return role;
+    }
+    public void fetch(TextField username, TextField firstName, TextField lastName, TextField phone){
+        String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
+
+        try {
+            PreparedStatement ps = c.prepareStatement(query);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                username.setText(resultSet.getString(1));
+                firstName.setText(resultSet.getString(2));
+                lastName.setText(resultSet.getString(3));
+                phone.setText(resultSet.getString(5));
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 }
