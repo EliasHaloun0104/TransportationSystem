@@ -224,16 +224,17 @@ public class DBConnection {
         return count == 1;
     }
 
-    public String getRole() {
-        String query = "Select * from Account where userName = '" + Account.getInstance().getAccountId() + "'";
+    public String getRole(String userName) {
+        String query = "Select role from Account where userName = ?";
         String role ="";
-        try {
-            PreparedStatement preparedStatement = c.prepareStatement(query);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                role = rs.getString(7);
-                System.out.println(role);
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, userName);
 
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    role = rs.getString(1);
+                    System.out.println(role);
+                }
             }
         }catch (SQLException e){
             e.printStackTrace();
