@@ -298,19 +298,14 @@ public class DBConnection {
 
         }catch (SQLException e){
             e.printStackTrace();
-
-    } finally {
-        try {
-            c.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-    }
-
-
-
-
 
     public ArrayList<Station> getStations(){
         ArrayList<Station> stations = new ArrayList<>();
@@ -326,8 +321,7 @@ public class DBConnection {
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Query failed.");
-        }
-        finally {
+        } finally {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -337,8 +331,6 @@ public class DBConnection {
 
         return stations;
     }
-
-
 
     public ArrayList<ScheduledRoute> getRoutesFFF(){
         String query = "SELECT * FROM TransportationSystem.Route_Driver_Vehicle";
@@ -351,9 +343,14 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
         return scheduledRoutes;
-
     }
-
 }

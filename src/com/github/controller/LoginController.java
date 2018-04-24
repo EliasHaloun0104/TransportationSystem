@@ -22,27 +22,18 @@ import java.util.logging.Logger;
 public class LoginController {
 
     @FXML private Button exitLoginButton;
+    private ButtonFunction buttonFunction;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
     @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
     public void initialize() {
-        exitButtonAnimation();
+        buttonFunction = new ButtonFunction(exitLoginButton);
+        buttonFunction.exitButtonOption();
+
     }
 
-    // LOGIN PANE
-    private void exitButtonAnimation() {
-        RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), exitLoginButton);
-        rotation.setCycleCount(1);
-        rotation.setByAngle(360);
-        exitLoginButton.setOnMouseEntered(e -> rotation.play());
-    }
-
-    @FXML
-    private void handleExitAppButtonPressed() {
-        StageManager.getInstance().getLogin().hide();
-    }
 
     @FXML
     private void loginButtonPressed() {
