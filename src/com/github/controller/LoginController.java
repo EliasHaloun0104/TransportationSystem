@@ -3,11 +3,8 @@ package com.github.controller;
 import com.github.model.Account;
 import com.github.model.DBConnection;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -17,55 +14,114 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfEmailReg, tfAccountPass, tfEmailReset;
+    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
 
     public void initialize() {
-        // exit app button animation
+        exitButtonAnimation();
+    }
+
+    // LOGIN PANE
+    private void exitButtonAnimation() {
         RotateTransition rotation = new RotateTransition(Duration.seconds(0.5), exitLoginButton);
         rotation.setCycleCount(1);
         rotation.setByAngle(360);
         exitLoginButton.setOnMouseEntered(e -> rotation.play());
-
     }
 
-    // LOGIN PANE
     @FXML
-    private void handleExitAppButton() {
+    private void handleExitAppButtonPressed() {
         StageManager.getInstance().getLogin().hide();
     }
 
-    // login button
     @FXML
     private void loginButtonPressed() {
-        if (validatelogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
-
-            // TODO: needs to check the role in db to load the correct scene
+        if (validateLogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
+            loadAccount(tfAccountLogin.getText());
+            login(Account.getInstance().getAccountId());
             tfAccountLogin.setText("");
             pfPasswordLogin.setText("");
-            StageManager.getInstance().setEmployeeMenu();
         } else {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Wrong username or password", ButtonType.OK);
-            a.showAndWait();
+            invalidLogin();
         }
     }
 
-    private boolean validatelogin(String account, String password) {
+    private void loadAccount(String userName) {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        ArrayList<String> userDetails = db.getAccountDetails(userName);
+        Account.getInstance().setAccountId(userDetails.get(0));
+        Account.getInstance().setFirstName(userDetails.get(1));
+        Account.getInstance().setLastName(userDetails.get(2));
+        Account.getInstance().setEmail(userDetails.get(3));
+    }
+
+    private void login(String userName){
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        switch (db.getRole(userName)) {
+            case "User":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Admin":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Bus Driver":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Train Driver":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getTrainScrn(), StageManager.getInstance().getLogin());
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+                }
+                break;
+            case "Taxi Driver":
+                try {
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScrn(), StageManager.getInstance().getLogin());
+
+                }catch (Exception e){
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+
+                }
+                break;
+        }
+    }
+
+    private void invalidLogin() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid login.\nCheck your Account ID and/or password.", ButtonType.OK);
+        a.showAndWait();
+    }
+
+    private boolean validateLogin(String account, String password) {
         // TODO: create new connection type
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         return  db.validateLogin(account, password);
     }
 
-    // fades in new user pane and fades out login pane
+    // fades in new user registration pane and fades out login pane
     @FXML
-    private void handleNewUserButton() {
+    private void handleNewUserButtonPressed() {
         newUserMsgLabel.setText("If you require an account with special access contact helpdesk");
         registrationPane.setVisible(true);
         registrationPane.setOpacity(0);
@@ -80,7 +136,7 @@ public class LoginController {
 
     // fades in forgot password pane and fades out login pane
     @FXML
-    private void handleForgotPasswordButton() {
+    private void handleForgotPasswordButtonPressed() {
         resetPasswordPane.setVisible(true);
         resetPasswordPane.setOpacity(0);
         Timeline timeline = new Timeline();
@@ -94,22 +150,18 @@ public class LoginController {
 
     // RESET PASSWORD PANE
     @FXML
-    private void handleResetPasswordNextButton() {
+    private void handleResetPasswordNextButtonPressed() {
         if (!tfEmailReset.getText().trim().isEmpty() && validateEmail(tfEmailReset.getText())) {
-            passwordDetailsLabel.setText("Email with confirmation code sent to\n" + tfEmailReg);
+            passwordDetailsLabel.setText("Check your email account for the confirmation code.");
 
-            // create random confirmation code
-            SecureRandom random = new SecureRandom();
-            String confirmationCode = "";
-
-            for (int i = 0; i < 8; i++) {
-                confirmationCode += random.nextInt(9);
-            }
-
+            // create random confirmation code and add it to database
+            String confirmationCode = generateConfirmationCode();
             sendConfirmationCodeEmail(tfEmailReset.getText(), confirmationCode);
+
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
             db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
 
+            // fade in pane to set new password
             passwordPane.setVisible(true);
             passwordPane.setOpacity(0);
             Timeline timeline = new Timeline();
@@ -129,8 +181,24 @@ public class LoginController {
             }).start();
 
         } else {
-            resetPasswordMsgLabel.setText("Invalid email.");
+            invalidEmail();
         }
+    }
+
+    private String generateConfirmationCode() {
+        SecureRandom random = new SecureRandom();
+        String confirmationCode = "";
+
+        for (int i = 0; i < 8; i++) {
+            confirmationCode += random.nextInt(9);
+        }
+
+        return confirmationCode;
+    }
+
+    private void invalidEmail() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid email address.", ButtonType.OK);
+        a.showAndWait();
     }
 
     // fade out reset password and fade in login pane
@@ -154,29 +222,26 @@ public class LoginController {
         resetPasswordMsgLabel.setText("");
     }
 
-    // REGISTRATION PANE
+    // NEW ACCOUNT REGISTRATION PANE
     @FXML
-    private void handleRegistrationPaneNextButton() {
+    private void handleRegistrationPaneNextButtonPressed() {
 
         if (validateFirstName() && validateLastName() && validateUsername() && !validateEmail(tfEmailReg.getText())) {
 
             // create random confirmation code
-            SecureRandom random = new SecureRandom();
-            String confirmationCode = "";
-
-            for (int i = 0; i < 8; i++) {
-                confirmationCode += random.nextInt(9);
-            }
+            String confirmationCode =  generateConfirmationCode();
 
             String accountId = tfUsernameReg.getText();
             String firstName = tfFirstName.getText();
             String lastName = tfLastName.getText();
             String email = tfEmailReg.getText();
+            String phone = tfPhoneReg.getText();
 
             Account.getInstance().setAccountId(accountId);
             Account.getInstance().setFirstName(firstName);
             Account.getInstance().setLastName(lastName);
             Account.getInstance().setEmail(email);
+            Account.getInstance().setPhone(phone);
             Account.getInstance().setConfirmationCode(confirmationCode);
 
             // add user to db and send email with confirmation code to setup password
@@ -184,11 +249,11 @@ public class LoginController {
 
             // TODO: needs better handling
             // account should only be added if email is succesfully sent...
-            if (db.addUser(accountId, firstName, lastName, email, confirmationCode)) {
+            if (db.addUser(accountId, firstName, lastName, email, phone, confirmationCode)) {
                 sendConfirmationCodeEmail(email, confirmationCode);
 
                 // fade out registration pane and fade in password pane
-                passwordDetailsLabel.setText("An email was sent to " + email + " \nwith the confirmation code.");
+                passwordDetailsLabel.setText("Check your email account for the confirmation code.");
                 passwordPane.setVisible(true);
                 passwordPane.setOpacity(0);
                 Timeline timeline = new Timeline();
@@ -210,6 +275,7 @@ public class LoginController {
         }
     }
 
+    // TODO: review validations....
     private boolean validateFirstName() {
         boolean ok = true;
         if (tfFirstName.getText().isEmpty()) {
@@ -255,10 +321,8 @@ public class LoginController {
         // to check his email for confirmation code (avoiding fake emails...)
 
         // check db for existing email
-
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         return db.emailExists(email);
-
     }
 
     private void sendConfirmationCodeEmail(String email, String confirmationCode) {
@@ -281,14 +345,12 @@ public class LoginController {
                         return new PasswordAuthentication(prop.getProperty("sendEmailUsername"), prop.getProperty("sendEmailPassword"));
                     }
                 });
-
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(prop.getProperty("sendEmailUsername")));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Jala Trafiken: Confirmation code");
+            message.setSubject("Westeros Traffic: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
-
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -316,7 +378,6 @@ public class LoginController {
     }
 
     // PASSWORD PANE
-
     @FXML
     private void handleFinishButtonPressed() {
         String account = tfAccountPass.getText();
@@ -324,7 +385,7 @@ public class LoginController {
         String password = pfPasswordPass.getText();
         String passwordConfirmation = pfPasswordConfirm.getText();
 
-        // TODO: add confimrmation password validation!!!!!!!
+        // TODO: add password confirmation validation!
 
         if (validateConfirmationCode(account, confirmationCode)) {
             System.out.println("ok");

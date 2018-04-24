@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../../resources/Style/login.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.LoginController">
+<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.LoginController">
    <Pane id="loginPane" fx:id="loginPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0">
-      <Button id="exitLoginButton" fx:id="exitLoginButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitAppButton" prefHeight="24.0" prefWidth="24.0" />
+      <Button id="exitLoginButton" fx:id="exitLoginButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitAppButtonPressed" prefHeight="24.0" prefWidth="24.0" />
       <VBox layoutX="59.0" layoutY="83.0" prefHeight="323.0" prefWidth="219.0" spacing="10.0">
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="219.0">
             <children>
@@ -31,8 +31,8 @@
             </HBox>
             <HBox alignment="CENTER">
                <VBox>
-                  <Button id="newUserButton" mnemonicParsing="false" onAction="#handleNewUserButton" prefHeight="21.0" prefWidth="99.0" text="New user?" />
-                  <Button id="forgotPasswordButton" mnemonicParsing="false" onAction="#handleForgotPasswordButton" prefHeight="21.0" prefWidth="99.0" text="Forgot password?" />
+                  <Button id="newUserButton" mnemonicParsing="false" onAction="#handleNewUserButtonPressed" prefHeight="21.0" prefWidth="99.0" text="New user?" />
+                  <Button id="forgotPasswordButton" mnemonicParsing="false" onAction="#handleForgotPasswordButtonPressed" prefHeight="21.0" prefWidth="99.0" text="Forgot password?" />
                </VBox>
             </HBox>
          </VBox>
@@ -46,10 +46,10 @@
          </HBox>
          <TextField fx:id="tfFirstName" prefHeight="40.0" prefWidth="219.0" promptText="*First Name" />
          <TextField fx:id="tfLastName" prefHeight="40.0" prefWidth="219.0" promptText="*Last Name" />
-         <TextField prefHeight="40.0" prefWidth="219.0" promptText="*Phone Number" />
+         <TextField fx:id="tfPhoneReg" prefHeight="40.0" prefWidth="219.0" promptText="*Phone Number" />
          <TextField fx:id="tfUsernameReg" prefHeight="40.0" prefWidth="219.0" promptText="*Username" />
          <TextField fx:id="tfEmailReg" prefHeight="40.0" prefWidth="219.0" promptText="*Email" />
-         <Button id="nextButton" mnemonicParsing="false" onAction="#handleRegistrationPaneNextButton" prefHeight="40.0" prefWidth="219.0" text="NEXT &gt;" />
+         <Button id="nextButton" mnemonicParsing="false" onAction="#handleRegistrationPaneNextButtonPressed" prefHeight="40.0" prefWidth="219.0" text="NEXT &gt;" />
          <HBox alignment="CENTER" centerShape="false">
             <Label id="specialAccountDetails" fx:id="newUserMsgLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="219.0" textAlignment="CENTER" wrapText="true">
             </Label>
@@ -81,7 +81,7 @@
          <TextField id="emailField" fx:id="tfEmailReset" prefHeight="40.0" prefWidth="219.0" promptText="*Email" />
          <VBox spacing="10.0">
             <HBox alignment="CENTER">
-               <Button id="nextButton" mnemonicParsing="false" onAction="#handleResetPasswordNextButton" prefHeight="40.0" prefWidth="219.0" text="Next &gt;" />
+               <Button id="nextButton" mnemonicParsing="false" onAction="#handleResetPasswordNextButtonPressed" prefHeight="40.0" prefWidth="219.0" text="Next &gt;" />
             </HBox>
             <HBox alignment="CENTER">
                <Label id="resetPasswordMsgLabel" fx:id="resetPasswordMsgLabel" alignment="CENTER" prefHeight="50.0" prefWidth="219.0" textAlignment="CENTER" />
