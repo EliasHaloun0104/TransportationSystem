@@ -1,6 +1,6 @@
 package com.github.model;
 
-public class Account {
+public class Account implements Printable {
     private static Account ourInstance = new Account();
 
     private String accountId;
@@ -83,4 +83,8 @@ public class Account {
         this.phone = phone;
     }
 
+    @Override
+    public void printToPdf() {
+
+    }
 }

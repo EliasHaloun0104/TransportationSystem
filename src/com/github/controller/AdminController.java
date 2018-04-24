@@ -96,7 +96,7 @@ public class AdminController {
 
     @FXML
     private void handlePrintButtonPressed() {
-//        Account.getInstance().print();
+        Account.getInstance().printToPdf();
     }
 
     @FXML
