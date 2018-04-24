@@ -3,6 +3,7 @@ package com.github.controller;
 import com.github.model.Account;
 import com.github.model.DBConnection;
 import javafx.animation.RotateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -37,7 +38,7 @@ public class AdminController {
 
     @FXML
     private void handlePrintButtonPressed() {
-//        Account.getInstance().print();
+//        Account.getInstance().printToPdf();
     }
 
     @FXML
