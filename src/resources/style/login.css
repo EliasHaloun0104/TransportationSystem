@@ -23,7 +23,6 @@
     -fx-text-fill: #373738;
 }
 
-
 #exitLoginButton, #exitRegistrationButton, #exitResetButton {
     -fx-background-color: transparent;
     -fx-background-image: url('/resources/icons/close.png');
