@@ -28,9 +28,8 @@ public class AdminController {
     public void initialize() {
         buttonFunction = new ButtonFunction(signoutButton);
         buttonFunction.signOutOption();
-
     }
-    
+
     @FXML
     private void handlePrintButtonPressed() throws IOException {
         Account.getInstance().printToPdf();
