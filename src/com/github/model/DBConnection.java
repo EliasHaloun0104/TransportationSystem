@@ -353,4 +353,29 @@ public class DBConnection {
 
         return scheduledRoutes;
     }
+    public int getNumberOfComplains() {
+        int numberOfComplains=0;
+        String query = "select count(*) from Complaint where isHandled = 0";
+
+        try (PreparedStatement ps = c.prepareStatement(query)){
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    numberOfComplains = rs.getInt(1);
+
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return numberOfComplains;
+    }
 }

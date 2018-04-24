@@ -19,16 +19,28 @@ import java.util.stream.IntStream;
 
 public class AdminController {
 
+    @FXML private Tab complainsTab;
     @FXML private Button signoutButton;
     private ButtonFunction buttonFunction;
     @FXML private VBox textFieldsWrapper;
+    @FXML private TextField tfNumberOfComplains, tfDateOfComplain;
+    @FXML private ChoiceBox userNameChoiceBox;
+    @FXML private TextArea complainMessagetextArea, answerTextArea;
 
 
     public void initialize() {
         buttonFunction = new ButtonFunction(signoutButton);
         buttonFunction.signOutOption();
+        complainsTab.setOnSelectionChanged(
+                e-> {if (complainsTab.isSelected()) {
+                    DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+                tfNumberOfComplains.setText(String.valueOf(db.getNumberOfComplains()));
+
+                    }
+        });
 
     }
+
 
 
 
