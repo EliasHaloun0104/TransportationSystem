@@ -112,6 +112,7 @@ public class Account implements Printable {
         contentStream.setFont(font, 12);
         contentStream.moveTextPositionByAmount(100, 700);
         contentStream.drawString(String.format("Username: %-20s", accountId));
+        // TODO: add lines to pdf file
         contentStream.moveTextPositionByAmount(100, 650);
         contentStream.drawString(String.format("Fullname: %-20s %s", firstName, lastName));
         contentStream.endText();
