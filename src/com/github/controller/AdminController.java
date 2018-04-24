@@ -22,7 +22,6 @@ public class AdminController {
     @FXML private Button signoutButton;
     private ButtonFunction buttonFunction;
     @FXML private VBox textFieldsWrapper;
-    @FXML private Tab viewProfileTab;
 
 
     public void initialize() {

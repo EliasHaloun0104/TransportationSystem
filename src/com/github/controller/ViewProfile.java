@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.*;
 
-public class viewProfile implements Initializable {
+public class ViewProfile implements Initializable {
     @FXML
     private Button editButton,saveButton;
     @FXML private TextField userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField;
