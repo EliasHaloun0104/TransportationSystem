@@ -1,16 +1,17 @@
 package com.github.model;
 
 public class Vector2D {
-    private float x;
-    private float y;
+    private double x;
+    private double y;
+
 
     public Vector2D(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.x = (double)x;
+        this.y = (double) y;
     }
     public Vector2D(double x, double y) {
-        this.x = (float) x;
-        this.y = (float) y;
+        this.x = x;
+        this.y = y;
     }
     public Vector2D(Vector2D vector2D) {
         this.x = vector2D.getX();
@@ -20,29 +21,29 @@ public class Vector2D {
 
 
 
-    public void set(float x, float y){
+    public void set(double x, double y){
         this.x = x;
         this.y = y;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
-    public void setY(float y){
+    public void setY(double y){
         this.y = y;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void addToX(float x){
+    public void addToX(double x){
         this.x += x;
     }
-    public void addToY(float y){
+    public void addToY(double y){
         this.y += y;
     }
 
@@ -50,7 +51,7 @@ public class Vector2D {
         x += point.getX();
         y += point.getY();
     }
-    public void add(float x, float y){
+    public void add(double x, double y){
         this.x += x;
         this.y += y;
     }
@@ -60,12 +61,13 @@ public class Vector2D {
     }
 
     //hypotenuse
-    public float distance(Vector2D point){
-        return (float) Math.pow(Math.pow(point.getY()-y,2) + Math.pow(point.getX()-x,2),0.5);
+    public double distance(Vector2D point){
+        return Math.pow(Math.pow(point.getY()-y,2) + Math.pow(point.getX()-x,2),0.5);
     }
 
-    public float angle(Vector2D point){
-        return (float) Math.asin((point.getX()-x)/distance(point));
+
+    public double angle(Vector2D point){
+        return Math.asin((point.getX()-x)/distance(point));
     }
 
 
