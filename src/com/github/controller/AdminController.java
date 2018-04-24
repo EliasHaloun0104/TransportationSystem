@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -95,7 +96,7 @@ public class AdminController {
     }
 
     @FXML
-    private void handlePrintButtonPressed() {
+    private void handlePrintButtonPressed() throws IOException {
         Account.getInstance().printToPdf();
     }
 

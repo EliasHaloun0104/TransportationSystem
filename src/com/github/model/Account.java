@@ -1,5 +1,16 @@
 package com.github.model;
 
+import javafx.stage.FileChooser;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
+import java.io.File;
+import java.io.IOException;
+
 public class Account implements Printable {
     private static Account ourInstance = new Account();
 
@@ -84,7 +95,43 @@ public class Account implements Printable {
     }
 
     @Override
-    public void printToPdf() {
+    public void printToPdf() throws IOException {
+        // Create a document and add a page to it
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
 
+        // Create a new font object selecting one of the PDF base fonts
+        PDFont font = PDType1Font.HELVETICA_BOLD;
+
+        // Start a new content stream which will "hold" the to be created content
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+        // Define a text content stream using the selected font, moving the cursor and drawing the text "Hello World"
+        contentStream.beginText();
+        contentStream.setFont(font, 12);
+        contentStream.moveTextPositionByAmount(100, 700);
+        contentStream.drawString(String.format("Username: %-20s", accountId));
+        contentStream.moveTextPositionByAmount(100, 650);
+        contentStream.drawString(String.format("Fullname: %-20s %s", firstName, lastName));
+        contentStream.endText();
+
+        // Make sure that the content stream is closed:
+        contentStream.close();
+
+        // Save the results and ensure that the document is properly closed:
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save File");
+            fileChooser.setInitialFileName("account_info.pdf");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                document.save(file);
+            }
+        } catch (COSVisitorException e) {
+            e.printStackTrace();
+        }
+        document.close();
     }
 }
