@@ -34,7 +34,6 @@ public class Destinations {
         Destinations.ourInstance = ourInstance;
     }
 
-
     public static Destinations getInstance() {
         return ourInstance;
     }
@@ -42,9 +41,9 @@ public class Destinations {
 
     private Destinations() {
 
-        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         stations = dbConnection.getStations();
-        dbConnection = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         scheduledRoutes = dbConnection.getRoutesFFF();
 
 

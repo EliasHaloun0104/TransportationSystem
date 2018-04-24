@@ -95,6 +95,11 @@ public class AdminController {
     }
 
     @FXML
+    private void handlePrintButtonPressed() {
+        Account.getInstance().print();
+    }
+
+    @FXML
     private void handleSignoutButtonPressed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Sign out!");

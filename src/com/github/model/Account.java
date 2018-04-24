@@ -1,6 +1,10 @@
 package com.github.model;
 
-public class Account {
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
+import javafx.scene.shape.Circle;
+
+public class Account implements Printable {
     private static Account ourInstance = new Account();
 
     private String accountId;
@@ -81,5 +85,17 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public void print() {
+        Node node = new Circle(100, 200, 200);
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            boolean success = job.printPage(node);
+            if (success) {
+                job.endJob();
+            }
+        }
     }
 }

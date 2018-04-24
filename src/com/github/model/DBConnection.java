@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class DBConnection {
     // constructor needs a connection type argument
     public enum ConnectionType {
-        ACCOUNT_SETUP
+        ADMIN, ACCOUNT_SETUP
     }
 
     private Connection c;
@@ -45,6 +45,12 @@ public class DBConnection {
             url = prop.getProperty("database");
             user = prop.getProperty("userAccountSetup");
             password = prop.getProperty("passwordAccountSetup");
+        }
+
+        if (connectionType == ConnectionType.ADMIN) {
+            url = prop.getProperty("database");
+            user = prop.getProperty("user");
+            password = prop.getProperty("password");
         }
 
         // db connection
