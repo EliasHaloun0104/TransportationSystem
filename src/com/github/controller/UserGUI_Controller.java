@@ -24,7 +24,7 @@ public class UserGUI_Controller implements Initializable {
     Button processBtn;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fromCombo.getItems().addAll(Destinations.getInstance().getDestinations());
+       /* fromCombo.getItems().addAll(Destinations.getInstance().getDestinations());
         toCombo.getItems().addAll(Destinations.getInstance().getDestinations());
 
         fromCombo.valueProperty().addListener((observableValue, oldString, newString) -> {
@@ -40,7 +40,7 @@ public class UserGUI_Controller implements Initializable {
             }
 
 
-        });
+        });*/
 
         deposit.textProperty().addListener((observableValue, oldString, newString)->
         {

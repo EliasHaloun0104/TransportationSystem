@@ -3,11 +3,12 @@ package com.github.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class DBConnection {
     // constructor needs a connection type argument
-    public enum ConnectionType {ACCOUNT_SETUP}
+    public enum ConnectionType {ACCOUNT_SETUP, ADMIN}
     private Connection c;
     private String url;
     private String user;
@@ -246,4 +247,53 @@ public class DBConnection {
 
         return count == 1;
     }
+
+
+
+
+
+    public ArrayList<Station> getStations(){
+        ArrayList<Station> stations = new ArrayList<>();
+        String query = "SELECT * FROM TransportationSystem.Station";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    stations.add(new Station(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5)));
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Query failed.");
+        }
+        finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return stations;
+    }
+
+
+
+    public ArrayList<ScheduledRoute> getRoutesFFF(){
+        String query = "SELECT * FROM TransportationSystem.Route_Driver_Vehicle";
+        ArrayList<ScheduledRoute> scheduledRoutes = new ArrayList<>();
+        try(PreparedStatement ps = c.prepareStatement(query)){
+            try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()){
+                    scheduledRoutes.add(new ScheduledRoute(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7),rs.getTime(8),rs.getTime(9),rs.getTime(10),rs.getFloat(11),rs.getString(12),rs.getString(13)));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scheduledRoutes;
+
+    }
+
 }

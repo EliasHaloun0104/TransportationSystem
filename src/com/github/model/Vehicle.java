@@ -3,52 +3,50 @@ package com.github.model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import com.github.model.Enumeration.*;
 
+import java.util.ArrayDeque;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Queue;
 
 public class Vehicle {
-
-    Enumeration.VehicleType type;
-    Enumeration.VehicleSituation situation;
-    int ID;
-    Vector2D from;
-    Vector2D to;
-    Image image;
-    float speed;
-    Vector2D moveUpdate;
-    double stopTime;
+    private VehicleType type;
+    private VehicleSituation situation;
+    private int scheduledRouteID;
+    private TwoPointsMoving move;
+    private Image image;
+    private double stopTime;
+    private boolean isReadyToDelete;
 
 
-    public Vehicle(int ID, Enumeration.VehicleType type, Vector2D from,Vector2D to) {
-        this.ID = ID;
-        this.type = type;
+    public Vehicle(ScheduledRoute t) {
+        this.scheduledRouteID = t.getID();
+        this.type = t.getType();
         situation = Enumeration.VehicleSituation.RUN;
-        this.from = from;
-        this.to = to;
+        move = new TwoPointsMoving(t);
+
         switch (type){
             case TRAIN:
                 image = new Image("resources/img/TrainImage.png");
-                speed = 1f;
                 break;
             case ISOMETRIC_TRAIN:
                 break;
             case REGION_BUS:
                 image = new Image("resources/img/regionBus.png");
-                speed = 0.75f;
                 break;
             case ISOMETRIC_REGION_BUS:
                 break;
             case CITY_BUS:
                 image = new Image("resources/img/cityBus.png");
-                speed = 2f;
                 break;
             case ISOMETRIC_CITY_BUS:
                 break;
             case TAXI:
                 break;
         }
-        moveUpdate = calculateDirection();
         stopTime = 0;
+        isReadyToDelete = false;
     }
 
     public Enumeration.VehicleType getType() {
@@ -68,27 +66,11 @@ public class Vehicle {
     }
 
     public int getID() {
-        return ID;
+        return scheduledRouteID;
     }
 
     public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public Vector2D getFrom() {
-        return from;
-    }
-
-    public void setFrom(Vector2D position) {
-        this.from = position;
-    }
-
-    public Vector2D getTo() {
-        return to;
-    }
-
-    public void setTo(Vector2D to) {
-        this.to = to;
+        this.scheduledRouteID = ID;
     }
 
     public Image getImage() {
@@ -99,46 +81,70 @@ public class Vehicle {
         this.image = image;
     }
 
-    public float getSpeed() {
-        return speed;
+    public boolean isReadyToDelete() {
+        return isReadyToDelete;
     }
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
+    public void setReadyToDelete(boolean readyToDelete) {
+        isReadyToDelete = readyToDelete;
+    }
+
+    public int getScheduledRouteID() {
+        return scheduledRouteID;
+    }
+
+    public void setScheduledRouteID(int scheduledRouteID) {
+        this.scheduledRouteID = scheduledRouteID;
+    }
+
+    public TwoPointsMoving getMove() {
+        return move;
+    }
+
+    public void setMove(TwoPointsMoving move) {
+        this.move = move;
+    }
+
+    public double getStopTime() {
+        return stopTime;
+    }
+
+    public void setStopTime(double stopTime) {
+        this.stopTime = stopTime;
+    }
+
+    public void vehicleUpdate(){
+//        if(!move.isRun()){
+//            stopTime = Calendar.getInstance().getTimeInMillis()+3000; //StopTime is 30 seconds
+//            if(stations.size()>1){
+//                move = new TwoPointsMoving(stations.poll(),stations.peek(),VehicleType.getVehicleSpeed(type), true);
+//            }else{
+//                isReadyToDelete = true;
+//            }
+//
+//        }
+
     }
 
     public void draw(GraphicsContext gc){
-        gc.drawImage(image, from.getX(), from.getY(),15,15);
-    }
-    public void update(Region fromR, Region toR) {
-        if(situation== Enumeration.VehicleSituation.RUN){
-            from.add(moveUpdate);
+        gc.drawImage(image, move.getPosition().getX(), move.getPosition().getY(),15,15);
+        if(Calendar.getInstance().getTimeInMillis() > stopTime){
+            move.update();
+            vehicleUpdate();
         }
 
-        if(from.inRange(to) && situation == Enumeration.VehicleSituation.RUN){
-            moveUpdate.set(0,0);
-            situation = Enumeration.VehicleSituation.STOP_SWITCH_DESTINATION;
-            stopTime = Calendar.getInstance().getTimeInMillis();
-        }
-
-        if(situation == Enumeration.VehicleSituation.STOP && (Calendar.getInstance().getTimeInMillis()> (stopTime + 2500))){
-            from = new Vector2D(fromR.getPosition());
-            to = new Vector2D(toR.getPosition());
-            moveUpdate = calculateDirection();
-            situation = Enumeration.VehicleSituation.RUN;
-        }
     }
 
-    public Vector2D calculateDirection(){
-        float angle = from.angle(to);
-        float xMove = Math.abs((float) (speed * Math.sin(angle)));
-        float yMove = Math.abs((float) (speed * Math.cos(angle)));
-        if(from.getX()> to.getX()){
-            xMove *=-1;
+
+    /*private void updateDestination(){
+        vehicle.setSituation(Enumeration.VehicleSituation.STOP);
+        sta = route.getRoute().get(current_position);
+        try{
+            toR = route.getRoute().get(++current_position);
+        }catch (IndexOutOfBoundsException e){
+            current_position = 0;
+            toR = route.getRoute().get(++current_position);
         }
-        if(from.getY()> to.getY()){
-            yMove *=-1;
-        }
-        return new Vector2D(xMove,yMove);
-    }
+
+    }*/
 }
