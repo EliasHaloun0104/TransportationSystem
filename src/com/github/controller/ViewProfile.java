@@ -1,58 +1,105 @@
 package com.github.controller;
 
+import com.github.model.Account;
 import com.github.model.DBConnection;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
+import javafx.scene.layout.VBox;
 
+import java.net.URL;
+import java.util.*;
 
-public class ViewProfile {
+public class viewProfile implements Initializable {
+    @FXML
+    private Button editButton,saveButton;
+    @FXML private TextField userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField;
+    @FXML private Tab viewProfileTab;
+    @FXML private VBox textFieldsWrapper;
 
-//    public void fetchValues(TextField userNameTextField,TextField firstNameTextField,TextField lastNameTextField,TextField email,
-//                            TextField phoneNbrTextField){
-//
-//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
-//
-//        db.fetch(userNameTextField,firstNameTextField,lastNameTextField,phoneNbrTextField);
-//    }
-
-    public void editButtonPressed(TextField userNameTextField,TextField firstNameTextField,TextField lastNameTextField,
-                                  TextField phoneNbrTextField,TextField newPasswordTextField,
-                                  TextField confirmPasswordTextField){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        editButton.setOnAction(event -> editButtonPressed());
+        saveButton.setOnAction(event -> saveButtonPressed());
+        viewProfile();
+    }
+    public void editButtonPressed(){
 
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
 
-//        db.fetch(userNameTextField,firstNameTextField,lastNameTextField,phoneNbrTextField);
 
-        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField,
-                phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
-            ));
+        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
         for (TextField t: textFields) {
             t.setDisable(false);
             t.setEditable(true);
         }
     }
-    public void saveButtonPressed(TextField userNameTextField,TextField firstNameTextField,TextField lastNameTextField,
-                                  TextField phoneNbrTextField,TextField newPasswordTextField,
-                                  TextField confirmPasswordTextField){
-        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField,
-                phoneNbrTextField,newPasswordTextField,confirmPasswordTextField
-                ));
+    public void saveButtonPressed(){
+        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
         for (TextField t: textFields) {
             t.setDisable(true);
             t.setEditable(false);
         }
     }
-    public void signOutButtonPressed(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Sign out!");
-        alert.setHeaderText("Do you wish to sign out");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get()==ButtonType.OK){
-            StageManager.getInstance().showLogin();
-        }
+
+    private void viewProfile() {
+        viewProfileTab.setOnSelectionChanged(t -> {
+            if (viewProfileTab.isSelected()) {
+                userNameTextField.setText(Account.getInstance().getAccountId());
+                firstNameTextField.setText(Account.getInstance().getFirstName());
+                lastNameTextField.setText(Account.getInstance().getLastName());
+                emailTextField.setText(Account.getInstance().getEmail());
+            }
+        });
     }
+
+    @FXML
+    private void handleEditButtonPressed() {
+        List<Node> allNodes = textFieldsWrapper.getChildren();
+        for (Node n : allNodes) {
+            if (n instanceof TextField) {
+                n.setDisable(false);
+                ((TextField) n).setEditable(true);
+                userNameTextField.setDisable(true);
+                roleTextField.setDisable(true);
+                emailTextField.setDisable(true);
+                createdDateTextField.setDisable(true);
+            }
+        }
+        saveButton.setDisable(false);
+    }
+
+    @FXML
+    private void handleSaveButtonPressed() {
+        boolean status = true;
+        if (firstNameTextField.getText().trim().isEmpty()||lastNameTextField.getText().trim().isEmpty()||
+            phoneNbrTextField.getText().trim().isEmpty()||newPasswordTextField.getText().trim().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid");
+            alert.setHeaderText("Fill the fields");
+            alert.setContentText("Please make sure that all the fields are filled with your info");
+            alert.showAndWait();
+            status = false;
+        }
+        if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid");
+            alert.setHeaderText("Confirmation password doesn't match");
+            alert.setContentText("Please make sure that both the new password and confirmation password match");
+            newPasswordTextField.setText("");
+            confirmPasswordTextField.setText("");
+            alert.showAndWait();
+            status =false;
+        }if (status){
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            dbConnection.updateAccountDetails(firstNameTextField.getText(),lastNameTextField.getText(),phoneNbrTextField.getText(),
+                newPasswordTextField.getText());
+        }
+
+    }
+
+
 
 }
