@@ -1,6 +1,5 @@
 package com.github.model;
 
-import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -10,10 +9,8 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-
 import java.io.File;
 import java.io.IOException;
-
 
 public class Account implements Printable {
     private static Account ourInstance = new Account();

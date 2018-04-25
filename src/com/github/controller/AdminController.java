@@ -1,22 +1,14 @@
 package com.github.controller;
 
-import com.github.model.Account;
+
 import com.github.model.DBConnection;
-import javafx.animation.RotateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
-import javafx.util.Pair;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class AdminController {
 
