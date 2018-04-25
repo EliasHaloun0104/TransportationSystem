@@ -327,7 +327,7 @@ public class LoginController {
     private void sendConfirmationCodeEmail(String email, String confirmationCode) {
 
         Properties prop = new Properties();
-        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/files/db.properties")) {
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/properties/db.properties")) {
             prop.load(in);
             prop.put("mail.smtp.auth", "true");
             prop.put("mail.smtp.starttls.enable", "true");

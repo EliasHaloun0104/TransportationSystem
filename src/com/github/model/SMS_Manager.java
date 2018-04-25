@@ -16,7 +16,7 @@ public class SMS_Manager {
     public static void sendSMS(String string){
 
         Properties prop = new Properties();
-        try (InputStream in = SMS_Manager.class.getResourceAsStream("resources/files/sms.properties")) {
+        try (InputStream in = SMS_Manager.class.getResourceAsStream("resources/properties/sms.properties")) {
             prop.load(in);
         } catch (IOException e) {
             e.printStackTrace();

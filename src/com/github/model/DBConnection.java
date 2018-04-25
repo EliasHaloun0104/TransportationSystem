@@ -1,16 +1,10 @@
 package com.github.model;
 
-import com.github.controller.StageManager;
-import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DBConnection {
     // constructor needs a connection type argument
@@ -27,7 +21,7 @@ public class DBConnection {
 
         // load properties file
         Properties prop = new Properties();
-        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/files/db.properties")) {
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/properties/db.properties")) {
             prop.load(in);
         } catch (IOException e) {
             e.printStackTrace();

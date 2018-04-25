@@ -2,5 +2,5 @@
 .idea
 TransportationSystem.iml
 out/
-src/resources/files/*.properties
+src/resources/properties
 .DS_Store
