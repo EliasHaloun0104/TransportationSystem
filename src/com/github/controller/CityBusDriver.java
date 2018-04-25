@@ -1,5 +1,4 @@
 package com.github.controller;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -7,7 +6,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BusDriver implements Initializable {
+public class CityBusDriver implements Initializable {
     @FXML
     private Button signoutButton;
     private ButtonFunction buttonFunction;
@@ -26,8 +25,6 @@ public class BusDriver implements Initializable {
     public void handleDescription(){
 
     }
-
-
 
 
 }

@@ -22,6 +22,7 @@ public class StageManager {
     private Stage busScrn;
     private Stage trainScrn;
     private Stage userGUI;
+    private Stage citybusScrn;
 
     public Stage getLogin() {
         return login;
@@ -56,6 +57,8 @@ public class StageManager {
         return busScrn;
     }
 
+    public Stage getCitybusScrn(){ return citybusScrn; }
+
     public Stage getTrainScrn() {
         return trainScrn;
     }
@@ -83,7 +86,7 @@ public class StageManager {
         busScrn = new Stage();
         trainScrn = new Stage();
         userGUI = new Stage();
-
+        citybusScrn = new Stage();
         try {
             // login
             createStage("developerMenu.fxml", "Developer Menu", stage1);
@@ -121,6 +124,10 @@ public class StageManager {
             root = FXMLLoader.load(getClass().getResource("/com/github/view/BusDriver.fxml"));
             busScrn.setScene(new Scene(root));
             busScrn.initStyle(StageStyle.TRANSPARENT);
+            //CityBusDriver
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/CityBusDriver.fxml"));
+            citybusScrn.setScene(new Scene(root));
+            citybusScrn.initStyle(StageStyle.TRANSPARENT);
 
 
         } catch (IOException e) {
@@ -147,6 +154,10 @@ public class StageManager {
         busScrn.show();
         employeeMenu.hide();
     }
+    public void setCitybusScrn(){
+        citybusScrn.show();
+        employeeMenu.hide();
+    }
     public void setSplashScreen(){
         splashScreen.show();
     }
@@ -158,6 +169,7 @@ public class StageManager {
         taxiScrn.hide();
         trainScrn.hide();
         busScrn.hide();
+        citybusScrn.hide();
     }
 
     public void showStage1() {

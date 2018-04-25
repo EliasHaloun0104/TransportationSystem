@@ -15,6 +15,9 @@ public class DeveloperMenu {
     @FXML private void busDriver(){
         StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getStage1());
     }
+    @FXML private void cityBusDriver(){
+        StageManager.getInstance().switchStage(StageManager.getInstance().getCitybusScrn(),StageManager.getInstance().getStage1());
+    }
     @FXML private void employeeMenu(){
         StageManager.getInstance().switchStage(StageManager.getInstance().getEmployeeMenu(), StageManager.getInstance().getStage1());
     }
