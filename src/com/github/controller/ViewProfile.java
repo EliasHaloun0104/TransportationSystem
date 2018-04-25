@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -51,6 +52,7 @@ public class ViewProfile implements Initializable {
                 firstNameTextField.setText(Account.getInstance().getFirstName());
                 lastNameTextField.setText(Account.getInstance().getLastName());
                 emailTextField.setText(Account.getInstance().getEmail());
+                phoneNbrTextField.setText(Account.getInstance().getPhone());
             }
         });
     }
@@ -100,6 +102,9 @@ public class ViewProfile implements Initializable {
 
     }
 
-
+    @FXML
+    private void handleExportButtonPressed() throws IOException {
+        Account.getInstance().printToPdf();
+    }
 
 }

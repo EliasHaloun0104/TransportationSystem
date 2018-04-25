@@ -3,3 +3,4 @@
 TransportationSystem.iml
 out/
 src/resources/files/db.properties
+.DS_Store

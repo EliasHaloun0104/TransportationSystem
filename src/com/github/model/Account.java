@@ -1,15 +1,19 @@
 package com.github.model;
 
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
-import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
 
 import java.io.File;
 import java.io.IOException;
+
 
 public class Account implements Printable {
     private static Account ourInstance = new Account();
@@ -22,6 +26,7 @@ public class Account implements Printable {
     private String confirmationCode;
     private String password;
     private String role;
+    private String balance;
 
     public static Account getInstance() {
         return ourInstance;
@@ -94,45 +99,73 @@ public class Account implements Printable {
         this.phone = phone;
     }
 
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
+
     @Override
     public void printToPdf() throws IOException {
-        // Create a document and add a page to it
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
 
-        // Create a new font object selecting one of the PDF base fonts
-        PDFont font = PDType1Font.HELVETICA_BOLD;
+        try (PDDocument doc = new PDDocument()) {
+            PDPage page = new PDPage();
+            doc.addPage(page);
 
-        // Start a new content stream which will "hold" the to be created content
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            String logo = this.getClass().getResource("/resources/img/logo.png").getPath();
+            PDImageXObject pdImage = PDImageXObject.createFromFile(logo, doc);
 
-        // Define a text content stream using the selected font, moving the cursor and drawing the text "Hello World"
-        contentStream.beginText();
-        contentStream.setFont(font, 12);
-        contentStream.moveTextPositionByAmount(100, 700);
-        contentStream.drawString(String.format("Username: %-20s", accountId));
-        // TODO: add lines to pdf file
-        contentStream.moveTextPositionByAmount(100, 650);
-        contentStream.drawString(String.format("Fullname: %-20s %s", firstName, lastName));
-        contentStream.endText();
+            PDFont fontBold = PDType1Font.HELVETICA_BOLD;
+            PDFont fontRegular = PDType1Font.HELVETICA;
 
-        // Make sure that the content stream is closed:
-        contentStream.close();
+            try (PDPageContentStream contents = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true)) {
 
-        // Save the results and ensure that the document is properly closed:
-        try {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save File");
-            fileChooser.setInitialFileName("account_info.pdf");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-            File file = fileChooser.showSaveDialog(null);
-            if (file != null) {
-                document.save(file);
+                float scale = 0.5f;
+                contents.drawImage(pdImage, 100, 680, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
+
+                contents.beginText();
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(100, 650);
+                contents.showText("Account ID: ");
+                contents.setFont(fontRegular, 12);
+                contents.showText(accountId);
+
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(0, -15);
+                contents.showText("Name: ");
+                contents.setFont(fontRegular, 12);
+                contents.showText(firstName + " " + lastName);
+
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(0, -15);
+                contents.showText("Email: ");
+                contents.setFont(fontRegular, 12);
+                contents.showText(email);
+
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(0, -15);
+                contents.showText("Phone: ");
+                contents.setFont(fontRegular, 12);
+                contents.showText(phone);
+
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(0, -15);
+                contents.showText("Balance: ");
+                contents.setFont(fontRegular, 12);
+                contents.showText(balance);
+                contents.endText();
             }
-        } catch (COSVisitorException e) {
-            e.printStackTrace();
+
+            FileChooser fc = new FileChooser();
+            fc.setTitle("Save File");
+            fc.setInitialFileName("account_info.pdf");
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File file = fc.showSaveDialog(null);
+            if (file != null) {
+                doc.save(file);
+            }
         }
-        document.close();
     }
 }

@@ -42,10 +42,6 @@ public class AdminController {
 
     }
 
-    @FXML
-    private void handlePrintButtonPressed() throws IOException {
-        Account.getInstance().printToPdf();
-    }
 
     @FXML
     private void handleSignoutButtonPressed() {
