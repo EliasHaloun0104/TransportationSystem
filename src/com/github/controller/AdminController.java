@@ -4,10 +4,13 @@ package com.github.controller;
 import com.github.model.ComplainPerson;
 import com.github.model.DBConnection;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -24,12 +27,21 @@ public class AdminController {
     @FXML private ChoiceBox userNameChoiceBox;
     @FXML private TextArea complainMessagetextArea, answerTextArea;
     private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
+    //@FXML private TableView<Product> tableView = new TableView<>();;
 
 
 
     public void initialize() {
         buttonFunction = new ButtonFunction(signoutButton);
         buttonFunction.signOutOption();
+//        ObservableList<Product> products = FXCollections.observableArrayList();
+//        products.add(new Product("qwd","awd","awd","qw",21));
+//        products.add(new Product("qwd","awd","awd","qw",21));
+//        products.add(new Product("qwd","awd","awd","qw",21));
+//        products.add(new Product("qwd","awd","awd","qw",21));
+//        products.add(new Product("qwd","awd","awd","qw",21));
+//        tableView.setItems(products);
+
 
     }
 
