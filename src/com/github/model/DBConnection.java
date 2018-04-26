@@ -1,5 +1,8 @@
 package com.github.model;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -228,7 +231,7 @@ public class DBConnection {
 
     public String getRole(String userName) {
         String query = "Select role from Account where userName = ?";
-        String role ="";
+        String role = "";
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
 
@@ -238,7 +241,7 @@ public class DBConnection {
                     System.out.println(role);
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -249,21 +252,22 @@ public class DBConnection {
         }
         return role;
     }
+
     public ArrayList<String> getAccountDetails(String userName) {
         ArrayList<String> userDetails = new ArrayList<>();
         String query = "Select userName, firstName, lastName, email, phoneNumber, balance from Account where userName = ?";
 
-        try (PreparedStatement ps = c.prepareStatement(query)){
+        try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    for(int i = 1; i <= 6; i++) {
-                            userDetails.add(rs.getString(i));
+                    for (int i = 1; i <= 6; i++) {
+                        userDetails.add(rs.getString(i));
                     }
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -276,21 +280,21 @@ public class DBConnection {
         return userDetails;
     }
 
-    public void updateAccountDetails(String firstName,String lastName,
+    public void updateAccountDetails(String firstName, String lastName,
                                      String phoneNumber, String newPassword) {
 
         String query = "Update Account set firstName = ?, lastName= ?,phoneNumber = ?, password = ? where userName =?";
 
-        try (PreparedStatement ps = c.prepareStatement(query)){
-            ps.setString(1,firstName);
-            ps.setString(2,lastName);
-            ps.setString(3,phoneNumber);
-            ps.setString(4,newPassword);
-            ps.setString(5,Account.getInstance().getAccountId());
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setString(3, phoneNumber);
+            ps.setString(4, newPassword);
+            ps.setString(5, Account.getInstance().getAccountId());
 
             ps.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -301,14 +305,14 @@ public class DBConnection {
         }
     }
 
-    public ArrayList<Station> getStations(){
+    public ArrayList<Station> getStations() {
         ArrayList<Station> stations = new ArrayList<>();
         String query = "SELECT * FROM TransportationSystem.Station";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    stations.add(new Station(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5)));
+                    stations.add(new Station(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
                 }
             }
 
@@ -326,13 +330,13 @@ public class DBConnection {
         return stations;
     }
 
-    public ArrayList<ScheduledRoute> getRoutesFFF(){
+    public ArrayList<ScheduledRoute> getRoutesFFF() {
         String query = "SELECT * FROM TransportationSystem.Route_Driver_Vehicle";
         ArrayList<ScheduledRoute> scheduledRoutes = new ArrayList<>();
-        try(PreparedStatement ps = c.prepareStatement(query)){
-            try(ResultSet rs = ps.executeQuery()){
-                while (rs.next()){
-                    scheduledRoutes.add(new ScheduledRoute(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7),rs.getTime(8),rs.getTime(9),rs.getTime(10),rs.getFloat(11),rs.getString(12),rs.getString(13)));
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    scheduledRoutes.add(new ScheduledRoute(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getTime(8), rs.getTime(9), rs.getTime(10), rs.getFloat(11), rs.getString(12), rs.getString(13)));
                 }
             }
         } catch (SQLException e) {
@@ -347,11 +351,12 @@ public class DBConnection {
 
         return scheduledRoutes;
     }
+
     public int getNumberOfComplains() {
-        int numberOfComplains=0;
+        int numberOfComplains = 0;
         String query = "select count(*) from Complaint where isHandled = 0";
 
-        try (PreparedStatement ps = c.prepareStatement(query)){
+        try (PreparedStatement ps = c.prepareStatement(query)) {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -360,7 +365,7 @@ public class DBConnection {
 
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -373,21 +378,21 @@ public class DBConnection {
         return numberOfComplains;
     }
 
-    public ArrayList<ComplainPerson> getComplain(){
-        ArrayList<ComplainPerson> person =new ArrayList<>();
+    public ArrayList<ComplainPerson> getComplain() {
+        ArrayList<ComplainPerson> person = new ArrayList<>();
 
-        String query = "select Account_userName, message, creationDate from Complaint";
+        String query = "select Account_userName, message, creationDate from Complaint where isHandled = 0";
 
-        try (PreparedStatement ps = c.prepareStatement(query)){
+        try (PreparedStatement ps = c.prepareStatement(query)) {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
 
-                    person.add(new ComplainPerson(rs.getString(1),rs.getString(2),rs.getString(3)));
+                    person.add(new ComplainPerson(rs.getString(1), rs.getString(2), rs.getString(3)));
 
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -399,5 +404,76 @@ public class DBConnection {
 
 
         return person;
+    }
+
+    public void setDateAndMessage(String userName, TextField date, TextArea message) {
+
+
+        String query = "Select creationDate, message from Complaint where Account_userName = ?  and isHandled = 0";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            ps.setString(1, userName);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    date.setText(rs.getString(1));
+                    message.setText(rs.getString(2));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+    public void updateComplainAnswer(String message, String userName) {
+        String query = "Update Complaint set answer = ?, isHandled = 1 where Account_userName =?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, message);
+            ps.setString(2, userName);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void addCompensationValue(String userName) {
+        String query = "Update Account set balance = 100 where userName = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, userName);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

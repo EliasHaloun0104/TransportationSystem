@@ -16,15 +16,20 @@ import java.util.Optional;
 
 public class AdminController {
 
-    @FXML private Tab complainsTab;
-    @FXML private Button signoutButton;
+    @FXML
+    private Tab complainsTab;
+    @FXML
+    private Button signoutButton, compensateButton, ApologyButton;
     private ButtonFunction buttonFunction;
-    @FXML private VBox textFieldsWrapper;
-    @FXML private TextField tfNumberOfComplains, tfDateOfComplain;
-    @FXML private ChoiceBox userNameChoiceBox;
-    @FXML private TextArea complainMessagetextArea, answerTextArea;
+    @FXML
+    private VBox textFieldsWrapper;
+    @FXML
+    private TextField tfNumberOfComplains, tfDateOfComplain;
+    @FXML
+    private ChoiceBox userNameChoiceBox;
+    @FXML
+    private TextArea complainMessagetextArea, answerTextArea;
     private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
-
 
 
     public void initialize() {
@@ -40,7 +45,7 @@ public class AdminController {
         alert.setTitle("Sign out!");
         alert.setHeaderText("Do you wish to sign out");
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get()==ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             StageManager.getInstance().showLogin();
             List<Node> allNodes = textFieldsWrapper.getChildren();
             for (Node n : allNodes) {
@@ -53,36 +58,61 @@ public class AdminController {
     }
 
     @FXML
-    private void complainsTabSelected(Event event) {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        tfNumberOfComplains.setText(String.valueOf(db.getNumberOfComplains()));
+    private void complainsTabSelected() {
 
+        setTfNumberOfComplains();
 
         setComplains(complainPeople);
-
 
         Platform.runLater(() -> {
 
 
             userNameChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+                setDateAndMessage();
 
-                tfDateOfComplain.setText(complainPeople.get(newValue.intValue()).getDate());
-                complainMessagetextArea.setText(complainPeople.get(newValue.intValue()).getMessage());
+//                tfDateOfComplain.setText(complainPeople.get(newValue.intValue()).getDate());
+//                complainMessagetextArea.setText(complainPeople.get(newValue.intValue()).getMessage());
             });
 
             loadComplains();
-
             if (!complainPeople.isEmpty()) {
                 addComplainsToChoice();
                 userNameChoiceBox.getSelectionModel().select(0);
             }
-
         });
+    }
+
+    @FXML
+    private void ApologyButtonPressed() {
+        System.out.println(userNameChoiceBox.getValue());
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
+        setTfNumberOfComplains();
+
+        complainsTabSelected();
+
+        answerTextArea.setText("");
+
+
+
+    }
+
+    @FXML
+    private void compensateButtonPressed() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
+
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        dbConnection.addCompensationValue(String.valueOf(userNameChoiceBox.getValue()));
+        setTfNumberOfComplains();
+        complainsTabSelected();
+
+        answerTextArea.setText("");
 
     }
 
     private void addComplainsToChoice() {
-
         userNameChoiceBox.getItems().clear();
         for (ComplainPerson person : complainPeople) {
             userNameChoiceBox.getItems().add(person);
@@ -95,9 +125,18 @@ public class AdminController {
     }
 
     private void loadComplains() {
-        DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        complainPeople = db1.getComplain();
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        complainPeople = db.getComplain();
+    }
 
+    private void setTfNumberOfComplains() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        tfNumberOfComplains.setText(String.valueOf(db.getNumberOfComplains()));
+    }
+
+    private void setDateAndMessage() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.setDateAndMessage(String.valueOf(userNameChoiceBox.getValue()), tfDateOfComplain, complainMessagetextArea);
     }
 }
 

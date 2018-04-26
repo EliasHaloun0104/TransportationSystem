@@ -107,12 +107,12 @@
                                  </TextArea>
                                  <HBox prefHeight="100.0" prefWidth="200.0">
                                     <children>
-                                       <Button mnemonicParsing="false" style="-fx-background-radius: 20;" text="We're sorry">
+                                       <Button fx:id="ApologyButton" mnemonicParsing="false" onAction="#ApologyButtonPressed" style="-fx-background-radius: 20;" text="We're sorry">
                                           <HBox.margin>
                                              <Insets left="10.0" top="20.0" />
                                           </HBox.margin>
                                        </Button>
-                                       <Button mnemonicParsing="false" style="-fx-background-radius: 20;" text="Compensate">
+                                       <Button fx:id="compensateButton" mnemonicParsing="false" onAction="#compensateButtonPressed" style="-fx-background-radius: 20;" text="Compensate">
                                           <HBox.margin>
                                              <Insets left="10.0" top="20.0" />
                                           </HBox.margin>
