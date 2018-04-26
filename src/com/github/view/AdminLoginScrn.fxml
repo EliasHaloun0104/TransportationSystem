@@ -22,17 +22,17 @@
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
          </Tab>
-       <Tab style="-fx-background-radius: 20;" text="View Booking">
+       <Tab fx:id="name" style="-fx-background-radius: 20;" text="View Booking">
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
                      <TableView fx:id="tableView" prefHeight="444.0" prefWidth="550.0">
                         <columns>
-                           <TableColumn prefWidth="126.0" text="Name" />
-                           <TableColumn prefWidth="117.0" text="Type" />
-                           <TableColumn minWidth="5.0" prefWidth="98.0" text="From" />
-                           <TableColumn prefWidth="103.0" text="To" />
-                           <TableColumn prefWidth="104.0" text="Price" />
+                           <TableColumn fx:id="name" editable="false" prefWidth="126.0" text="Name" />
+                           <TableColumn editable="false" prefWidth="117.0" text="Type" />
+                           <TableColumn editable="false" minWidth="5.0" prefWidth="98.0" text="From" />
+                           <TableColumn editable="false" prefWidth="103.0" text="To" />
+                           <TableColumn editable="false" prefWidth="104.0" text="Price" />
                         </columns>
                      </TableView>
                      <Button layoutX="491.0" layoutY="445.0" mnemonicParsing="false" text="Print" />

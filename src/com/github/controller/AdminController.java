@@ -33,19 +33,19 @@ public class AdminController {
     @FXML
     private TextArea complainMessagetextArea, answerTextArea;
     private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
-    //@FXML private TableView<Product> tableView = new TableView<>();;
+    @FXML private TableView<String> tableView = new TableView<>();;
 
 
     public void initialize() {
         buttonFunction = new ButtonFunction(signoutButton);
         buttonFunction.signOutOption();
-//        ObservableList<Product> products = FXCollections.observableArrayList();
-//        products.add(new Product("qwd","awd","awd","qw",21));
-//        products.add(new Product("qwd","awd","awd","qw",21));
-//        products.add(new Product("qwd","awd","awd","qw",21));
-//        products.add(new Product("qwd","awd","awd","qw",21));
-//        products.add(new Product("qwd","awd","awd","qw",21));
-//        tableView.setItems(products);
+//        ObservableList<String> products = FXCollections.observableArrayList();
+//        products.add(new Product("Laptop", 859.00, 20));
+//        products.add(new Product("Bouncy Ball", 2.49, 198));
+//        products.add(new Product("Toilet", 99.00, 74));
+//        products.add(new Product("The Notebook DVD", 19.99, 12));
+//        products.add(new Product("Corn", 1.49, 856));
+        
 
 
     }
