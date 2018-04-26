@@ -33,7 +33,7 @@
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
          </Tab>
-         <Tab fx:id="complainsTab" style="-fx-background-radius: 20;" text="Complains">
+         <Tab fx:id="complainsTab" onSelectionChanged="#complainsTabSelected" style="-fx-background-radius: 20;" text="Complains">
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -75,7 +75,7 @@
                                              <Insets left="10.0" top="2.0" />
                                           </HBox.margin>
                                        </Label>
-                                       <TextField fx:id="tfDateOfComplain" disable="true" editable="false" prefHeight="25.0" prefWidth="163.0" style="-fx-background-radius: 20;">
+                                       <TextField fx:id="tfDateOfComplain" disable="true" editable="false" prefHeight="25.0" prefWidth="127.0" style="-fx-background-radius: 20;">
                                           <HBox.margin>
                                              <Insets left="20.0" />
                                           </HBox.margin>
