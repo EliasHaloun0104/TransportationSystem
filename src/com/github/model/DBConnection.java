@@ -372,4 +372,32 @@ public class DBConnection {
 
         return numberOfComplains;
     }
+
+    public ArrayList<ComplainPerson> getComplain(){
+        ArrayList<ComplainPerson> person =new ArrayList<>();
+
+        String query = "select Account_userName, message, creationDate from Complaint";
+
+        try (PreparedStatement ps = c.prepareStatement(query)){
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    person.add(new ComplainPerson(rs.getString(1),rs.getString(2),rs.getString(3)));
+
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return person;
+    }
 }
