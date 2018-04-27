@@ -5,38 +5,52 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class BreakNews {
-    Text news;
-    double textWidth;
-    float startTime;
-    Vector2D rectPosition;
-    Vector2D textPosition;
+    ArrayList<Text> news;
+    int currentAds;
+    boolean updateAds;
 
 
 
-    public BreakNews(String news, Canvas canvas){
-        this.news = new Text(news);
-        textWidth = this.news.getLayoutBounds().getWidth();
-        rectPosition = new Vector2D(canvas.getWidth(),canvas.getHeight()-70);
-        textPosition = new Vector2D(canvas.getWidth() +(canvas.getWidth()+textWidth)/2, 640-40);
-        startTime = Calendar.getInstance().getTimeInMillis();
+    public BreakNews(ArrayList<Text> news){
+        this.news = news;
+        currentAds = 0;
+        updateAds = true;
     }
 
     public void draw(GraphicsContext gc){
-        gc.setFill(Color.web("800000ff"));
-        gc.fillRect(rectPosition.getX(), rectPosition.getY(),4000,40);
-        gc.setFill(Color.WHITESMOKE);
-        gc.fillText(news.getText(), textPosition.getX(), textPosition.getY());
+        if(news.size()>0) {
+            gc.setFill(Color.web("800000ff"));
+            gc.fillRect(0, 640 - 70, 960, 640);
+            int seconds = Calendar.getInstance().get(Calendar.SECOND);
+            gc.setFill(Color.WHITESMOKE);
+            if (seconds % 3 == 0 && updateAds) {
+                currentAds++;
+                if (currentAds == news.size()) {
+                    currentAds = 0;
+                }
+                updateAds = false;
+            } else if (seconds % 3 == 1) {
+                updateAds = true;
+            }
+            String textToShow = news.get(currentAds).getText();
+            double textWidth = news.get(currentAds).getLayoutBounds().getWidth();
+            gc.fillText(textToShow, (960 - textWidth) / 2, 640 - 45);
+            gc.setFill(Color.BLACK);
+        }
+
+
 
         //Update
-        if(rectPosition.getX()>-1000){
-            textPosition.addToX(-1f);
-            rectPosition.addToX(-1f);
-        }else{
-            textPosition.addToY(1f);
-            rectPosition.addToY(1f);
-        }
+//        if(rectPosition.getX()>-1000){
+//            textPosition.addToX(-1);
+//            rectPosition.addToX(-1);
+//        }else{
+//            textPosition.addToY(1);
+//            rectPosition.addToY(1);
+//        }
     }
 }

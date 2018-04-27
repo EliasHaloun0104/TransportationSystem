@@ -1,18 +1,15 @@
 package com.github.model;
 
 
-import java.sql.Time;
-import java.text.ParseException;
 import java.util.Calendar;
 
 public class TwoPointsMoving {
-    ScheduledRoute t;
-    boolean isRun;
-    Station from_station;
-    Station to_station;
-    Vector2D from;
-    Vector2D to;
-    Vector2D position;
+    private ScheduledRoute t;
+    private Station from_station;
+    private Station to_station;
+    private Vector2D from;
+    private Vector2D to;
+    private Vector2D position;
 
     public TwoPointsMoving(ScheduledRoute t){
         this.t = t;
@@ -21,11 +18,7 @@ public class TwoPointsMoving {
 
         this.from = new Vector2D(from_station.getPosition());
         this.to = new Vector2D(to_station.getPosition());
-        position =new Vector2D(0,0);
-        update();
-
-        this.isRun = isRun;
-
+        calculatePosition();
     }
 
     public Station getFrom_station() {
@@ -68,21 +61,16 @@ public class TwoPointsMoving {
         this.to = to;
     }
 
-
-    public boolean isRun() {
-        return isRun;
-    }
-
-    public void setRun(boolean run) {
-        isRun = run;
-    }
-
-    public void update() {
-        double percentageOfRoute = Calendar.getInstance().get(Calendar.MINUTE)+Calendar.getInstance().get(Calendar.SECOND)/60-t.getStart().getMinute();
+    public void calculatePosition() {
+        double percentageOfRoute = Calendar.getInstance().get(Calendar.MINUTE)+
+                                    Calendar.getInstance().get(Calendar.SECOND)/60
+                                    -t.getStart().getMinute();
         if(percentageOfRoute<0){
             percentageOfRoute += 60;
         }
-        double distanceFromStart = percentageOfRoute*from.distance(to)/t.getDuration().getMinute();
+        percentageOfRoute = percentageOfRoute/ t.getDuration().getMinute();
+        double distanceFromStart = percentageOfRoute*from.distance(to);
+
 
         double xMove = Math.abs((float) (distanceFromStart * Math.sin(from.angle(to))));
         double yMove = Math.abs((float) (distanceFromStart * Math.cos(from.angle(to))));
@@ -92,20 +80,15 @@ public class TwoPointsMoving {
         if(from.getY()> to.getY()){
             yMove *=-1;
         }
-        position.set(xMove+from.getX(),yMove+from.getY());
+        position = new Vector2D(xMove+from.getX(),yMove+from.getY());
 
 
     }
 
     @Override
     public String toString() {
-        return "TwoPointsMoving{" +
-            "isRun=" + isRun +
-            ", from_station=" + from_station +
-            ", to_station=" + to_station +
-            ", from=" + from +
-            ", to=" + to +
-            ", position=" + position +
-            '}';
+        return t.getName() + "- From: " + from_station.getName() +
+            " To: " + to_station.getName() +
+            " (" + t.getEnd() + ")";
     }
 }

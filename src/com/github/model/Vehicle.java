@@ -5,10 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import com.github.model.Enumeration.*;
 
-import java.util.ArrayDeque;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Queue;
 
 public class Vehicle {
     private VehicleType type;
@@ -16,15 +13,16 @@ public class Vehicle {
     private int scheduledRouteID;
     private TwoPointsMoving move;
     private Image image;
-    private double stopTime;
-    private boolean isReadyToDelete;
+    private String routeName;
 
 
     public Vehicle(ScheduledRoute t) {
+        routeName = t.getName();
         this.scheduledRouteID = t.getID();
         this.type = t.getType();
         situation = Enumeration.VehicleSituation.RUN;
         move = new TwoPointsMoving(t);
+
 
         switch (type){
             case TRAIN:
@@ -45,8 +43,6 @@ public class Vehicle {
             case TAXI:
                 break;
         }
-        stopTime = 0;
-        isReadyToDelete = false;
     }
 
     public Enumeration.VehicleType getType() {
@@ -81,14 +77,6 @@ public class Vehicle {
         this.image = image;
     }
 
-    public boolean isReadyToDelete() {
-        return isReadyToDelete;
-    }
-
-    public void setReadyToDelete(boolean readyToDelete) {
-        isReadyToDelete = readyToDelete;
-    }
-
     public int getScheduledRouteID() {
         return scheduledRouteID;
     }
@@ -105,46 +93,9 @@ public class Vehicle {
         this.move = move;
     }
 
-    public double getStopTime() {
-        return stopTime;
-    }
-
-    public void setStopTime(double stopTime) {
-        this.stopTime = stopTime;
-    }
-
-    public void vehicleUpdate(){
-//        if(!move.isRun()){
-//            stopTime = Calendar.getInstance().getTimeInMillis()+3000; //StopTime is 30 seconds
-//            if(stations.size()>1){
-//                move = new TwoPointsMoving(stations.poll(),stations.peek(),VehicleType.getVehicleSpeed(type), true);
-//            }else{
-//                isReadyToDelete = true;
-//            }
-//
-//        }
-
-    }
-
     public void draw(GraphicsContext gc){
         gc.drawImage(image, move.getPosition().getX(), move.getPosition().getY(),15,15);
-        if(Calendar.getInstance().getTimeInMillis() > stopTime){
-            move.update();
-            vehicleUpdate();
-        }
-
+        gc.fillText(routeName, move.getPosition().getX()+18,move.getPosition().getY()+10);
     }
 
-
-    /*private void updateDestination(){
-        vehicle.setSituation(Enumeration.VehicleSituation.STOP);
-        sta = route.getRoute().get(current_position);
-        try{
-            toR = route.getRoute().get(++current_position);
-        }catch (IndexOutOfBoundsException e){
-            current_position = 0;
-            toR = route.getRoute().get(++current_position);
-        }
-
-    }*/
 }

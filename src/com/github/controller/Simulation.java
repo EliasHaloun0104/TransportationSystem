@@ -6,6 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+
+import static javafx.scene.paint.Color.BLACK;
 
 public class Simulation {
     @FXML private Canvas canvas_Station_0, canvas_Station_1;
@@ -22,7 +28,6 @@ public class Simulation {
     private Image city;
     private Image region;
     private Image train;
-    private BreakNews breakNews;
     private VehicleSimulation vehicleSimulation;
 
 
@@ -45,7 +50,9 @@ public class Simulation {
         city = new Image("resources/img/CityMap.png");
         region = new Image("resources/img/TrainMap.png");
         train = new Image("resources/img/TrainImage.png");
-        breakNews = new BreakNews("BREAK NEWS", canvas_City_0);
+
+
+
 
 
 
@@ -81,11 +88,10 @@ public class Simulation {
                 vehicleSimulation.draw(gc_Region_1, gc_City_1);
 
 
-                gc_Region_1.fillText(mouse.toString(),100,100);
 
+                gc_Region_1.fillText(mouse.toString(),100,100);
                 gc_City_1.fillText(mouse.toString(),100,100);
                 train_north.draw(gc_Station_1);
-                breakNews.draw(gc_Station_1);
                 gc_Region_1.setLineWidth(0.2);
 //                for (int x = 0; x < 1120 ; x+=20) {
 //                    //gc_Station_1.strokeLine(x , 0 ,x, 960);
@@ -98,6 +104,9 @@ public class Simulation {
 //                    gc_Region_1.strokeLine(0 , y ,1120, y);
 //                }
                 clock.timeSet(gc_Station_0);
+                vehicleSimulation.getBreakNews().draw(gc_Station_1);
+                vehicleSimulation.getBreakNews().draw(gc_Region_1);
+                vehicleSimulation.getBreakNews().draw(gc_City_1);
 
             }
 

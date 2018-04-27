@@ -1,6 +1,7 @@
 package com.github.model;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Text;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -8,11 +9,17 @@ import java.util.Calendar;
 
 
 public class VehicleSimulation {
-    ArrayList<Vehicle> vehicles;
+    private ArrayList<Vehicle> vehicles;
+    private BreakNews breakNews;
+
+    int timeToUpdate;
 
     public VehicleSimulation() {
-        vehicles = new ArrayList<>();
+        callScheduledRoute();
+    }
 
+    public void callScheduledRoute(){
+        vehicles = new ArrayList<>();
         for (ScheduledRoute t: Destinations.getInstance().scheduledRoutes) {
             try {
                 TimeProcess tp_0 = TimeProcess.now(0);
@@ -25,11 +32,39 @@ public class VehicleSimulation {
                 e.printStackTrace();
             }
         }
+
+        timeToUpdate =Calendar.getInstance().get(Calendar.MINUTE);
+        breakNews = new BreakNews(getNews());
+
+
+    }
+
+    public BreakNews getBreakNews() {
+        return breakNews;
+    }
+
+    public void setBreakNews(BreakNews breakNews) {
+        this.breakNews = breakNews;
+    }
+
+    public ArrayList<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(ArrayList<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
 
 
-    public void draw(GraphicsContext gc_Region, GraphicsContext gc_City){
+    public int getTimeToUpdate() {
+        return timeToUpdate;
+    }
 
+    public void setTimeToUpdate(int timeToUpdate) {
+        this.timeToUpdate = timeToUpdate;
+    }
+
+    public void draw(GraphicsContext gc_Region, GraphicsContext gc_City){
         for (Vehicle v: vehicles){
             switch (v.getType()){
                 case TRAIN:
@@ -41,5 +76,17 @@ public class VehicleSimulation {
                     break;
             }
         }
+
+        if(Calendar.getInstance().get(Calendar.MINUTE)!=timeToUpdate){//Update every one minute
+            callScheduledRoute();
+        }
     }
+    public ArrayList<Text> getNews(){
+        ArrayList<Text> news = new ArrayList<>();
+        for (Vehicle v: vehicles) {
+            news.add(new Text(v.getMove().toString()));
+        }
+        return news;
+    }
+
 }
