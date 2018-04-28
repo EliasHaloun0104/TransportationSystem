@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -13,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserGUI_Controller" stylesheets="@../../../resources/style/login.css">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="762.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserGUI_Controller">
          <children>
             <TabPane prefHeight="481.0" prefWidth="762.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -36,6 +35,11 @@
                         <Label layoutX="28.0" layoutY="28.0" prefHeight="17.0" prefWidth="71.0" text="From:" />
                         <Label layoutX="28.0" layoutY="88.0" prefHeight="17.0" prefWidth="71.0" text="To:" />
                         <Label fx:id="cost" layoutX="197.0" layoutY="8.0" prefHeight="389.0" prefWidth="434.0" />
+                        <ScrollPane layoutX="198.0" layoutY="12.0" prefHeight="339.0" prefWidth="454.0">
+                           <content>
+                              <VBox fx:id="searchResult" prefHeight="337.0" prefWidth="438.0" />
+                           </content>
+                        </ScrollPane>
                      </children></AnchorPane>
                   </content>
                 </Tab>
@@ -62,7 +66,7 @@
                      </children></AnchorPane>
                      </content>
                   </Tab>
-                  <fx:include source="viewProfile.fxml"></fx:include>
+                  <fx:include source="viewProfile.fxml" />
               </tabs>
             </TabPane>
          </children>

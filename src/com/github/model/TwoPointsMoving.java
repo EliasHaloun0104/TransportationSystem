@@ -13,8 +13,8 @@ public class TwoPointsMoving {
 
     public TwoPointsMoving(ScheduledRoute t){
         this.t = t;
-        from_station = Destinations.getInstance().getStationByID(t.getFrom());
-        to_station = Destinations.getInstance().getStationByID(t.getTo());
+        from_station = Destinations.getInstance().getStationByName(t.getFrom());
+        to_station = Destinations.getInstance().getStationByName(t.getTo());
 
         this.from = new Vector2D(from_station.getPosition());
         this.to = new Vector2D(to_station.getPosition());

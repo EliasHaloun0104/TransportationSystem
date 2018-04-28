@@ -1,6 +1,9 @@
 package com.github.model;
 
+import com.sun.mail.imap.protocol.ID;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Destinations {
@@ -17,22 +20,34 @@ public class Destinations {
     public ArrayList<Station> getStations() {
         return stations;
     }
-    public Station getStationByID(int ID){
+
+    public Station getStationByName(String name){
         for (Station s: stations) {
-            if(s.getID() == ID){
+            if(s.getName().equals(name)){
                 return s;
             }
         }
         return null;
     }
+    public ArrayList<String> getStationsName(){
+        ArrayList<String> stationName = new ArrayList<>();
+        for (Station s: stations) {
+            stationName.add(s.getName());
+        }
+        return stationName;
+    }
+    //Get station name except the chosen one
+    public ArrayList<String> getStationNameExcept(String station){
+        ArrayList<String> stationName = new ArrayList<>();
+        for (Station s: stations) {
+            if(!station.equals(s.getName())){
+                stationName.add(s.getName());
+            }
 
-    public static Destinations getOurInstance() {
-        return ourInstance;
+        }
+        return stationName;
     }
 
-    public static void setOurInstance(Destinations ourInstance) {
-        Destinations.ourInstance = ourInstance;
-    }
 
     public static Destinations getInstance() {
         return ourInstance;
@@ -46,10 +61,21 @@ public class Destinations {
         dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         scheduledRoutes = dbConnection.getRoutesFFF();
 
-
-
-
-
     }
 
+    public static Destinations getOurInstance() {
+        return ourInstance;
+    }
+
+    public static void setOurInstance(Destinations ourInstance) {
+        Destinations.ourInstance = ourInstance;
+    }
+
+    public ArrayList<ScheduledRoute> getScheduledRoutes() {
+        return scheduledRoutes;
+    }
+
+    public void setScheduledRoutes(ArrayList<ScheduledRoute> scheduledRoutes) {
+        this.scheduledRoutes = scheduledRoutes;
+    }
 }

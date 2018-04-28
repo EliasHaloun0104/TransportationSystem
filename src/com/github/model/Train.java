@@ -36,13 +36,9 @@ public class Train {
         if(!isStop){
             position.add(variable);
             //Stop for new Passengers
-            if(position.getX() <17.5*20 && position.getX()> 17.44*20){
+            if(position.getX() <22.5*20 && position.getX()> 22.44*20){
                 isStop = true;
                 stopTimer = 300;
-            }
-            //Change path
-            if(position.getX() < 10.5*20 && position.getX() > 9.5*20){
-                variable.set(-0.5f,1);
             }
             //Continue to path
             if(position.getX() < 9.5*20 && position.getX() > 8.5*20){

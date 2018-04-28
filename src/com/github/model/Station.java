@@ -1,6 +1,10 @@
 package com.github.model;
 
-public class Station {
+import com.google.common.hash.HashCode;
+
+import java.util.HashMap;
+
+public class Station{
     int ID;
     String name;
     String city;
@@ -11,7 +15,11 @@ public class Station {
         this.name = name;
         this.city = city;
         position = new Vector2D(x,y);
-        //System.out.println(toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Integer.parseInt(obj.toString()) == ID || obj.toString().equals(name);
     }
 
     public int getID() {

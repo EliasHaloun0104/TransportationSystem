@@ -1,6 +1,10 @@
 package com.github.model;
 
+import com.google.common.collect.Multimap;
+
+import java.awt.print.Book;
 import java.sql.Time;
+import java.util.*;
 
 public class ScheduledRoute {
     private int ID;
@@ -8,17 +12,18 @@ public class ScheduledRoute {
     private int ID_special;
     private String name;
     private Enumeration.VehicleType type;
-    private int from;
-    private int to;
+    private String from;
+    private String to;
     private TimeProcess duration;
     private TimeProcess start;
     private TimeProcess end;
     private float distance;
     private String driver;
     private String vehicle;
+    private int price;
 
 
-    public ScheduledRoute(int ID, int scheduledID, int ID_special, String name, String type, int from, int to, Time duration, Time start, Time end, float distance, String driver, String vehicle) {
+    public ScheduledRoute(int ID, int scheduledID, int ID_special, String name, String type, String from, String to, Time duration, Time start, Time end, float distance, String driver, String vehicle, int price) {
         this.ID = ID;
         this.scheduledID = scheduledID;
         this.ID_special = ID_special;
@@ -32,6 +37,7 @@ public class ScheduledRoute {
         this.distance = distance;
         this.driver = driver;
         this.vehicle = vehicle;
+        this.price = price;
 
         //System.out.println(toString());
         /*try {
@@ -157,19 +163,27 @@ public class ScheduledRoute {
         this.vehicle = vehicle;
     }
 
-    public int getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(int from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public int getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(int to) {
+    public void setTo(String to) {
         this.to = to;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
