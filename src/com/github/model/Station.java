@@ -1,9 +1,5 @@
 package com.github.model;
 
-import com.google.common.hash.HashCode;
-
-import java.util.HashMap;
-
 public class Station{
     int ID;
     String name;
