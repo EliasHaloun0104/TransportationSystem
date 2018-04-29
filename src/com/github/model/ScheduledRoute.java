@@ -1,10 +1,7 @@
 package com.github.model;
 
-import com.google.common.collect.Multimap;
 
-import java.awt.print.Book;
 import java.sql.Time;
-import java.util.*;
 
 public class ScheduledRoute {
     private int ID;
@@ -38,17 +35,6 @@ public class ScheduledRoute {
         this.driver = driver;
         this.vehicle = vehicle;
         this.price = price;
-
-        //System.out.println(toString());
-        /*try {
-            TimeProcess t = new TimeProcess(TimeProcess.generateTime(Calendar.getInstance().get(Calendar.MINUTE)));
-            if(isTimeBetween(t)){
-                System.out.println(toString());
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
