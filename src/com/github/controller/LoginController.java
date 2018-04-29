@@ -197,15 +197,15 @@ public class LoginController {
             // add user to db and send email with confirmation code to setup password
             DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
 
-            // TODO: needs better handling
-            // account should only be added if email is succesfully sent...
-            if (db.addUser(accountId, firstName, lastName, email, phone, confirmationCode)) {
-                sendConfirmationCodeEmail(email, confirmationCode);
-
-                // fade out registration pane and fade in password pane
-                passwordDetailsLabel.setText("Check your email account for the confirmation code.");
-                paneFadeTransition(registrationPane, passwordPane);
+            // TODO: needs better handling (account is being added with certain invalid email addresses)
+            if (sendConfirmationCodeEmail(email, confirmationCode)) {
+                db.addUser(accountId, firstName, lastName, email, phone, confirmationCode);
             }
+            // fade out registration pane and fade in password pane
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Confirmation code was sent to " + email + ".", ButtonType.OK);
+            a.showAndWait();
+            paneFadeTransition(registrationPane, passwordPane);
+
         }
     }
 
