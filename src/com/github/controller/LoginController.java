@@ -22,11 +22,11 @@ import java.util.logging.Logger;
 public class LoginController {
 
     @FXML private Button exitLoginButton;
-    private ButtonFunction buttonFunction;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
     @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
+    private ButtonFunction buttonFunction;
 
     public void initialize() {
         buttonFunction = new ButtonFunction(exitLoginButton);
@@ -132,21 +132,24 @@ public class LoginController {
     // RESET PASSWORD PANE
     @FXML
     private void handleResetPasswordNextButtonPressed() {
-        if (!tfEmailReset.getText().trim().isEmpty() && validateEmail(tfEmailReset.getText())) {
-            passwordDetailsLabel.setText("Check your email account for the confirmation code.");
+        if (!tfEmailReset.getText().trim().isEmpty()) {
 
             // create random confirmation code and add it to database
             String confirmationCode = generateConfirmationCode();
-            sendConfirmationCodeEmail(tfEmailReset.getText(), confirmationCode);
+            if (sendConfirmationCodeEmail(tfEmailReset.getText(), confirmationCode)) {
 
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-            db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
+                DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+                db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
+            }
 
-            // fade in pane to set new password
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
+                    tfEmailReset.getText() + " with the confirmation code.");
+            a.showAndWait();
             paneFadeTransition(resetPasswordPane, passwordPane);
 
         } else {
-            invalidEmail();
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid email address.", ButtonType.OK);
+            a.showAndWait();
         }
     }
 
@@ -161,11 +164,6 @@ public class LoginController {
         return confirmationCode;
     }
 
-    private void invalidEmail() {
-        Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid email address.", ButtonType.OK);
-        a.showAndWait();
-    }
-
     // fade out reset password and fade in login pane
     @FXML
     private void handleExitResetPasswordButton() {
@@ -177,7 +175,8 @@ public class LoginController {
     @FXML
     private void handleRegistrationPaneNextButtonPressed() {
 
-        if (validateFirstName() && validateLastName() && validateUsername() && !validateEmail(tfEmailReg.getText())) {
+        if (validateField(tfFirstName) && validateField(tfLastName) && validateField(tfPhoneReg)
+                && validateField(tfUsernameReg) && validateField(tfEmailReg)) {
 
             // create random confirmation code
             String confirmationCode =  generateConfirmationCode();
@@ -210,58 +209,76 @@ public class LoginController {
         }
     }
 
-    // TODO: review validations....
-    private boolean validateFirstName() {
+    private boolean validateField(TextField tf) {
+        //TODO: add phone regex and email
         boolean ok = true;
-        if (tfFirstName.getText().isEmpty()) {
-            newUserMsgLabel.setText("'First Name' is a mandatory field");
+        String regex1 = "\\p{L}+";  //only letters
+        String regex2 = "^\\S+$";   //anything that isn't whitespace
+
+        if ((tf == tfFirstName || tf == tfLastName) && (tf.getText().isEmpty() || !tf.getText().matches(regex1))) {
+            invalidFieldAlert(tf);
             ok = false;
-        } else if (!tfFirstName.getText().matches("\\p{L}+")) {
-            newUserMsgLabel.setText("Invalid characters in 'First Name' field\nOnly letters are accepted");
+        }
+        if (tf == tfPhoneReg && tf.getText().trim().isEmpty()) {
+            invalidFieldAlert(tf);
             ok = false;
+        }
+        if (tf == tfUsernameReg && !tf.getText().matches(regex2)) {
+            invalidFieldAlert(tf);
+            ok = false;
+        } else if (tf == tfUsernameReg) {
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+            if (db.usernameExists(tf.getText())) {
+                Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
+                        "Choose a different one.", ButtonType.OK);
+                a.showAndWait();
+                ok = false;
+            }
+        }
+        if (tf == tfEmailReg && !tf.getText().matches(regex2)) {
+            invalidFieldAlert(tf);
+            ok = false;
+        } else if (tf == tfEmailReg) {
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+            if (db.emailExists(tf.getText())) {
+                Alert a = new Alert(Alert.AlertType.WARNING, "'Email' already taken.\n" +
+                        "Choose a different one.", ButtonType.OK);
+                a.showAndWait();
+                ok = false;
+            }
         }
         return ok;
     }
 
-    private boolean validateLastName() {
-        boolean ok = true;
-        if (tfLastName.getText().isEmpty()) {
-            newUserMsgLabel.setText("'Last Name' is a mandatory field");
-            ok = false;
-        } else if (!tfLastName.getText().matches("\\p{L}+")) {
-            newUserMsgLabel.setText("Invalid characters in 'Last Name' field\nOnly letters are accepted");
-            ok = false;
+    private void invalidFieldAlert(TextField tf) {
+        if (tf == tfFirstName) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'First Name' is a mandatory field."
+                    + "\nOnly letters are accepted.", ButtonType.OK);
+            a.showAndWait();
         }
-        return ok;
-    }
-
-    private boolean validateUsername() {
-        boolean ok = true;
-        if (tfUsernameReg.getText().isEmpty()) {
-            newUserMsgLabel.setText("'Username' is a mandatory field");
-            ok = false;
-        } else {
-             DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-             if (db.usernameExists(tfUsernameReg.getText())) {
-                 newUserMsgLabel.setText("'Username' is already taken.");
-                 ok = false;
-             }
+        if (tf == tfLastName) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'Last Name' is a mandatory field."
+                    + "\nOnly letters are accepted.", ButtonType.OK);
+            a.showAndWait();
         }
-        return ok;
+        if (tf == tfPhoneReg) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'Phone number' is a mandatory field.", ButtonType.OK);
+            a.showAndWait();
+        }
+        if (tf == tfUsernameReg) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' is a mandatory field." +
+                    "\nWhitespace is not allowed.", ButtonType.OK);
+            a.showAndWait();
+        }
+        if (tf == tfEmailReg) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'Email' is a mandatory field." +
+                    "\nWhitespace is not allowed.", ButtonType.OK);
+            a.showAndWait();
+        }
     }
 
-    private boolean validateEmail(String email) {
-        // checking for a good regex but...
-        // not so important because to setup a password user needs
-        // to check his email for confirmation code (avoiding fake emails...)
-
-        // check db for existing email
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-        return db.emailExists(email);
-    }
-
-    private void sendConfirmationCodeEmail(String email, String confirmationCode) {
-
+    private boolean sendConfirmationCodeEmail(String email, String confirmationCode) {
+        boolean emailSent = false;
         Properties prop = new Properties();
         try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/properties/db.properties")) {
             prop.load(in);
@@ -287,9 +304,12 @@ public class LoginController {
             message.setSubject("Westeros Traffic: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
             Transport.send(message);
+            emailSent = true;
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+
+        return emailSent;
     }
 
     // fades in login pane and fades out registration pane
@@ -306,16 +326,22 @@ public class LoginController {
         String password = pfPasswordPass.getText();
         String passwordConfirmation = pfPasswordConfirm.getText();
 
-        // TODO: add password confirmation validation!
-
         if (validateConfirmationCode(account, confirmationCode)) {
-            System.out.println("ok");
             DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-            if (db.setupPassword(account, password)) {
-                passwordDetailsLabel.setText("Account is setup!");
+            if (!pfPasswordPass.getText().trim().isEmpty() && password.equals(passwordConfirmation)) {
+                if (db.setupPassword(account, password)) {
+                    Alert a = new Alert(Alert.AlertType.INFORMATION, "Your account is setup." +
+                            "You'll be taken to the login pane.");
+                    a.showAndWait();
+                    paneFadeTransition(passwordPane, loginPane);
+                }
+            } else {
+                Alert a = new Alert(Alert.AlertType.WARNING, "Password does not match with confirmation password.", ButtonType.OK);
+                a.showAndWait();
             }
         } else {
-            passwordDetailsLabel.setText("Invalid confirmation code or account ID");
+            Alert a = new Alert(Alert.AlertType.WARNING, "Incorrect confirmation code.", ButtonType.OK);
+            a.showAndWait();
         }
     }
 
