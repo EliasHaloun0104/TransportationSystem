@@ -12,7 +12,7 @@ import java.util.Properties;
 public class DBConnection {
     // constructor needs a connection type argument
     public enum ConnectionType {
-        ADMIN, ACCOUNT_SETUP
+        ADMIN, LOGIN_PROCESS
     }
 
     private Connection c;
@@ -38,7 +38,7 @@ public class DBConnection {
 
         // depending on connection type create correct access to db
         // db credentials
-        if (connectionType == ConnectionType.ACCOUNT_SETUP) {
+        if (connectionType == ConnectionType.LOGIN_PROCESS) {
             url = prop.getProperty("database");
             user = prop.getProperty("userAccountSetup");
             password = prop.getProperty("passwordAccountSetup");
@@ -60,36 +60,25 @@ public class DBConnection {
     }
 
     public boolean usernameExists(String username) {
-        int count = 0;
+
         String query = "SELECT count(*) FROM Account WHERE userName = ?";
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    count = rs.getInt(1);
-
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Query failed.");
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        int count = dbValidation(query, username);
 
         return count > 0;
     }
 
     public boolean emailExists(String email) {
-        int count = 0;
-        String query = "SELECT count(*) FROM Account WHERE email = ?";
 
+        String query = "SELECT count(*) FROM Account WHERE email = ?";
+        int count = dbValidation(query, email);
+
+        return count > 0;
+    }
+
+    private int dbValidation(String query, String col) {
+        int count = 0;
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, email);
+            ps.setString(1, col);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count = rs.getInt(1);
@@ -104,8 +93,7 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
-        return count > 0;
+        return count;
     }
 
     public boolean addUser(String userName, String firstName, String lastName, String email, String phone, String confirmationCode) {

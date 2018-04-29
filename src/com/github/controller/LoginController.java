@@ -33,6 +33,7 @@ public class LoginController {
         buttonFunction.exitButtonOption();
     }
 
+    // LOGIN PANE
     @FXML
     private void loginButtonPressed() {
         if (validateLogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
@@ -46,7 +47,7 @@ public class LoginController {
     }
 
     private void loadAccount(String userName) {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         ArrayList<String> userDetails = db.getAccountDetails(userName);
         Account.getInstance().setAccountId(userDetails.get(0));
         Account.getInstance().setFirstName(userDetails.get(1));
@@ -57,7 +58,7 @@ public class LoginController {
     }
 
     private void login(String userName){
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         switch (db.getRole(userName)) {
             case "User":
                 try {
@@ -111,7 +112,7 @@ public class LoginController {
     }
 
     private boolean validateLogin(String account, String password) {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         return  db.validateLogin(account, password);
     }
 
@@ -138,7 +139,7 @@ public class LoginController {
             String confirmationCode = generateConfirmationCode();
             sendConfirmationCodeEmail(tfEmailReset.getText(), confirmationCode);
 
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
             db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
 
             // fade in pane to set new password
@@ -195,7 +196,7 @@ public class LoginController {
             Account.getInstance().setConfirmationCode(confirmationCode);
 
             // add user to db and send email with confirmation code to setup password
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
 
             // TODO: needs better handling
             // account should only be added if email is succesfully sent...
@@ -240,7 +241,7 @@ public class LoginController {
             newUserMsgLabel.setText("'Username' is a mandatory field");
             ok = false;
         } else {
-             DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+             DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
              if (db.usernameExists(tfUsernameReg.getText())) {
                  newUserMsgLabel.setText("'Username' is already taken.");
                  ok = false;
@@ -255,7 +256,7 @@ public class LoginController {
         // to check his email for confirmation code (avoiding fake emails...)
 
         // check db for existing email
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         return db.emailExists(email);
     }
 
@@ -309,7 +310,7 @@ public class LoginController {
 
         if (validateConfirmationCode(account, confirmationCode)) {
             System.out.println("ok");
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
             if (db.setupPassword(account, password)) {
                 passwordDetailsLabel.setText("Account is setup!");
             }
@@ -319,7 +320,7 @@ public class LoginController {
     }
 
     private boolean validateConfirmationCode(String account, String confirmationCode) {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         return db.validateConfirmationCode(account, confirmationCode);
     }
 

@@ -28,7 +28,7 @@ public class ViewProfile implements Initializable {
     public void editButtonPressed(){
 
 
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
 
 
         ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
@@ -95,7 +95,7 @@ public class ViewProfile implements Initializable {
             alert.showAndWait();
             status =false;
         }if (status){
-            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
             dbConnection.updateAccountDetails(firstNameTextField.getText(),lastNameTextField.getText(),phoneNbrTextField.getText(),
                 newPasswordTextField.getText());
         }
