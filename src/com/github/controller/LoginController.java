@@ -31,9 +31,7 @@ public class LoginController {
     public void initialize() {
         buttonFunction = new ButtonFunction(exitLoginButton);
         buttonFunction.exitButtonOption();
-
     }
-
 
     @FXML
     private void loginButtonPressed() {
@@ -113,7 +111,6 @@ public class LoginController {
     }
 
     private boolean validateLogin(String account, String password) {
-        // TODO: create new connection type
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ACCOUNT_SETUP);
         return  db.validateLogin(account, password);
     }
@@ -122,29 +119,13 @@ public class LoginController {
     @FXML
     private void handleNewUserButtonPressed() {
         newUserMsgLabel.setText("If you require an account with special access contact helpdesk");
-        registrationPane.setVisible(true);
-        registrationPane.setOpacity(0);
-        Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 0);
-        KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 1);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.setCycleCount(1);
-        timeline.play();
+        paneFadeTransition(loginPane, registrationPane);
     }
 
     // fades in forgot password pane and fades out login pane
     @FXML
     private void handleForgotPasswordButtonPressed() {
-        resetPasswordPane.setVisible(true);
-        resetPasswordPane.setOpacity(0);
-        Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 0);
-        KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 1);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.setCycleCount(1);
-        timeline.play();
+        paneFadeTransition(loginPane, resetPasswordPane);
     }
 
     // RESET PASSWORD PANE
@@ -161,23 +142,7 @@ public class LoginController {
             db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
 
             // fade in pane to set new password
-            passwordPane.setVisible(true);
-            passwordPane.setOpacity(0);
-            Timeline timeline = new Timeline();
-            KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
-            KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
-            KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-            timeline.getKeyFrames().add(kf);
-            timeline.setCycleCount(1);
-            timeline.play();
-            new Thread(() -> {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                resetPasswordPane.setVisible(false);
-            }).start();
+            paneFadeTransition(resetPasswordPane, passwordPane);
 
         } else {
             invalidEmail();
@@ -203,21 +168,7 @@ public class LoginController {
     // fade out reset password and fade in login pane
     @FXML
     private void handleExitResetPasswordButton() {
-        Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
-        KeyValue kv2 = new KeyValue(resetPasswordPane.opacityProperty(), 0);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.setCycleCount(1);
-        timeline.play();
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            resetPasswordPane.setVisible(false);
-        }).start();
+        paneFadeTransition(resetPasswordPane, loginPane);
         resetPasswordMsgLabel.setText("");
     }
 
@@ -253,23 +204,7 @@ public class LoginController {
 
                 // fade out registration pane and fade in password pane
                 passwordDetailsLabel.setText("Check your email account for the confirmation code.");
-                passwordPane.setVisible(true);
-                passwordPane.setOpacity(0);
-                Timeline timeline = new Timeline();
-                KeyValue kv1 = new KeyValue(passwordPane.opacityProperty(), 1);
-                KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 0);
-                KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-                timeline.getKeyFrames().add(kf);
-                timeline.setCycleCount(1);
-                timeline.play();
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    registrationPane.setVisible(false);
-                }).start();
+                paneFadeTransition(registrationPane, passwordPane);
             }
         }
     }
@@ -359,21 +294,7 @@ public class LoginController {
     // fades in login pane and fades out registration pane
     @FXML
     private void handleExitRegistrationButton() {
-        Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
-        KeyValue kv2 = new KeyValue(registrationPane.opacityProperty(), 0);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
-        timeline.getKeyFrames().add(kf);
-        timeline.setCycleCount(1);
-        timeline.play();
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            registrationPane.setVisible(false);
-        }).start();
+        paneFadeTransition(registrationPane, loginPane);
     }
 
     // PASSWORD PANE
@@ -405,20 +326,31 @@ public class LoginController {
     // fades in login pane and fades out password pane
     @FXML
     private void handleExitPasswordPaneButton() {
+        paneFadeTransition(passwordPane, loginPane);
+    }
+
+    // fading pane
+    private void paneFadeTransition(Pane fadeOutPane, Pane fadeInPane) {
+        if (!fadeInPane.equals(loginPane)) {
+            fadeInPane.setVisible(true);
+            fadeInPane.setOpacity(0);
+        }
         Timeline timeline = new Timeline();
-        KeyValue kv1 = new KeyValue(loginPane.opacityProperty(), 1);
-        KeyValue kv2 = new KeyValue(passwordPane.opacityProperty(), 0);
+        KeyValue kv1 = new KeyValue(fadeInPane.opacityProperty(), 1);
+        KeyValue kv2 = new KeyValue(fadeOutPane.opacityProperty(), 0);
         KeyFrame kf = new KeyFrame(Duration.millis(1000), kv1, kv2);
         timeline.getKeyFrames().add(kf);
         timeline.setCycleCount(1);
         timeline.play();
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            passwordPane.setVisible(false);
-        }).start();
+        if (!fadeOutPane.equals(loginPane)) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                fadeOutPane.setVisible(false);
+            }).start();
+        }
     }
 }
