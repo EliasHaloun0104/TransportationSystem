@@ -22,9 +22,9 @@ public class Train {
         exitPosition = new Vector2D(x,y);
 
         if(x > xEnd)
-            variable = new Vector2D(-1f,0.5f);
+            variable = new Vector2D(-1,0.5);
         else
-            variable = new Vector2D(2f,-1f);
+            variable = new Vector2D(2,-1);
         stopTimer = 0;
         isStop = false;
 

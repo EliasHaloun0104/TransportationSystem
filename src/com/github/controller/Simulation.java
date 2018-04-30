@@ -59,7 +59,7 @@ public class Simulation {
         vehicleSimulation = new VehicleSimulation();
 
 
-        train_north = new Train(970,-100,-100, -100);
+        train_north = new Train(470,300,-100, -100);
         train_south = new Train(100,465,1170, -100);
         clock = new Clock();
         mouse = new Vector2D(0,0);
@@ -74,9 +74,9 @@ public class Simulation {
         gc_Region_0.drawImage(region,0,0, 960,640);
 
 
-        canvas_City_1.setOnMouseMoved(mouseEvent -> mouse.set((float) mouseEvent.getX(), (float) mouseEvent.getY()));
-        canvas_Region_1.setOnMouseMoved(mouseEvent -> mouse.set((float) mouseEvent.getX(), (float) mouseEvent.getY()));
-        canvas_Station_1.setOnMouseMoved(mouseEvent -> mouse.set((float) mouseEvent.getX(), (float) mouseEvent.getY()));
+        canvas_City_1.setOnMouseMoved(mouseEvent -> mouse.set( mouseEvent.getX(), mouseEvent.getY()));
+        canvas_Region_1.setOnMouseMoved(mouseEvent -> mouse.set( mouseEvent.getX(), mouseEvent.getY()));
+        canvas_Station_1.setOnMouseMoved(mouseEvent -> mouse.set( mouseEvent.getX(), mouseEvent.getY()));
 
         //render
         timer = new AnimationTimer() {

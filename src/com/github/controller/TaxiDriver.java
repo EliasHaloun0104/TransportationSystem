@@ -4,7 +4,7 @@ import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.util.Duration;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,13 +15,9 @@ public class TaxiDriver implements Initializable {
 
     @FXML private ComboBox delay;
     @FXML private TextArea description;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//
-//       if (viewprofile.isSelected()){
-//        viewProfile.fetchValues(userNameTextField,firstNameTextField,lastNameTextField,emailTextField,phoneNbrTextField);
-//        }
-
         buttonFunction = new ButtonFunction(signoutButton);
         buttonFunction.signOutOption();
 
@@ -31,5 +27,6 @@ public class TaxiDriver implements Initializable {
     public void handleDescription(){
 
     }
+
 
 }

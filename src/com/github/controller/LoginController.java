@@ -75,21 +75,10 @@ public class LoginController {
                 }
                 break;
             case "Bus Driver":
-                try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
-                }catch (Exception e){
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
-                }
-                break;
             case "City Bus Driver":
-                try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getCitybusScrn(),StageManager.getInstance().getLogin());
-                }catch (Exception e){
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
-                }
             case "Train Driver":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getTrainScrn(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
