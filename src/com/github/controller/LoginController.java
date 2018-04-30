@@ -62,14 +62,14 @@ public class LoginController {
         switch (db.getRole(userName)) {
             case "User":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getUserGUI(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getUserScreen(), StageManager.getInstance().getLogin());
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "Admin":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScrn(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScreen(), StageManager.getInstance().getLogin());
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -78,14 +78,14 @@ public class LoginController {
             case "City Bus Driver":
             case "Train Driver":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getBusScrn(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getDriverScreen(), StageManager.getInstance().getLogin());
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "Taxi Driver":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScrn(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScreen(), StageManager.getInstance().getLogin());
 
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
