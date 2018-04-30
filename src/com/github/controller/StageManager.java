@@ -33,14 +33,14 @@ public class StageManager {
 
     private StageManager() {
         try {
-            developerMenu = createStage("developerMenu.fxml", "Developer Menu");
-            simulation = createStage("simulation.fxml", "stage_2");
-            userScreen = createStage("userScreen.fxml", "userScreen");
-            splashScreen = createStage("splashScreen.fxml","");
-            adminScreen = createStage("adminScreen.fxml","");
-            taxiScreen = createStage("taxiDriver.fxml","");
-            driverScreen = createStage("driver.fxml","");
-            login = createStage("login.fxml","");
+            developerMenu = createStage("developerMenu.fxml");
+            simulation = createStage("simulation.fxml");
+            userScreen = createStage("userScreen.fxml");
+            splashScreen = createStage("splashScreen.fxml");
+            adminScreen = createStage("adminScreen.fxml");
+            taxiScreen = createStage("taxiDriver.fxml");
+            driverScreen = createStage("driver.fxml");
+            login = createStage("login.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,11 +78,9 @@ public class StageManager {
         return userScreen;
     }
 
-    public Stage createStage(String stageName, String title) throws IOException {
-
+    public Stage createStage(String stageName) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
         Stage stage = new Stage();
-        stage.setTitle(title);
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.TRANSPARENT);
         return stage;
@@ -95,11 +93,6 @@ public class StageManager {
         adminScreen.hide();
         taxiScreen.hide();
         driverScreen.hide();
-    }
-
-    public void showStage1() {
-        developerMenu.show();
-        simulation.hide();
     }
 
 }

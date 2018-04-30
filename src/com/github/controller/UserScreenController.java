@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class UserGUI_Controller implements Initializable {
+public class UserScreenController implements Initializable {
     @FXML
     ComboBox fromCombo;
     @FXML

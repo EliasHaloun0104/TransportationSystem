@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BusDriver implements Initializable {
+public class Driver implements Initializable {
     @FXML
     private Button signoutButton;
     private ButtonFunction buttonFunction;
