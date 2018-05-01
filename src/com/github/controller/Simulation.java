@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import static javafx.scene.paint.Color.BLACK;
 
 public class Simulation {
+    @FXML private Button signOutButton;
     @FXML private Canvas canvas_Station_0, canvas_Station_1;
     @FXML private Canvas canvas_City_0, canvas_City_1;
     @FXML private Canvas canvas_Region_0, canvas_Region_1;
@@ -37,7 +39,8 @@ public class Simulation {
     private Vector2D mouse;
 
     public void initialize() {
-
+        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
+        buttonFunction.signOutOption();
 
         gc_Station_0 = canvas_Station_0.getGraphicsContext2D();
         gc_Station_1 = canvas_Station_1.getGraphicsContext2D();

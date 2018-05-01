@@ -3,37 +3,29 @@ package com.github.controller;
 import com.github.model.DBConnection;
 import com.github.model.Destinations;
 import com.github.model.RouteCalculate;
-import com.github.model.ScheduledRoute;
-import com.sun.source.doctree.StartElementTree;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class UserScreenController implements Initializable {
-    @FXML
-    ComboBox fromCombo;
-    @FXML
-    ComboBox toCombo;
-    @FXML
-    Label cost;
-    @FXML
-    TextField deposit;
-    @FXML
-    Button processBtn;
-    @FXML
-    VBox searchResult;
+    @FXML private Button signOutButton;
+    @FXML ComboBox fromCombo;
+    @FXML ComboBox toCombo;
+    @FXML Label cost;
+    @FXML TextField deposit;
+    @FXML Button processBtn;
+    @FXML VBox searchResult;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
+        buttonFunction.exitButtonOption();
        fromCombo.getItems().addAll(Destinations.getInstance().getStationsName());
         toCombo.getItems().addAll(Destinations.getInstance().getStationsName());
 

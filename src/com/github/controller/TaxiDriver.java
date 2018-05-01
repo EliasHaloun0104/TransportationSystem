@@ -1,6 +1,5 @@
 package com.github.controller;
 
-import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -10,7 +9,7 @@ import java.util.ResourceBundle;
 
 public class TaxiDriver implements Initializable {
 
-    @FXML private Button signoutButton;
+    @FXML private Button signOutButton;
     private ButtonFunction buttonFunction;
 
     @FXML private ComboBox delay;
@@ -18,7 +17,7 @@ public class TaxiDriver implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buttonFunction = new ButtonFunction(signoutButton);
+        buttonFunction = new ButtonFunction(signOutButton);
         buttonFunction.signOutOption();
 
         //delay

@@ -8,16 +8,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Driver implements Initializable {
-    @FXML
-    private Button signoutButton;
-    private ButtonFunction buttonFunction;
+    @FXML private Button signOutButton;
+
 
     @FXML private ComboBox delay;
     @FXML private TextArea description;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buttonFunction = new ButtonFunction(signoutButton);
+        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
         buttonFunction.signOutOption();
 
         //delay

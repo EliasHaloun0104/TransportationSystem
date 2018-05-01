@@ -33,5 +33,5 @@
         <fx:include source="viewProfile.fxml"></fx:include>
      </tabs>
    </TabPane>
-   <Button id="exitLoginButton" fx:id="signoutButton" layoutX="522.0" layoutY="1.5" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
+   <Button id="exitLoginButton" fx:id="signOutButton" layoutX="522.0" layoutY="1.5" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
 </AnchorPane>

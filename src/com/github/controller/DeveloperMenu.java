@@ -1,9 +1,19 @@
 package com.github.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
-public class DeveloperMenu {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class DeveloperMenu implements Initializable {
+    @FXML Button signOutButton;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
+        buttonFunction.signOutOption();
+    }
 
     @FXML private void simulation() {
         StageManager.getInstance().switchStage(StageManager.getInstance().getSimulation(), StageManager.getInstance().getDeveloperMenu());
@@ -27,9 +37,6 @@ public class DeveloperMenu {
     @FXML private void adminLoginScreen(){
         StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScreen(), StageManager.getInstance().getDeveloperMenu());
     }
-
-
-
 
 
 

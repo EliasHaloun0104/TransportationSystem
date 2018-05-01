@@ -1,9 +1,7 @@
 package com.github.model;
 
-import com.sun.mail.imap.protocol.ID;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class Destinations {

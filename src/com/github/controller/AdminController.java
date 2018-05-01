@@ -4,13 +4,9 @@ package com.github.controller;
 import com.github.model.ComplainPerson;
 import com.github.model.DBConnection;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -22,8 +18,7 @@ public class AdminController {
     @FXML
     private Tab complainsTab;
     @FXML
-    private Button signoutButton, compensateButton, ApologyButton;
-    private ButtonFunction buttonFunction;
+    private Button signOutButton, compensateButton, ApologyButton;
     @FXML
     private VBox textFieldsWrapper;
     @FXML
@@ -37,7 +32,7 @@ public class AdminController {
 
 
     public void initialize() {
-        buttonFunction = new ButtonFunction(signoutButton);
+        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
         buttonFunction.signOutOption();
 //        ObservableList<String> products = FXCollections.observableArrayList();
 //        products.add(new Product("Laptop", 859.00, 20));
