@@ -9,8 +9,12 @@
 }
 
 #loginPane, #registrationPane, #passwordPane, #resetPasswordPane  {
-    -fx-background-color: #0FA1BA;
-    -fx-effect: dropshadow(gaussian, #0FA1BA, 10, 0, 0, 0);
+    /*-fx-background-color: #0FA1BA;
+    -fx-effect: dropshadow(gaussian, #0FA1BA, 10, 0, 0, 0);*/
+}
+
+#westros{
+   -fx-background-image: url('../img/LoadingBackground.png');
 }
 
 

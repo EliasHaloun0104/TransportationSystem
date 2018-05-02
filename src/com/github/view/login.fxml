@@ -4,24 +4,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.LoginController">
-   <Pane id="loginPane" fx:id="loginPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0">
-      <Button id="exitLoginButton" fx:id="exitLoginButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false"  prefHeight="24.0" prefWidth="24.0" />
+<AnchorPane id="westros" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" style="-fx-background-opacity: 0.2;" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.LoginController">
+   <Pane id="loginPane" fx:id="loginPane" layoutX="343.0" layoutY="76.0" prefHeight="488.0" prefWidth="336.0">
+      <Button id="exitLoginButton" fx:id="exitLoginButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
       <VBox layoutX="59.0" layoutY="83.0" prefHeight="323.0" prefWidth="219.0" spacing="10.0">
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="219.0">
-            <children>
-               <ImageView fx:id="ivLogo" fitHeight="93.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../../resources/img/logo.png" />
-                  </image></ImageView>
-            </children>
          </HBox>
          <TextField id="usernameField" fx:id="tfAccountLogin" prefHeight="40.0" prefWidth="219.0" promptText="Username" />
          <PasswordField id="passwordField" fx:id="pfPasswordLogin" prefHeight="40.0" prefWidth="219.0" promptText="Password" />
@@ -38,7 +30,7 @@
          </VBox>
       </VBox>
    </Pane>
-   <Pane id="registrationPane" fx:id="registrationPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0" visible="false">
+   <Pane id="registrationPane" fx:id="registrationPane" layoutX="343.0" layoutY="76.0" prefHeight="488.0" prefWidth="336.0" visible="false">
       <Button id="exitRegistrationButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitRegistrationButton" prefHeight="24.0" prefWidth="24.0" />
       <VBox layoutX="59.0" layoutY="65.0" prefHeight="374.0" prefWidth="219.0" spacing="10.0">
          <HBox alignment="CENTER" prefHeight="54.0" prefWidth="219.0">
@@ -56,7 +48,7 @@
          </HBox>
       </VBox>
    </Pane>
-    <Pane id="passwordPane" fx:id="passwordPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0" visible="false">
+    <Pane id="passwordPane" fx:id="passwordPane" layoutX="343.0" layoutY="76.0" prefHeight="488.0" prefWidth="336.0" visible="false">
         <Button id="exitRegistrationButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitPasswordPaneButton" prefHeight="24.0" prefWidth="24.0" />
         <VBox layoutX="59.0" layoutY="65.0" prefHeight="383.0" prefWidth="219.0" spacing="10.0">
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="219.0">
@@ -72,7 +64,7 @@
             </HBox>
         </VBox>
     </Pane>
-   <Pane id="resetPasswordPane" fx:id="resetPasswordPane" layoutX="7.0" layoutY="6.0" prefHeight="488.0" prefWidth="336.0" visible="false">
+   <Pane id="resetPasswordPane" fx:id="resetPasswordPane" layoutX="343.0" layoutY="76.0" prefHeight="488.0" prefWidth="336.0" visible="false">
       <Button id="exitResetButton" layoutX="298.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleExitResetPasswordButton" prefHeight="24.0" prefWidth="24.0" />
       <VBox layoutX="59.0" layoutY="59.0" prefHeight="374.0" prefWidth="219.0" spacing="10.0">
          <HBox alignment="CENTER" prefHeight="117.0" prefWidth="219.0">

@@ -11,22 +11,22 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SplashScreenController implements Initializable{
-
     @FXML public static ImageView image;
     @FXML private AnchorPane rootPane;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(5000));
         fadeTransition.setFromValue(1);
-        fadeTransition.setToValue(0);
+        fadeTransition.setToValue(0.6);
         fadeTransition.setNode(rootPane);
-//        fadeTransition.setOnFinished(event ->
-//                StageManager.getInstance().showLogin());
+        fadeTransition.setOnFinished(event -> handleAfterFade());
         fadeTransition.play();
-
+    }
+    private void handleAfterFade(){
+        StageManager.getInstance().getLogin().show();
+        StageManager.getInstance().getSplashScreen().hide();
     }
 
 
