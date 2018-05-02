@@ -21,8 +21,8 @@ public class ViewProfile implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        editButton.setOnAction(event -> editButtonPressed());
-        saveButton.setOnAction(event -> saveButtonPressed());
+//        editButton.setOnAction(event -> editButtonPressed());
+//        saveButton.setOnAction(event -> saveButtonPressed());
         viewProfile();
     }
     public void editButtonPressed(){
@@ -53,6 +53,8 @@ public class ViewProfile implements Initializable {
                 lastNameTextField.setText(Account.getInstance().getLastName());
                 emailTextField.setText(Account.getInstance().getEmail());
                 phoneNbrTextField.setText(Account.getInstance().getPhone());
+                roleTextField.setText(Account.getInstance().getRole());
+                createdDateTextField.setText(Account.getInstance().getCreationDate());
             }
         });
     }
@@ -95,9 +97,16 @@ public class ViewProfile implements Initializable {
             alert.showAndWait();
             status =false;
         }if (status){
+            ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
+            for (TextField t: textFields) {
+                t.setDisable(true);
+                t.setEditable(false);
+            }
+
             DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
             dbConnection.updateAccountDetails(firstNameTextField.getText(),lastNameTextField.getText(),phoneNbrTextField.getText(),
                 newPasswordTextField.getText());
+
         }
 
     }

@@ -24,6 +24,8 @@ public class Account implements Printable {
     private String password;
     private String role;
     private String balance;
+    private String creationDate;
+
 
     public static Account getInstance() {
         return ourInstance;
@@ -102,6 +104,14 @@ public class Account implements Printable {
 
     public void setBalance(String balance) {
         this.balance = balance;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override

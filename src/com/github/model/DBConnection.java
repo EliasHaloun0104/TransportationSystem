@@ -243,14 +243,14 @@ public class DBConnection {
 
     public ArrayList<String> getAccountDetails(String userName) {
         ArrayList<String> userDetails = new ArrayList<>();
-        String query = "Select userName, firstName, lastName, email, phoneNumber, balance from Account where userName = ?";
+        String query = "Select userName, firstName, lastName, email, phoneNumber, balance, role, creationDate from Account where userName = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    for (int i = 1; i <= 6; i++) {
+                    for (int i = 1; i <= 8; i++) {
                         userDetails.add(rs.getString(i));
                     }
                 }

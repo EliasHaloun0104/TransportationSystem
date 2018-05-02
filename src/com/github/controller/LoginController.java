@@ -56,6 +56,8 @@ public class LoginController {
         Account.getInstance().setEmail(userDetails.get(3));
         Account.getInstance().setPhone(userDetails.get(4));
         Account.getInstance().setBalance(userDetails.get(5));
+        Account.getInstance().setRole(userDetails.get(6));
+        Account.getInstance().setCreationDate(userDetails.get(7));
     }
 
     private void login(String userName){
