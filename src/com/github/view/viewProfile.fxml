@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<Tab fx:id="viewProfileTab" style="-fx-background-radius: 20;" text="View Profile" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.ViewProfile">
+<Tab fx:id="viewProfileTab" style="-fx-background-radius: 20;" text="View Profile" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.ViewProfile">
         <content>
             <AnchorPane minHeight="0.0" minWidth="0.0">
                 <children>
@@ -112,9 +112,9 @@
                             </TextField>
                   <HBox alignment="CENTER">
                      <children>
-                                  <Button fx:id="editButton" mnemonicParsing="false" prefWidth="80.0" style="-fx-background-radius: 20;" text="Edit" />
-                                  <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="80.0" style="-fx-background-radius: 20;" text="Save" />
-                        <Button fx:id="exportButton" onAction="#handleExportButtonPressed" mnemonicParsing="false" prefWidth="80.0" style="-fx-background-radius: 20;" text="Export" />
+                                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButtonPressed" prefWidth="80.0" style="-fx-background-radius: 20;" text="Edit" />
+                                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSaveButtonPressed" prefWidth="80.0" style="-fx-background-radius: 20;" text="Save" />
+                        <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExportButtonPressed" prefWidth="80.0" style="-fx-background-radius: 20;" text="Export" />
                      </children>
                      <padding>
                         <Insets top="10.0" />
