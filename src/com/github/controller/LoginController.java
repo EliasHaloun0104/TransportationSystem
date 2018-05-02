@@ -2,6 +2,7 @@ package com.github.controller;
 
 import com.github.model.Account;
 import com.github.model.DBConnection;
+import com.github.model.SMS_Manager;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -293,6 +294,7 @@ public class LoginController {
             message.setSubject("Westeros Traffic: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
             Transport.send(message);
+            SMS_Manager.sendSMS("Confirmation code: " + confirmationCode);
             emailSent = true;
         } catch (MessagingException e) {
             e.printStackTrace();
