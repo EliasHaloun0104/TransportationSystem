@@ -5,6 +5,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -514,6 +515,40 @@ public class DBConnection {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void addEmployee(String userName,String firstName,String lastName,String email,
+                            String phoneNbr,String role, String password){
+        String query = "INSERT INTO Account (userName, firstName, lastName, email, phoneNumber, password, role,confirmationCode ) VALUES (?,?,?,?,?,?,?,?)";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            SecureRandom random = new SecureRandom();
+            String confirmationCode = "";
+            for (int i = 0; i < 8; i++) {
+                confirmationCode += random.nextInt(9);
+            }
+            ps.setString(1, userName);
+            ps.setString(2, firstName);
+            ps.setString(3, lastName);
+            ps.setString(4, email);
+            ps.setString(5, phoneNbr);
+            ps.setString(6, password);
+            ps.setString(7, role);
+            ps.setString(8,confirmationCode);
+
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
         } finally {
             try {
                 c.close();
