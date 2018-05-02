@@ -1,6 +1,8 @@
 package com.github.model;
 
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 
@@ -44,6 +46,7 @@ public class Destinations {
 
         }
         return stationName;
+
     }
 
 
@@ -53,7 +56,6 @@ public class Destinations {
 
 
     private Destinations() {
-
         DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         stations = dbConnection.getStations();
         dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);

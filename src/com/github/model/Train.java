@@ -7,46 +7,41 @@ import javafx.scene.paint.Color;
 public class Train {
     private Image image;
     private Vector2D startPosition;
+
+
     private Vector2D position;
-    private Vector2D exitPosition;
     private Vector2D variable;
     private int stopTimer;
     private boolean isStop;
 
 
 
-    public Train(float x, float y, float xEnd, float yEnd) {
-        image = new Image("resources/img/wagon.png");
+    public Train(float x, float y, float xDirection, float yDirection, String imagePath) {
+        image = new Image(imagePath);
+        if(y==0){
+            y -= image.getHeight();
+        }
+        if(x==0){
+            x -= image.getWidth();
+        }
         startPosition = new Vector2D(x,y);
         position = new Vector2D(x,y);
-        exitPosition = new Vector2D(x,y);
-
-        if(x > xEnd)
-            variable = new Vector2D(-1,0.5);
-        else
-            variable = new Vector2D(2,-1);
+        variable = new Vector2D(xDirection,yDirection);
         stopTimer = 0;
         isStop = false;
-
-
-
     }
 
     private void update(){
         if(!isStop){
             position.add(variable);
             //Stop for new Passengers
-            if(position.getX() <22.5*20 && position.getX()> 22.44*20){
+            if(position.getX() <410 && position.getX()> 408.8f){
                 isStop = true;
                 stopTimer = 300;
             }
-            //Continue to path
-            if(position.getX() < 9.5*20 && position.getX() > 8.5*20){
-                variable.set(-1,0.5f);
-            }
 
             //Back to beginning
-            if(position.getX() < -200){
+            if(position.getX() < -200 && variable.getX()<0 || position.getX() > 1200 && variable.getX()>0){
                 position.set(startPosition.getX(),startPosition.getY());
             }
 
@@ -61,7 +56,7 @@ public class Train {
 
     }
     public void draw(GraphicsContext gc){
-        gc.drawImage(image,position.getX(),position.getY(),80,64);
+        gc.drawImage(image,position.getX(),position.getY());
         update();
     }
 }

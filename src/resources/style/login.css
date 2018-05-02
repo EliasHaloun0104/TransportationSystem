@@ -54,3 +54,13 @@
 #specialAccountDetails, #passwordDetailsLabel {
     -fx-font-size: 10;
 }
+
+#StationAnchorPane{
+    -fx-background-image: url('../img/StationMap.png');
+}
+#CityAnchorPane{
+    -fx-background-image: url('../img/CityMap.png');
+}
+#RegionAnchorPane{
+    -fx-background-image: url('../img/TrainMap.png');
+}
