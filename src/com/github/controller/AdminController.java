@@ -34,14 +34,6 @@ public class AdminController {
     public void initialize() {
         ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
         buttonFunction.signOutOption();
-//        ObservableList<String> products = FXCollections.observableArrayList();
-//        products.add(new Product("Laptop", 859.00, 20));
-//        products.add(new Product("Bouncy Ball", 2.49, 198));
-//        products.add(new Product("Toilet", 99.00, 74));
-//        products.add(new Product("The Notebook DVD", 19.99, 12));
-//        products.add(new Product("Corn", 1.49, 856));
-        
-
 
     }
 

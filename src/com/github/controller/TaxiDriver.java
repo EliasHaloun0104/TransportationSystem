@@ -14,6 +14,8 @@ public class TaxiDriver implements Initializable {
 
     @FXML private ComboBox delay;
     @FXML private TextArea description;
+    @FXML private CheckBox Available;
+    @FXML private CheckBox UnAvailable;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
