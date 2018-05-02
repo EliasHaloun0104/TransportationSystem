@@ -28,7 +28,7 @@ public class AdminController {
     @FXML
     private TextArea complainMessagetextArea, answerTextArea;
     private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
-    @FXML private TableView<String> tableView = new TableView<>();;
+    @FXML private TableView<String> tableView = new TableView<>();
 
 
     public void initialize() {
@@ -108,6 +108,11 @@ public class AdminController {
         complainsTabSelected();
 
         answerTextArea.setText("");
+
+    }
+    @FXML
+    private void createButtonPressed(){
+        
 
     }
 
