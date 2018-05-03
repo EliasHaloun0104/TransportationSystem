@@ -41,13 +41,14 @@ public class AdminController {
 
 
     @FXML
-    private void handleSignoutButtonPressed() {
+    private void handleSignOutButtonPressed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Sign out!");
         alert.setHeaderText("Do you wish to sign out");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            StageManager.getInstance().showLogin();
+            StageManager.getInstance().getLogin().show();
+            StageManager.getInstance().getAdminScreen().hide();
             List<Node> allNodes = textFieldsWrapper.getChildren();
             for (Node n : allNodes) {
                 if (n instanceof TextField) {

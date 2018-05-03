@@ -1,5 +1,6 @@
 package com.github.controller;
 
+import com.github.model.SMS_Manager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ public class StageManager {
     private Stage driverScreen;
     private Stage userScreen;
 
+
     public static StageManager getInstance() {
         return stageManager;
     }
@@ -29,70 +31,74 @@ public class StageManager {
         toHide.hide();
     }
 
-
-
-    private StageManager() {
-        try {
-            developerMenu = createStage("developerMenu.fxml");
-            simulation = createStage("simulation.fxml");
-            userScreen = createStage("userScreen.fxml");
-            splashScreen = createStage("splashScreen.fxml");
-            adminScreen = createStage("adminScreen.fxml");
-            taxiScreen = createStage("taxiDriver.fxml");
-            driverScreen = createStage("driver.fxml");
-            login = createStage("login.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Stage getLogin() {
+        if(login == null){
+            login = createStage("login.fxml");
+        }
         return login;
     }
 
     public Stage getDeveloperMenu() {
+        if(developerMenu == null){
+            developerMenu = createStage("developerMenu.fxml");
+        }
         return developerMenu;
     }
 
     public Stage getSimulation() {
+        if(simulation == null){
+            simulation = createStage("simulation.fxml");
+        }
         return simulation;
     }
 
     public Stage getSplashScreen() {
+        if(splashScreen == null){
+            splashScreen = createStage("splashScreen.fxml");
+        }
         return splashScreen;
     }
 
     public Stage getAdminScreen() {
+        if(adminScreen == null){
+            adminScreen = createStage("adminScreen.fxml");
+        }
         return adminScreen;
     }
 
     public Stage getTaxiScreen() {
+        if(taxiScreen == null){
+            taxiScreen = createStage("taxiDriver.fxml");
+        }
         return taxiScreen;
     }
 
     public Stage getDriverScreen() {
+        if(driverScreen == null){
+            driverScreen = createStage("driver.fxml");
+        }
+
         return driverScreen;
     }
 
     public Stage getUserScreen() {
+        if(userScreen == null){
+            userScreen = createStage("userScreen.fxml");
+        }
         return userScreen;
     }
 
-    public Stage createStage(String stageName) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
+    public Stage createStage(String stageName) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/com/github/view/" + stageName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.TRANSPARENT);
         return stage;
-    }
-
-
-    public void showLogin() {
-        login.show();
-        splashScreen.hide();
-        adminScreen.hide();
-        taxiScreen.hide();
-        driverScreen.hide();
     }
 
 }

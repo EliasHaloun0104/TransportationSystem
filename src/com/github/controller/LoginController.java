@@ -30,7 +30,7 @@ public class LoginController {
     private ExtendedButton extendedButton;
 
     public void initialize() {
-        ExtendedButton.setFunction(exitLoginButton, ExtendedButton.Type.TO_LOGIN);
+        ExtendedButton.setFunction(exitLoginButton, ExtendedButton.Type.EXIT_PLATFORM);
     }
 
     // LOGIN PANE
