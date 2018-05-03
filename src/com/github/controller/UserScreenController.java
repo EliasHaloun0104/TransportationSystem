@@ -24,9 +24,8 @@ public class UserScreenController implements Initializable {
     @FXML VBox searchResult;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
-        buttonFunction.exitButtonOption();
-       fromCombo.getItems().addAll(Destinations.getInstance().getStationsName());
+        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
+        fromCombo.getItems().addAll(Destinations.getInstance().getStationsName());
         toCombo.getItems().addAll(Destinations.getInstance().getStationsName());
 
         fromCombo.valueProperty().addListener((observableValue, oldString, newString) -> {

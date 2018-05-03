@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 public class TaxiDriver implements Initializable {
 
     @FXML private Button signOutButton;
-    private ButtonFunction buttonFunction;
+    private ExtendedButton extendedButton;
 
     @FXML private ComboBox delay;
     @FXML private TextArea description;
@@ -19,8 +19,7 @@ public class TaxiDriver implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buttonFunction = new ButtonFunction(signOutButton);
-        buttonFunction.signOutOption();
+        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
 
         //delay
         delay.getItems().addAll("2min","4min","6min","8min","10min","12min","14min");

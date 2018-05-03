@@ -11,8 +11,7 @@ public class DeveloperMenu implements Initializable {
     @FXML Button signOutButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
-        buttonFunction.signOutOption();
+        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.EXIT_PLATFORM);
     }
 
     @FXML private void simulation() {

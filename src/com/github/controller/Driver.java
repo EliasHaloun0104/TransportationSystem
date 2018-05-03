@@ -16,8 +16,7 @@ public class Driver implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
-        buttonFunction.signOutOption();
+        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
 
         //delay
         delay.getItems().addAll("2min","4min","6min","8min","10min","12min","14min");

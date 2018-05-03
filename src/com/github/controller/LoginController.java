@@ -27,11 +27,10 @@ public class LoginController {
     @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
-    private ButtonFunction buttonFunction;
+    private ExtendedButton extendedButton;
 
     public void initialize() {
-        buttonFunction = new ButtonFunction(exitLoginButton);
-        buttonFunction.exitButtonOption();
+        ExtendedButton.setFunction(exitLoginButton, ExtendedButton.Type.TO_LOGIN);
     }
 
     // LOGIN PANE

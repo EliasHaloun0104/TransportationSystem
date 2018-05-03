@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +36,7 @@ public class AdminController {
 
 
     public void initialize() {
-        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
-        buttonFunction.signOutOption();
-
+        ExtendedButton.setFunction(signOutButton,ExtendedButton.Type.TO_LOGIN);
     }
 
 

@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 
 public class Simulation {
     @FXML private Button signOutButton;
@@ -29,8 +28,7 @@ public class Simulation {
     private Vector2D mouse;
 
     public void initialize() {
-        ButtonFunction buttonFunction = new ButtonFunction(signOutButton);
-        buttonFunction.signOutOption();
+        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.EXIT_PLATFORM);
 
         gc_Station_1 = canvas_Station_1.getGraphicsContext2D();
         gc_City_1 = canvas_City_1.getGraphicsContext2D();
