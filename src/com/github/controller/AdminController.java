@@ -10,11 +10,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class AdminController {
 
+
+    @FXML
+    private TextField userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,
+            roleTextField,passwordTextField,confirmPasswordTextField, vehicleNumberTextField;
     @FXML
     private Tab complainsTab;
     @FXML
@@ -28,7 +33,7 @@ public class AdminController {
     @FXML
     private TextArea complainMessagetextArea, answerTextArea;
     private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
-    @FXML private TableView<String> tableView = new TableView<>();;
+    @FXML private TableView<String> tableView = new TableView<>();
 
 
     public void initialize() {
@@ -108,6 +113,45 @@ public class AdminController {
         complainsTabSelected();
 
         answerTextArea.setText("");
+
+    }
+    @FXML
+    private void createButtonPressed(){
+        boolean status = true;
+
+            if (userNameTextField.getText().trim().isEmpty()||firstNameTextField.getText().trim().isEmpty()||
+                    lastNameTextField.getText().trim().isEmpty()|| phoneNbrTextField.getText().trim().isEmpty()||
+                    passwordTextField.getText().trim().isEmpty() ||confirmPasswordTextField.getText().trim().isEmpty()||
+                    roleTextField.getText().trim().isEmpty()||emailTextField.getText().trim().isEmpty()||
+                    vehicleNumberTextField.getText().trim().isEmpty()){
+                Alert a = new Alert(Alert.AlertType.WARNING, "The fields are empty.\n" +
+                        "Please make sure you fill the fields.", ButtonType.OK);
+                a.showAndWait();
+                status = false;
+            }
+        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Password doesn't match.\n" +
+                    "Please try again.", ButtonType.OK);
+            passwordTextField.setText("");
+            confirmPasswordTextField.setText("");
+            a.showAndWait();
+            status = false;
+        }
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        if (db.usernameExists(userNameTextField.getText())) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
+                    "Choose a different one.", ButtonType.OK);
+            a.showAndWait();
+            status = false;
+        }
+        if (status){
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            dbConnection.addEmployee(userNameTextField.getText(),firstNameTextField.getText(),lastNameTextField.getText(),
+                    emailTextField.getText(),phoneNbrTextField.getText(),
+                    roleTextField.getText(),passwordTextField.getText());
+
+        }
+
 
     }
 
