@@ -2,6 +2,9 @@
     font-family: Ubuntu;
     src: url('/resources/fonts/Ubuntu-Regular.ttf');
 }
+@font-face {
+    src: url('/resources/fonts/GameOfThrones.ttf');
+}
 
 #root {
     -fx-background-color: transparent;
@@ -28,6 +31,7 @@
 #newUserLabel, #resetLabel {
     -fx-font-size: 24;
     -fx-text-fill: #373738;
+    -fx-font-family: "Game of Thrones";
 }
 
 #exitLoginButton, #exitRegistrationButton, #exitResetButton {
@@ -37,8 +41,9 @@
 }
 
 #loginButton, #nextButton, #finishButton {
-    -fx-background-color: #FBB637;
-    -fx-text-fill: #373738;
+    -fx-background-color: #800000ff;
+    -fx-text-fill: white;
+    -fx-font-family: "Game of Thrones";
 }
 
 #loginButton:hover, #signUpButton:hover, #resetPasswordButton:hover {
