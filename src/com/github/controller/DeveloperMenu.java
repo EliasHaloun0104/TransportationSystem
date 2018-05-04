@@ -15,26 +15,26 @@ public class DeveloperMenu implements Initializable {
     }
 
     @FXML private void simulation() {
-        StageManager.getInstance().switchStage(StageManager.getInstance().getSimulation(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getSimulation().show();
     }
 
     @FXML private void userGUI(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getUserScreen(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getUserScreen().show();
     }
     @FXML private void busDriver(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getDriverScreen(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getDriverScreen().show();
     }
     @FXML private void login(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getLogin(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getLogin().show();
     }
     @FXML private void splashScreen(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getSplashScreen(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getSplashScreen().show();
     }
     @FXML private void taxiDriver(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScreen(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getTaxiScreen().show();
     }
     @FXML private void adminLoginScreen(){
-        StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScreen(), StageManager.getInstance().getDeveloperMenu());
+        StageManager.getInstance().getAdminScreen().show();
     }
 
 

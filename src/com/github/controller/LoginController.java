@@ -64,14 +64,14 @@ public class LoginController {
         switch (db.getRole(userName)) {
             case "User":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getUserScreen(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().getUserScreen().show();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "Admin":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getAdminScreen(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().getAdminScreen().show();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -80,14 +80,14 @@ public class LoginController {
             case "City Bus Driver":
             case "Train Driver":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getDriverScreen(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().getDriverScreen().show();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "Taxi Driver":
                 try {
-                    StageManager.getInstance().switchStage(StageManager.getInstance().getTaxiScreen(), StageManager.getInstance().getLogin());
+                    StageManager.getInstance().getTaxiScreen().show();
 
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
