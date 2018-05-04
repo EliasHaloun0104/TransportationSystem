@@ -45,6 +45,7 @@ public class StageManager {
         if(login == null){
             login = createStage("login.fxml");
         }
+        hideAllOpen();
         return login;
     }
 
@@ -52,6 +53,7 @@ public class StageManager {
         if(developerMenu == null){
             developerMenu = createStage("developerMenu.fxml");
         }
+        hideAllOpen();
         return developerMenu;
     }
 

@@ -11,16 +11,6 @@ public class Destinations {
     private ArrayList<Station> stations;
     ArrayList<ScheduledRoute> scheduledRoutes;
 
-
-    public void setStations(ArrayList<Station> stations) {
-        this.stations = stations;
-    }
-
-
-    public ArrayList<Station> getStations() {
-        return stations;
-    }
-
     public Station getStationByName(String name){
         for (Station s: stations) {
             if(s.getName().equals(name)){
@@ -36,19 +26,6 @@ public class Destinations {
         }
         return stationName;
     }
-    //Get station name except the chosen one
-    public ArrayList<String> getStationNameExcept(String station){
-        ArrayList<String> stationName = new ArrayList<>();
-        for (Station s: stations) {
-            if(!station.equals(s.getName())){
-                stationName.add(s.getName());
-            }
-
-        }
-        return stationName;
-
-    }
-
 
     public static Destinations getInstance() {
         return ourInstance;

@@ -21,36 +21,10 @@ public class TwoPointsMoving {
         calculatePosition();
     }
 
-    public Station getFrom_station() {
-        return from_station;
-    }
 
-    public void setFrom_station(Station from_station) {
-        this.from_station = from_station;
-    }
-
-    public Station getTo_station() {
-        return to_station;
-    }
-
-    public void setTo_station(Station to_station) {
-        this.to_station = to_station;
-    }
 
     public Vector2D getPosition() {
         return position;
-    }
-
-    public void setPosition(Vector2D position) {
-        this.position = position;
-    }
-
-    public Vector2D getFrom() {
-        return from;
-    }
-
-    public void setFrom(Vector2D from) {
-        this.from = from;
     }
 
     public Vector2D getTo() {

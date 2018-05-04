@@ -1,6 +1,8 @@
 package com.github.model;
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 
 public class ScheduledRoute {
@@ -35,6 +37,28 @@ public class ScheduledRoute {
         this.driver = driver;
         this.vehicle = vehicle;
         this.price = price;
+    }
+
+    public ScheduledRoute(ResultSet rs) {
+        try {
+            this.ID = rs.getInt(1);
+            this.scheduledID = rs.getInt(2);
+            this.ID_special = rs.getInt(3);
+            this.name = rs.getString(4);
+            this.type = Enumeration.VehicleType.valueOf(rs.getString(5));
+            this.from =  rs.getString(6);
+            this.to =  rs.getString(7);
+            this.duration = new TimeProcess(rs.getTime(8));
+            this.start = new TimeProcess(rs.getTime(9));;
+            this.end = new TimeProcess(rs.getTime(10));;
+            this.distance = rs.getFloat(11);
+            this.driver = rs.getString(12);
+            this.vehicle = rs.getString(13);
+            this.price = rs.getInt(14);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
