@@ -2,7 +2,6 @@ package com.github.controller;
 
 import com.github.model.DBConnection;
 import com.github.model.Destinations;
-import com.github.model.RouteCalculate;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -26,17 +25,22 @@ public class UserScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         fromCombo.getItems().addAll(Destinations.getInstance().getStationsName());
-        toCombo.getItems().addAll(Destinations.getInstance().getStationsName());
 
         fromCombo.valueProperty().addListener((observableValue, oldString, newString) -> {
-            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
             toCombo.getItems().removeAll(toCombo.getItems());
-            toCombo.getItems().addAll(dbConnection.getAvailableDestination(newString.toString()));
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            toCombo.getItems().addAll(dbConnection.getAvailableDestination(Destinations.getInstance().getStationID(newString.toString())));
         });
 
         toCombo.valueProperty().addListener((observableValue, oldString, newString) -> {
+            try{
+                if(!newString.equals(null)){
+                    setSearchResult();
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
 
-            setSearchResult();
             /* try {
                //cost.setText(Destinations.getInstance().getSomeThing(fromCombo.getValue().toString(), toCombo.getValue().toString()));
             }catch (NullPointerException e){
@@ -57,17 +61,11 @@ public class UserScreenController implements Initializable {
 
     private void setSearchResult(){
         try {
-            String fromSelect = fromCombo.getSelectionModel().getSelectedItem().toString();
-            String toSelect = toCombo.getSelectionModel().getSelectedItem().toString();
-            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            RouteCalculate scheduledRoutes = dbConnection.getRoutesSearched(fromSelect,toSelect);
-            scheduledRoutes.getResult(fromSelect,toSelect);
-
-            searchResult.getChildren().add(scheduledRoutes.getText());
-
-            
+            int fromSelect = Destinations.getInstance().getStationID(fromCombo.getSelectionModel().getSelectedItem().toString());
+            int toSelect = Destinations.getInstance().getStationID(toCombo.getSelectionModel().getSelectedItem().toString());
+            searchResult.getChildren().add(Destinations.getInstance().getScheduledRoutes().getText(fromSelect,toSelect));
         }catch (NullPointerException e){
-
+            e.printStackTrace();
         }
     }
 

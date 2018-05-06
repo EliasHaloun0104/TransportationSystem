@@ -13,9 +13,8 @@ public class TwoPointsMoving {
 
     public TwoPointsMoving(ScheduledRoute t){
         this.t = t;
-        from_station = Destinations.getInstance().getStationByName(t.getFrom());
-        to_station = Destinations.getInstance().getStationByName(t.getTo());
-
+        from_station = Destinations.getInstance().getStations().get(t.getStation_from());
+        to_station = Destinations.getInstance().getStations().get(t.getStation_to());
         this.from = new Vector2D(from_station.getPosition());
         this.to = new Vector2D(to_station.getPosition());
         calculatePosition();
@@ -38,7 +37,7 @@ public class TwoPointsMoving {
     public void calculatePosition() {
         double percentageOfRoute = Calendar.getInstance().get(Calendar.MINUTE)+
                                     Calendar.getInstance().get(Calendar.SECOND)/60
-                                    -t.getStart().getMinute();
+                                    -t.getStartTime().getMinute();
         if(percentageOfRoute<0){
             percentageOfRoute += 60;
         }
@@ -61,8 +60,7 @@ public class TwoPointsMoving {
 
     @Override
     public String toString() {
-        return t.getName() + "- From: " + from_station.getName() +
-            " To: " + to_station.getName() +
-            " (" + t.getEnd() + ")";
+        return "From: " + from_station.getName() +
+            " To: " + to_station.getName();
     }
 }

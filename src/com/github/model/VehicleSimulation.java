@@ -19,20 +19,7 @@ public class VehicleSimulation {
     }
 
     public void callScheduledRoute(){
-        vehicles = new ArrayList<>();
-        for (ScheduledRoute t: Destinations.getInstance().scheduledRoutes) {
-            try {
-                TimeProcess tp_0 = TimeProcess.now(0);
-                TimeProcess tp_1 = TimeProcess.now(1);
-                if(t.isTimeBetween(tp_0) || t.isTimeBetween(tp_1)){
-                    vehicles.add(new Vehicle(t));
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
+        vehicles = Destinations.getInstance().getScheduledRoutes().generateVehicles();
         timeToUpdate =Calendar.getInstance().get(Calendar.MINUTE);
         breakNews = new BreakNews(getNews());
 

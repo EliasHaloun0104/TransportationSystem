@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class DBConnection {
@@ -191,6 +192,27 @@ public class DBConnection {
         return count == 1;
     }
 
+    public void makeBooking(int amount, String accountId, int route_Id){
+        String query = "INSERT INTO Booking (AMOUNT, Account_Username, Route_Id) VALUE (?,?,?)";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setInt(1, amount);
+            ps.setString(2, accountId);
+            ps.setInt(3, route_Id);
+
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public boolean validateLogin(String userName, String password) {
         int count = 0;
         String query = "SELECT count(*) FROM Account WHERE userName = ? && password = ?";
@@ -294,17 +316,16 @@ public class DBConnection {
         }
     }
 
-    public ArrayList<Station> getStations() {
-        ArrayList<Station> stations = new ArrayList<>();
-        String query = "SELECT * FROM TransportationSystem.Station";
+    public HashMap<Integer, Station> getStations() {
+        HashMap<Integer, Station> stations = new HashMap<>();
+        String query = "SELECT * FROM Transportation_System_db.Station";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    stations.add(new Station(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
+                    stations.put(rs.getInt(1), new Station(rs));
                 }
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Query failed.");
@@ -319,46 +340,17 @@ public class DBConnection {
         return stations;
     }
 
-    public RouteCalculate getRoutesSearched(String from, String to) {
-        String query = "SELECT * FROM Route_Driver_Vehicle where IDSpecial IN (SELECT IDSpecial  FROM Route_Driver_Vehicle WHERE fromStation = ?) AND IDSpecial IN (SELECT IDSpecial  FROM Route_Driver_Vehicle WHERE toStation = ?)";
-        RouteCalculate scheduledRoutes = new RouteCalculate();
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1,from);
-            ps.setString(2,to);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    scheduledRoutes.addToList(rs.getInt(3),new ScheduledRoute(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getTime(8), rs.getTime(9), rs.getTime(10), rs.getFloat(11), rs.getString(12), rs.getString(13), rs.getInt(14)));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return scheduledRoutes;
-    }
-
-    public ArrayList<String> getAvailableDestination(String from) {
-        String query = "SELECT AvailableDes FROM\n" +
-            "(SELECT DISTINCT toStation AS AvailableDes" +
-            " FROM Route_Driver_Vehicle" +
-            " WHERE ID IN" +
-            "   (SELECT DISTINCT ID FROM\n" +
-            "      Route_Driver_Vehicle\n" +
-            "    WHERE\n" +
-            "      fromStation = ?\n" +
-            "   )\n" +
-            ")\n" +
-            "AS Des WHERE AvailableDes !=  ?";
+    public ArrayList<String> getAvailableDestination(int from) {
+        System.out.println(from);
+        String query = "SELECT Station.Name FROM Station WHERE StationId IN (\n" +
+                "SELECT AvailableDes FROM (\n" +
+                "SELECT DISTINCT Schedule.Station_To AS AvailableDes FROM Schedule WHERE Route_Id IN (\n" +
+                "SELECT DISTINCT Schedule.Route_Id FROM Schedule WHERE Station_From = ?) )AS Des WHERE AvailableDes != ?)";
         ArrayList<String> availableDestination = new ArrayList<>();
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1,from);
-            ps.setString(2,from);
+            ps.setInt(1,from);
+            ps.setInt(2,from);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     availableDestination.add(rs.getString(1));
@@ -378,13 +370,14 @@ public class DBConnection {
     }
 
 
-    public ArrayList<ScheduledRoute> getRoutesFFF() {
-        String query = "SELECT * FROM TransportationSystem.Route_Driver_Vehicle";
-        ArrayList<ScheduledRoute> scheduledRoutes = new ArrayList<>();
+    public ScheduleOrganizer getRoutesFFF() {
+        ScheduleOrganizer so = new ScheduleOrganizer();
+        String query = "SELECT * FROM Transportation_System_db.Schedule";
+        HashMap<Integer, ArrayList<ScheduledRoute>> scheduledRoutes = new HashMap<>();
         try (PreparedStatement ps = c.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    scheduledRoutes.add(new ScheduledRoute(rs));
+                    so.addToList(rs.getInt(5),new ScheduledRoute(rs));
                 }
             }
         } catch (SQLException e) {
@@ -397,7 +390,7 @@ public class DBConnection {
             }
         }
 
-        return scheduledRoutes;
+        return so;
     }
 
     public int getNumberOfComplains() {
