@@ -47,8 +47,8 @@ public class AdminController {
         alert.setHeaderText("Do you wish to sign out");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            StageManager.getInstance().getLogin().show();
-            StageManager.getInstance().getAdminScreen().hide();
+            StageManager.getInstance().getLogin();
+            //StageManager.getInstance().getAdminScreen().hide();
             List<Node> allNodes = textFieldsWrapper.getChildren();
             for (Node n : allNodes) {
                 if (n instanceof TextField) {

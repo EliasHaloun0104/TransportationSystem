@@ -15,26 +15,26 @@ public class DeveloperMenu implements Initializable {
     }
 
     @FXML private void simulation() {
-        StageManager.getInstance().getSimulation().show();
+        StageManager.getInstance().getSimulation();
     }
 
     @FXML private void userGUI(){
-        StageManager.getInstance().getUserScreen().show();
+        StageManager.getInstance().getUserScreen();
     }
     @FXML private void busDriver(){
-        StageManager.getInstance().getDriverScreen().show();
+        StageManager.getInstance().getDriverScreen();
     }
     @FXML private void login(){
-        StageManager.getInstance().getLogin().show();
+        StageManager.getInstance().getLogin();
     }
     @FXML private void splashScreen(){
-        StageManager.getInstance().getSplashScreen().show();
+        StageManager.getInstance().getSplashScreen();
     }
     @FXML private void taxiDriver(){
-        StageManager.getInstance().getTaxiScreen().show();
+        StageManager.getInstance().getTaxiScreen();
     }
     @FXML private void adminLoginScreen(){
-        StageManager.getInstance().getAdminScreen().show();
+        StageManager.getInstance().getAdminScreen();
     }
 
 

@@ -35,7 +35,7 @@ public class ExtendedButton extends Button {
         alert.setHeaderText("Do you wish to sign out");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get()==ButtonType.OK){
-            StageManager.getInstance().getLogin().show();
+            StageManager.getInstance().getLogin();
         }
     }
 

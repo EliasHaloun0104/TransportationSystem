@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        StageManager.getInstance().getSplashScreen().show();
+    public void start(Stage primaryStage) {
+        StageManager.getInstance().getSplashScreen();
     }
 }
