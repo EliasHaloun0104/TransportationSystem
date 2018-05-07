@@ -29,6 +29,7 @@ public class LoginController {
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
     private ExtendedButton extendedButton;
 
+
     public void initialize() {
         ExtendedButton.setFunction(exitLoginButton, ExtendedButton.Type.EXIT_PLATFORM);
     }
@@ -54,38 +55,36 @@ public class LoginController {
         Account.getInstance().setLastName(userDetails.get(2));
         Account.getInstance().setEmail(userDetails.get(3));
         Account.getInstance().setPhone(userDetails.get(4));
-        Account.getInstance().setBalance(userDetails.get(5));
-        Account.getInstance().setRole(userDetails.get(6));
-        Account.getInstance().setCreationDate(userDetails.get(7));
+        Account.getInstance().setRole(userDetails.get(5));
+        Account.getInstance().setCreationDate(userDetails.get(6));
+        Account.getInstance().setBalance();
     }
 
     private void login(String userName){
         DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         switch (db.getRole(userName)) {
-            case "User":
+            case "USER":
                 try {
                     StageManager.getInstance().getUserScreen().show();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
-            case "Admin":
+            case "ADMIN":
                 try {
                     StageManager.getInstance().getAdminScreen().show();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
-            case "Bus Driver":
-            case "City Bus Driver":
-            case "Train Driver":
+            case "TRAIN_DRIVER": case "BUS_DRIVER":
                 try {
                     StageManager.getInstance().getDriverScreen().show();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
-            case "Taxi Driver":
+            case "TAXI_DRIVER":
                 try {
                     StageManager.getInstance().getTaxiScreen().show();
 
@@ -295,7 +294,7 @@ public class LoginController {
             message.setSubject("Westeros Traffic: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
             Transport.send(message);
-            SMS_Manager.sendSMS("Confirmation code: " + confirmationCode);
+//            SMS_Manager.sendSMS("Confirmation code: " + confirmationCode);
             emailSent = true;
         } catch (MessagingException e) {
             e.printStackTrace();

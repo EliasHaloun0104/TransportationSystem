@@ -102,9 +102,19 @@ public class Account implements Printable {
         return balance;
     }
 
-    public void setBalance(String balance) {
-        this.balance = balance;
+    public void setBalance() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        int totalDeposits = db.getValue(accountId, "deposit");
+        DBConnection db2 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        int totalPayments = db2.getValue(accountId, "payment");
+
+        if (totalDeposits >= totalPayments) {
+            balance = String.valueOf(totalDeposits - totalPayments);
+        } else {
+            System.out.println("not enough deposits");
+        }
     }
+
 
     public String getCreationDate() {
         return creationDate;
