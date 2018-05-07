@@ -15,6 +15,7 @@ public class TwoPointsMoving {
         this.t = t;
         from_station = Destinations.getInstance().getStations().get(t.getStation_from());
         to_station = Destinations.getInstance().getStations().get(t.getStation_to());
+        System.out.println(from_station + ", " + to_station);
         this.from = new Vector2D(from_station.getPosition());
         this.to = new Vector2D(to_station.getPosition());
         calculatePosition();
@@ -35,23 +36,22 @@ public class TwoPointsMoving {
     }
 
     public void calculatePosition() {
-        double percentageOfRoute = Calendar.getInstance().get(Calendar.MINUTE)+
-                                    Calendar.getInstance().get(Calendar.SECOND)/60
-                                    -t.getStartTime().getMinute();
-        if(percentageOfRoute<0){
-            percentageOfRoute += 60;
+        Calendar calendar = Calendar.getInstance();
+        double timeFromStart = (calendar.get(Calendar.MINUTE) + calendar.get(Calendar.SECOND)/60d - t.getStartTime().getMinute());
+        if(timeFromStart<0){
+            timeFromStart += 60;
         }
-        percentageOfRoute = percentageOfRoute/ t.getDuration().getMinute();
-        double distanceFromStart = percentageOfRoute*from.distance(to);
+        timeFromStart /= t.getDuration().getMinute();
+        double distanceFromStart = timeFromStart*from.distance(to);
 
 
-        double xMove = Math.abs((float) (distanceFromStart * Math.sin(from.angle(to))));
-        double yMove = Math.abs((float) (distanceFromStart * Math.cos(from.angle(to))));
+        double xMove = Math.abs((distanceFromStart * Math.sin(from.angle(to))));
+        double yMove = Math.abs((distanceFromStart * Math.cos(from.angle(to))));
         if(from.getX()> to.getX()){
-            xMove *=-1;
+            xMove *=-1d;
         }
         if(from.getY()> to.getY()){
-            yMove *=-1;
+            yMove *=-1d;
         }
         position = new Vector2D(xMove+from.getX(),yMove+from.getY());
 

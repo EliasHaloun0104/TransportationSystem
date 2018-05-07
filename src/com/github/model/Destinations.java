@@ -1,7 +1,5 @@
 package com.github.model;
 
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +21,7 @@ public class Destinations {
     private Destinations() {
         DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         stations = dbConnection.getStations();
+
         dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         scheduledRoutes = dbConnection.getRoutesFFF();
 

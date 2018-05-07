@@ -14,13 +14,14 @@ public class ScheduledRoute {
     private float distance;
     private TimeProcess delay;
     private String delayMessage;
+    private int price;
     private int station_from;
     private int station_to;
     private int routeID;
     private int vehicle_Id;
 
     private String driver;
-    private int price;
+
 
 
     public int getRouteID() {
@@ -37,6 +38,10 @@ public class ScheduledRoute {
 
     public TimeProcess getDuration() {
         return duration;
+    }
+
+    public float getDistance() {
+        return distance;
     }
 
     public int getStation_from() {
@@ -60,27 +65,22 @@ public class ScheduledRoute {
                 delay = new TimeProcess(rs.getTime(7));
                 delayMessage = rs.getString(8);
             }
-            station_from = rs.getInt(9);
-            station_to =rs.getInt(10);
-            routeID = rs.getInt(11);;
-            vehicle_Id = rs.getInt(12);;
+            price = rs.getInt(9);
+            station_from = rs.getInt(10);
+            station_to =rs.getInt(11);
+            routeID = rs.getInt(12);;
+            vehicle_Id = rs.getInt(13);;
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
-
     }
 
 
-
-
-
-
-
     public boolean isTimeBetween(Time t){
+
         return t.before(endTime) && t.after(startTime);
     }
 

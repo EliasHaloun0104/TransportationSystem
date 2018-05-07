@@ -20,11 +20,11 @@ public class Vehicle {
             image = new Image("resources/img/TrainImage.png");
             type = VehicleType.TRAIN;
         }else if(routeID< 9) {
-            image = new Image("resources/img/regionBus.png");
-            type = VehicleType.REGION_BUS;
-        }else{
             image = new Image("resources/img/cityBus.png");
-            type= VehicleType.CITY_BUS;
+            type = VehicleType.CITY_BUS;
+        }else{
+            image = new Image("resources/img/regionBus.png");
+            type= VehicleType.REGION_BUS;
         }
     }
 
@@ -45,6 +45,7 @@ public class Vehicle {
 
     public void draw(GraphicsContext gc){
         gc.drawImage(image, move.getPosition().getX(), move.getPosition().getY(),15,15);
+        move.calculatePosition();
     }
 
 }
