@@ -42,8 +42,8 @@ public class DBConnection {
         // db credentials
         if (connectionType == ConnectionType.LOGIN_PROCESS) {
             url = prop.getProperty("database");
-            user = prop.getProperty("userAccountSetup");
-            password = prop.getProperty("passwordAccountSetup");
+            user = prop.getProperty("userLoginProcess");
+            password = prop.getProperty("passwordLoginProcess");
         }
 
         if (connectionType == ConnectionType.ADMIN) {
@@ -63,7 +63,7 @@ public class DBConnection {
 
     public boolean usernameExists(String username) {
 
-        String query = "SELECT count(*) FROM Account WHERE userName = ?";
+        String query = "SELECT count(*) FROM Account WHERE Username = ?";
         int count = dbValidation(query, username);
 
         return count > 0;
@@ -71,7 +71,7 @@ public class DBConnection {
 
     public boolean emailExists(String email) {
 
-        String query = "SELECT count(*) FROM Account WHERE email = ?";
+        String query = "SELECT count(*) FROM Account WHERE Email = ?";
         int count = dbValidation(query, email);
 
         return count > 0;
@@ -100,7 +100,8 @@ public class DBConnection {
 
     public boolean addUser(String userName, String firstName, String lastName, String email, String phone, String confirmationCode) {
         boolean status = true;
-        String query = "INSERT INTO Account (userName, firstName, lastName, email, phoneNumber, confirmationCode) VALUES (?, ?, ? ,?, ?, ?)";
+        String query = "INSERT INTO Account (Username, FirstName, LastName, Email, PhoneNumber, ConfirmationCode) VALUES (?, ?, ? ,?, ?, ?)";
+        String query2 = "INSERT INTO Balance (Account_Username) VALUES (?)";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
@@ -114,7 +115,24 @@ public class DBConnection {
             ex.printStackTrace();
             System.out.println("add user failed.");
             status = false;
-        } finally {
+        }
+
+        if (status) {
+            try (PreparedStatement ps = c.prepareStatement(query2)) {
+                ps.setString(1, userName);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("add balance failed.");
+                status = false;
+            } finally {
+                try {
+                    c.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
             try {
                 c.close();
             } catch (SQLException e) {
@@ -126,7 +144,7 @@ public class DBConnection {
     }
 
     public void addConfirmationCode(String email, String confirmationCode) {
-        String addConfirmationCode = "UPDATE Account SET confirmationCode = ? WHERE email = ?";
+        String addConfirmationCode = "UPDATE Account SET ConfirmationCode = ? WHERE Email = ?";
 
         try (PreparedStatement ps = c.prepareStatement(addConfirmationCode)) {
             ps.setString(2, email);
@@ -146,7 +164,7 @@ public class DBConnection {
 
     public boolean setupPassword(String userName, String password) {
         boolean status = true;
-        String query = "UPDATE Account SET password = ? WHERE userName = ?";
+        String query = "UPDATE Account SET Password = ? WHERE Username = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, password);
@@ -168,7 +186,7 @@ public class DBConnection {
 
     public boolean validateConfirmationCode(String userName, String confirmationCode) {
         int count = 0;
-        String query = "SELECT count(*) FROM Account WHERE userName = ? && confirmationCode = ?";
+        String query = "SELECT count(*) FROM Account WHERE Username = ? && ConfirmationCode = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
@@ -215,7 +233,7 @@ public class DBConnection {
 
     public boolean validateLogin(String userName, String password) {
         int count = 0;
-        String query = "SELECT count(*) FROM Account WHERE userName = ? && password = ?";
+        String query = "SELECT count(*) FROM Account WHERE Username = ? && Password = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
@@ -240,8 +258,42 @@ public class DBConnection {
         return count == 1;
     }
 
+    public int getValue(String Username, String type) {
+        int total = 0;
+        String query = "";
+
+        if (type.equals("deposit")) {
+            query = "SELECT Deposit from Balance where Account_Username = ?";
+        } else {
+            query = "SELECT Payment from Balance where Account_Username = ?";
+        }
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Username);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    total = rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("get value failed.");
+            ex.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return total;
+}
+
+
     public String getRole(String userName) {
-        String query = "Select role from Account where userName = ?";
+        String query = "Select ROLE from Account where Username = ?";
         String role = "";
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
@@ -266,14 +318,14 @@ public class DBConnection {
 
     public ArrayList<String> getAccountDetails(String userName) {
         ArrayList<String> userDetails = new ArrayList<>();
-        String query = "Select userName, firstName, lastName, email, phoneNumber, balance, role, creationDate from Account where userName = ?";
+        String query = "Select Username, FirstName, LastName, Email, PhoneNumber, ROLE, CreationDate from Account where Username = ?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, userName);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    for (int i = 1; i <= 8; i++) {
+                    for (int i = 1; i <= 7; i++) {
                         userDetails.add(rs.getString(i));
                     }
                 }
@@ -517,8 +569,9 @@ public class DBConnection {
         }
 
     }
-    public void addEmployee(String userName,String firstName,String lastName,String email,
-                            String phoneNbr,String role, String password){
+
+    public void addEmployee(String userName, String firstName, String lastName, String email,
+                            String phoneNbr, String role, String password) {
         String query = "INSERT INTO Account (userName, firstName, lastName, email, phoneNumber, password, role,confirmationCode ) VALUES (?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
@@ -535,7 +588,7 @@ public class DBConnection {
             ps.setString(5, phoneNbr);
             ps.setString(6, password);
             ps.setString(7, role);
-            ps.setString(8,confirmationCode);
+            ps.setString(8, confirmationCode);
 
 
             ps.executeUpdate();
