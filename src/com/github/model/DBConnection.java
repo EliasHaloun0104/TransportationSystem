@@ -41,8 +41,8 @@ public class DBConnection {
         // db credentials
         if (connectionType == ConnectionType.LOGIN_PROCESS) {
             url = prop.getProperty("database");
-            user = prop.getProperty("userAccountSetup");
-            password = prop.getProperty("passwordAccountSetup");
+            user = prop.getProperty("userLoginProcess");
+            password = prop.getProperty("passwordLoginProcess");
         }
 
         if (connectionType == ConnectionType.ADMIN) {
