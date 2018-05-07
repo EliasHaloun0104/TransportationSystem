@@ -8,9 +8,6 @@ import javafx.scene.control.ButtonType;
 import javafx.util.Duration;
 
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class ExtendedButton extends Button {
     enum Type{
