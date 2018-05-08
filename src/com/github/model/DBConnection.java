@@ -1,5 +1,6 @@
 package com.github.model;
 
+import com.github.controller.Booking;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
