@@ -1,5 +1,7 @@
 package com.github.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -683,5 +685,35 @@ public class DBConnection {
             }
         }
 
+    }
+
+    public ObservableList<Booking> getBookings(String sql){
+        ObservableList<Booking> bookings = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                  bookings.add(new Booking(rs.getString(1),rs.getString(2),rs.getString(3),
+                          rs.getString(4),rs.getString(5),rs.getString(6),
+                          rs.getString(7)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        return bookings;
     }
 }
