@@ -1,17 +1,17 @@
 package com.github.controller;
 
-
 import com.github.model.ComplainPerson;
 import com.github.model.DBConnection;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +23,10 @@ public class AdminController {
     private JFXTreeTableView<Booking> treeView;
 
     @FXML
-    private JFXTextField searchTextField;
+    private JFXTextField searchTF;
 
     @FXML
-    private JFXButton searchButton;
+    private JFXButton deleteButton, printButton, printAllButton;
 
 
     @FXML
@@ -170,6 +170,21 @@ public class AdminController {
 
 
     }
+    @FXML
+    private void printAllButtonPressed(ActionEvent event) {
+
+
+    }
+
+    @FXML
+    private void printButtonPressed(ActionEvent event) {
+    loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date " +
+            "from Booking where BookingId ='"+searchTF.getText()+"'");
+    }
+
+    @FXML
+    private void deleteButtonPressed(ActionEvent event) {
+    }
 
     private void addComplainsToChoice() {
         userNameChoiceBox.getItems().clear();
@@ -227,7 +242,7 @@ public class AdminController {
         booking_amount.setCellValueFactory(e->e.getValue().getValue().amount);
 
         JFXTreeTableColumn<Booking,String> booking_date=new JFXTreeTableColumn<>("Date");
-        booking_date.setPrefWidth(150);
+        booking_date.setPrefWidth(130);
         booking_date.setCellValueFactory(e->e.getValue().getValue().date);
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
@@ -239,6 +254,7 @@ public class AdminController {
         treeView.setRoot(root);
         treeView.setShowRoot(false);
     }
+
 
 }
 
