@@ -130,11 +130,13 @@
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="treeView" prefHeight="364.0" prefWidth="550.0" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     <Pane layoutY="364.0" prefHeight="106.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="364.0">
+                     <JFXTreeTableView fx:id="treeView" prefHeight="376.0" prefWidth="550.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     <Pane layoutY="383.0" prefHeight="88.0" prefWidth="550.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="383.0">
                         <children>
-                           <JFXTextField fx:id="searchTextField" focusColor="#641c24" labelFloat="true" layoutX="286.0" layoutY="28.0" prefHeight="25.0" prefWidth="133.0" promptText="Username" />
-                           <JFXButton fx:id="searchButton" buttonType="RAISED" layoutX="138.0" layoutY="41.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
+                           <JFXButton fx:id="printAllButton" buttonType="RAISED" layoutX="436.0" layoutY="44.0" onAction="#printAllButtonPressed" prefHeight="30.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />
+                           <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="25.0" layoutY="44.0" onAction="#deleteButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
+                           <JFXButton fx:id="printButton" buttonType="RAISED" layoutX="118.0" layoutY="44.0" onAction="#printButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print" textFill="WHITE" />
+                           <JFXTextField fx:id="searchTF" focusColor="#641c24" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Id" />
                         </children>
                      </Pane>
                   </children></AnchorPane>
