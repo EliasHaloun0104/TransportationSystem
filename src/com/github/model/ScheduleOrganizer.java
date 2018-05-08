@@ -123,12 +123,12 @@ public class ScheduleOrganizer {
     }
 
     public void makeBooking(int amount, String accountId,int stationFrom, int stationTo, int route_Id){
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            dbConnection.makeBooking(amount,accountId,stationFrom,stationTo,route_Id);
+            //if done successfully
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Confirmed", ButtonType.OK);
+            a.showAndWait();
 
-        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        dbConnection.makeBooking(amount,accountId,stationFrom,stationTo,route_Id);
-        //if done successfully
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Confirmed", ButtonType.OK);
-        a.showAndWait();
 
     }
 

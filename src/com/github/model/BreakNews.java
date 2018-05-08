@@ -24,7 +24,9 @@ public class BreakNews {
     public void draw(GraphicsContext gc){
         if(news.size()>0) {
             gc.setFill(Color.web("800000ff"));
+            gc.setGlobalAlpha(0.6);
             gc.fillRect(0, 640 - 70, 960, 640);
+            gc.setGlobalAlpha(1);
             int seconds = Calendar.getInstance().get(Calendar.SECOND);
             gc.setFill(Color.WHITESMOKE);
             if (seconds % 3 == 0 && updateAds) {
