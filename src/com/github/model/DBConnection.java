@@ -662,8 +662,26 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
-
         return delays;
+    }
+    public void updateDelay(String Delay, String DelayMessage) {
+        String query = "Update Schedule set Delay = ?, DelayMessage = ? where ScheduleId =?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Delay);
+            ps.setString(2, DelayMessage);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
