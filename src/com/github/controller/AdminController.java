@@ -45,7 +45,7 @@ public class AdminController {
     @FXML
     private TextArea complainMessagetextArea, answerTextArea;
     private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
-    @FXML private TableView<String> tableView = new TableView<>();
+
 
 
     public void initialize() {
