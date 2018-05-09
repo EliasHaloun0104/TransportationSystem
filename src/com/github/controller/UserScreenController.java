@@ -6,7 +6,7 @@ import com.github.model.Destinations;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +21,10 @@ public class UserScreenController implements Initializable {
     @FXML ScrollPane searchResults;
     @FXML Button searchButton;
     @FXML Label balance;
+    @FXML ScrollPane resultsContainer;
+    @FXML Tab balanceTab;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
@@ -40,19 +44,34 @@ public class UserScreenController implements Initializable {
             }else{
                 searchButton.setDisable(false);
             }
-            /* try {
-               //cost.setText(Destinations.getInstance().getSomeThing(fromCombo.getValue().toString(), toCombo.getValue().toString()));
-            }catch (NullPointerException e){
-                cost.setText(" ");
-            }*/
         });
+
+        balanceTab.setOnSelectionChanged(event -> setBalance());
 
         deposit.textProperty().addListener((observableValue, oldString, newString)->
         {
             handleDepositAmount(oldString, newString);
         });
+
+
+
+
     }
 
+    @FXML private void processButton(){
+        Account.getInstance().addToBalance(Integer.valueOf(deposit.getText()));
+        balance.setText(Account.getInstance().getBalance() + " GD");
+
+    }
+
+    @FXML private void transactionHistory(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        resultsContainer.setContent(dbConnection.getTransaction());
+    }
+    @FXML private void bookingHistory(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        resultsContainer.setContent(dbConnection.getBookingHistory());
+    }
 
     @FXML
     private void setSearchResult(){
@@ -64,6 +83,7 @@ public class UserScreenController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     private void handleDepositAmount(String oldString , String newString ){
         int length = newString.length();
@@ -85,6 +105,7 @@ public class UserScreenController implements Initializable {
 
     }
 
-
-
+    public void setBalance() {
+        balance.setText(Account.getInstance().getBalance() + " GD");
+    }
 }

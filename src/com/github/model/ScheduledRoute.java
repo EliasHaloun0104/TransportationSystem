@@ -44,6 +44,10 @@ public class ScheduledRoute {
         return distance;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     public int getStation_from() {
         return station_from;
     }

@@ -4,8 +4,11 @@ import com.github.controller.Booking;
 import com.github.controller.Delays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -214,15 +217,17 @@ public class DBConnection {
         return count == 1;
     }
 
-    public void makeBooking(int amount, String accountId, int route_Id){
-        String query = "INSERT INTO Booking (AMOUNT, Account_Username, Route_Id) VALUE (?,?,?)";
+    public void makeBooking(int amount, String account_Username, int station_From, int station_TO, int route_Id){
+        String query = "INSERT INTO Booking (AMOUNT, Account_Username, Station_From, Station_To, Route_Id) VALUE (?,?,?,?,?)";
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setInt(1, amount);
-            ps.setString(2, accountId);
-            ps.setInt(3, route_Id);
-
+            ps.setString(2, account_Username);
+            ps.setInt(3, station_From);
+            ps.setInt(4, station_TO);
+            ps.setInt(5, route_Id);
 
             ps.executeUpdate();
+            Account.getInstance().deductFromBalance(amount);
         } catch (SQLException ex) {
             ex.printStackTrace();
 
@@ -261,22 +266,38 @@ public class DBConnection {
         }
         return count == 1;
     }
-
-    public int getValue(String Username, String type) {
-        int total = 0;
-        String query = "";
-
-        if (type.equals("deposit")) {
-            query = "SELECT Deposit from Balance where Account_Username = ?";
-        } else {
-            query = "SELECT Payment from Balance where Account_Username = ?";
+    public void setBalance(int amount, String type, String userName){
+        String query;
+        if(type.equals("Deposit")){
+            query = "INSERT into Balance (Deposit, Account_Username) VALUE (?,?)";
+        }else{
+            query = "INSERT into Balance (Payment, Account_Username) VALUE (?,?)";
         }
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setInt(1, amount);
+            ps.setString(2, userName);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    public int getValue(String Username) {
+        int total = 0;
+        String query = "SELECT SUM(Deposit)-SUM(Payment) from Balance where Account_Username = ?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, Username);
-
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
                     total = rs.getInt(1);
                 }
@@ -291,9 +312,68 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
         return total;
-}
+    }
+
+    public GridPane getTransaction(){
+        String query = "SELECT Deposit, Payment, CreationDate FROM Transportation_System_db.Balance WHERE Account_Username = ?";
+        GridPane gridPane = new GridPane();
+        int rowNo = 1;
+        gridPane.add(new Label("Deposit"), 0,0);
+        gridPane.add(new Label("Payment"), 1,0);
+        gridPane.add(new Label("Time"), 2,0);
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Account.getInstance().getAccountId());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    gridPane.add(new Label(String.valueOf(rs.getInt(1))), 0,rowNo);
+                    gridPane.add(new Label(String.valueOf(rs.getInt(2))), 1,rowNo);
+                    gridPane.add(new Label(rs.getString(3)), 2,rowNo);
+                    rowNo++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return gridPane;
+    }
+
+    public GridPane getBookingHistory(){
+        String query = "SELECT Station_From,Station_To, AMOUNT, Booking.Date FROM Transportation_System_db.Booking WHERE Account_Username = ?";
+        GridPane gridPane = new GridPane();
+        int rowNo = 1;
+        gridPane.add(new Label("From"), 0,0);
+        gridPane.add(new Label("To"), 1,0);
+        gridPane.add(new Label("Amount"), 3,0);
+        gridPane.add(new Label("Date"), 4,0);
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Account.getInstance().getAccountId());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    gridPane.add(new Label(Destinations.getInstance().getStations().get(rs.getInt(1)).toString()), 0,rowNo);
+                    gridPane.add(new Label(Destinations.getInstance().getStations().get(rs.getInt(2)).toString()), 1,rowNo);
+                    gridPane.add(new Label(rs.getString(3)), 3,rowNo);
+                    gridPane.add(new Label(rs.getString(4)), 4,rowNo);
+                    rowNo++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return gridPane;
+    }
 
 
     public String getRole(String userName) {

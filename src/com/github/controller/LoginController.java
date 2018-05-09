@@ -3,6 +3,8 @@ package com.github.controller;
 import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.github.model.SMS_Manager;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,8 +26,8 @@ public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
-    @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
+    @FXML private JFXTextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
+    @FXML private JFXPasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, loginButtonPressed;
 
 
