@@ -746,8 +746,8 @@ public class DBConnection {
         }
         return delays;
     }
-    public void UpdateDelayAndMessage(String delay, String delayMessage) {
-        String query = "UPDATE Schedule SET Delay = ?, DelayMessage=? WHERE ScheduleId =? ";
+    public void UpdateDelayAndMessage(int pressed, String delay, String delayMessage) {
+        String query = "UPDATE Schedule SET Delay = ?, DelayMessage=? WHERE ScheduleId ='"+pressed+"'";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
 

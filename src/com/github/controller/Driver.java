@@ -18,6 +18,7 @@ public class Driver implements Initializable {
     @FXML private JFXTextField delay;
     @FXML private JFXTextArea driverMessage;
     @FXML private JFXTreeTableView<Delays> treeView;
+    @FXML private JFXTextField id ;
 
 
 
@@ -30,7 +31,8 @@ public class Driver implements Initializable {
     @FXML
     private void saveDelayAndMessage(){
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.UpdateDelayAndMessage(delay.getText(),driverMessage.getText());
+        System.out.println(treeView.isPressed());
+        db.UpdateDelayAndMessage(Integer.parseInt(id.getText()),delay.getText(),driverMessage.getText());
     }
     private void viewUpdateTimeTab(){
         load("SELECT Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");
