@@ -1,5 +1,7 @@
 package com.github.model;
 
+import com.github.controller.StageManager;
+import com.github.controller.UserScreenController;
 import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -23,7 +25,7 @@ public class Account implements Printable {
     private String confirmationCode;
     private String password;
     private String role;
-    private String balance;
+    private int balance;
     private String creationDate;
 
 
@@ -98,21 +100,23 @@ public class Account implements Printable {
         this.phone = phone;
     }
 
-    public String getBalance() {
+    public int getBalance() {
         return balance;
     }
 
     public void setBalance() {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-        int totalDeposits = db.getValue(accountId, "deposit");
-        DBConnection db2 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-        int totalPayments = db2.getValue(accountId, "payment");
-
-        if (totalDeposits >= totalPayments) {
-            balance = String.valueOf(totalDeposits - totalPayments);
-        } else {
-            System.out.println("not enough deposits");
-        }
+        balance = db.getValue(accountId);
+    }
+    public void addToBalance(int add){
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        db.setBalance(add,"Deposit", accountId);
+        balance += add;
+    }
+    public void deductFromBalance(int deduction){
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        db.setBalance(deduction, "Payment", accountId);
+        balance -=deduction;
     }
 
 
@@ -171,7 +175,7 @@ public class Account implements Printable {
                 contents.newLineAtOffset(0, -15);
                 contents.showText("Balance: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(balance);
+                contents.showText(String.valueOf(balance));
                 contents.endText();
             }
 

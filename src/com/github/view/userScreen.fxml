@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="762.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserScreenController">
          <children>
             <TabPane prefHeight="481.0" prefWidth="762.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab style="-fx-background-radius: 20;" text="View Booking">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="480.0">
-                    <children>
-                        <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="184.0" text="Your valid Booking" />
-                        <ListView layoutX="427.0" layoutY="42.0" prefHeight="333.0" prefWidth="200.0" />
-                        <Label layoutX="427.0" layoutY="17.0" prefHeight="17.0" prefWidth="95.0" text="Booking history" />
-                    </children></AnchorPane>
-                  </content>
-                </Tab>
                 <Tab style="-fx-background-radius: 20;" text="new Booking">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="241.0">
@@ -35,24 +24,28 @@
                         <Label layoutX="28.0" layoutY="28.0" prefHeight="17.0" prefWidth="71.0" text="From:" />
                         <Label layoutX="28.0" layoutY="88.0" prefHeight="17.0" prefWidth="71.0" text="To:" />
                         <Label fx:id="cost" layoutX="197.0" layoutY="8.0" prefHeight="389.0" prefWidth="434.0" />
-                        <ScrollPane layoutX="198.0" layoutY="12.0" prefHeight="339.0" prefWidth="454.0">
-                           <content>
-                              <VBox fx:id="searchResult" prefHeight="337.0" prefWidth="438.0" />
-                           </content>
-                        </ScrollPane>
+                        <ScrollPane fx:id="searchResults" layoutX="198.0" layoutY="12.0" prefHeight="339.0" prefWidth="500.0" />
+                        <Button fx:id="searchButton" disable="true" layoutX="28.0" layoutY="162.0" mnemonicParsing="false" onAction="#setSearchResult" prefHeight="28.0" prefWidth="150.0" text="Search" />
                      </children></AnchorPane>
                   </content>
                 </Tab>
-                  <Tab style="-fx-background-radius: 20;" text="Balance">
+                  <Tab fx:id="balanceTab" style="-fx-background-radius: 20;" text="Balance/Booking">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="480.0">
                      <children>
                         <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="184.0" text="Your Balance:" />
-                        <ListView layoutX="427.0" layoutY="42.0" prefHeight="333.0" prefWidth="200.0" />
-                        <Label layoutX="427.0" layoutY="17.0" text="Transaction" />
                         <Label layoutX="31.0" layoutY="209.0" prefHeight="17.0" prefWidth="184.0" text="Add credit:" />
                         <TextField fx:id="deposit" layoutX="31.0" layoutY="233.0" />
-                        <Button fx:id="processBtn" layoutX="308.0" layoutY="286.0" mnemonicParsing="false" text="Process" />
+                        <Button fx:id="processBtn" disable="true" layoutX="249.0" layoutY="286.0" mnemonicParsing="false" onAction="#processButton" prefHeight="45.0" prefWidth="115.0" text="Process" />
+                        <Label fx:id="balance" alignment="CENTER" layoutX="31.0" layoutY="57.0" prefHeight="111.0" prefWidth="312.0" text="Label" textAlignment="CENTER">
+                           <font>
+                              <Font size="60.0" />
+                           </font>
+                        </Label>
+                        <ScrollPane fx:id="resultsContainer" layoutX="386.0" layoutY="49.0" prefHeight="337.0" prefWidth="358.0">
+                        </ScrollPane>
+                        <Button layoutX="427.0" layoutY="13.0" mnemonicParsing="false" onAction="#transactionHistory" prefHeight="25.0" prefWidth="120.0" text="Transaction" />
+                        <Button fx:id="bookingHistory" layoutX="565.0" layoutY="13.0" mnemonicParsing="false" onAction="#bookingHistory" prefHeight="25.0" prefWidth="120.0" text="Booking History" />
                      </children></AnchorPane>
                      </content>
                   </Tab>
@@ -70,5 +63,5 @@
               </tabs>
             </TabPane>
          </children>
-    <Button id="exitLoginButton" fx:id="signOutButton" layoutX="736.0" layoutY="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
+   <Button id="exitLoginButton" fx:id="signOutButton" layoutX="736.0" layoutY="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
 </AnchorPane>

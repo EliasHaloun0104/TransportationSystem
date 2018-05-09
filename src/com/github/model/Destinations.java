@@ -1,81 +1,48 @@
 package com.github.model;
 
-
-import java.io.File;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Destinations {
     private static Destinations ourInstance = new Destinations();
-    private ArrayList<Station> stations;
-    ArrayList<ScheduledRoute> scheduledRoutes;
-
-
-    public void setStations(ArrayList<Station> stations) {
-        this.stations = stations;
-    }
-
-
-    public ArrayList<Station> getStations() {
-        return stations;
-    }
-
-    public Station getStationByName(String name){
-        for (Station s: stations) {
-            if(s.getName().equals(name)){
-                return s;
-            }
-        }
-        return null;
-    }
-    public ArrayList<String> getStationsName(){
-        ArrayList<String> stationName = new ArrayList<>();
-        for (Station s: stations) {
-            stationName.add(s.getName());
-        }
-        return stationName;
-    }
-    //Get station name except the chosen one
-    public ArrayList<String> getStationNameExcept(String station){
-        ArrayList<String> stationName = new ArrayList<>();
-        for (Station s: stations) {
-            if(!station.equals(s.getName())){
-                stationName.add(s.getName());
-            }
-
-        }
-        return stationName;
-
-    }
-
+    private HashMap<Integer, Station> stations;
+    private ScheduleOrganizer scheduledRoutes;
 
     public static Destinations getInstance() {
         return ourInstance;
     }
 
+    public ScheduleOrganizer getScheduledRoutes() {
+        return scheduledRoutes;
+    }
 
     private Destinations() {
         DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         stations = dbConnection.getStations();
+
         dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         scheduledRoutes = dbConnection.getRoutesFFF();
 
     }
 
-    public static Destinations getOurInstance() {
-        return ourInstance;
+    public HashMap<Integer, Station> getStations() {
+        return stations;
     }
 
-    public static void setOurInstance(Destinations ourInstance) {
-        Destinations.ourInstance = ourInstance;
+    public Collection<Station> getStationsName(){
+        return stations.values();
+    }
+    public int getStationID(String stationName){
+        for (Map.Entry<Integer, Station> entry : stations.entrySet()) {
+            if (entry.getValue().getName().equals(stationName)) {
+                return entry.getKey();
+            }
+        }
+        return -1;
     }
 
-    public ArrayList<ScheduledRoute> getScheduledRoutes() {
-        return scheduledRoutes;
-    }
 
-    public void setScheduledRoutes(ArrayList<ScheduledRoute> scheduledRoutes) {
-        this.scheduledRoutes = scheduledRoutes;
-    }
+
 }

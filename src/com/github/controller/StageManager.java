@@ -41,72 +41,76 @@ public class StageManager {
         }
     }
 
-    public Stage getLogin() {
+    public void getLogin() {
         if(login == null){
             login = createStage("login.fxml");
+            stages.add(login);
         }
-        return login;
+        hideAllOpen();
+        login.show();
     }
 
-    public Stage getDeveloperMenu() {
+    public void getDeveloperMenu() {
         if(developerMenu == null){
             developerMenu = createStage("developerMenu.fxml");
+            stages.add(developerMenu);
         }
-        return developerMenu;
+        hideAllOpen();
+        developerMenu.show();
     }
 
-    public Stage getSimulation() {
+    public void getSimulation() {
         if(simulation == null){
             simulation = createStage("simulation.fxml");
             stages.add(simulation);
         }
         hideAllOpen();
-        return simulation;
+        simulation.show();
     }
 
-    public Stage getSplashScreen() {
+    public void getSplashScreen() {
         if(splashScreen == null){
             splashScreen = createStage("splashScreen.fxml");
             stages.add(splashScreen);
         }
         hideAllOpen();
-        return splashScreen;
+        splashScreen.show();
     }
 
-    public Stage getAdminScreen() {
+    public void getAdminScreen() {
         if(adminScreen == null){
             adminScreen = createStage("adminScreen.fxml");
             stages.add(adminScreen);
         }
         hideAllOpen();
-        return adminScreen;
+        adminScreen.show();
     }
 
-    public Stage getTaxiScreen() {
+    public void getTaxiScreen() {
         if(taxiScreen == null){
             taxiScreen = createStage("taxiDriver.fxml");
             stages.add(taxiScreen);
         }
         hideAllOpen();
-        return taxiScreen;
+        taxiScreen.show();
     }
 
-    public Stage getDriverScreen() {
+    public void getDriverScreen() {
         if(driverScreen == null){
             driverScreen = createStage("driver.fxml");
             stages.add(driverScreen);
         }
         hideAllOpen();
-        return driverScreen;
+        driverScreen.show();
     }
 
-    public Stage getUserScreen() {
+    public void getUserScreen() {
         if(userScreen == null){
             userScreen = createStage("userScreen.fxml");
             stages.add(userScreen);
         }
         hideAllOpen();
-        return userScreen;
+        userScreen.show();
     }
 
     public Stage createStage(String stageName) {

@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SplashScreenController implements Initializable{
-    @FXML public static ImageView image;
     @FXML private AnchorPane rootPane;
 
     @Override
@@ -25,8 +24,8 @@ public class SplashScreenController implements Initializable{
         fadeTransition.play();
     }
     private void handleAfterFade(){
-        StageManager.getInstance().getLogin().show();
-        StageManager.getInstance().getSplashScreen().hide();
+        StageManager.getInstance().getLogin();
+        //StageManager.getInstance().getSplashScreen().hide();
     }
 
 

@@ -1,13 +1,20 @@
 package com.github.model;
 
+import com.github.controller.Booking;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class DBConnection {
@@ -209,6 +216,29 @@ public class DBConnection {
         return count == 1;
     }
 
+    public void makeBooking(int amount, String account_Username, int station_From, int station_TO, int route_Id){
+        String query = "INSERT INTO Booking (AMOUNT, Account_Username, Station_From, Station_To, Route_Id) VALUE (?,?,?,?,?)";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setInt(1, amount);
+            ps.setString(2, account_Username);
+            ps.setInt(3, station_From);
+            ps.setInt(4, station_TO);
+            ps.setInt(5, route_Id);
+
+            ps.executeUpdate();
+            Account.getInstance().deductFromBalance(amount);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public boolean validateLogin(String userName, String password) {
         int count = 0;
         String query = "SELECT count(*) FROM Account WHERE Username = ? && Password = ?";
@@ -235,22 +265,38 @@ public class DBConnection {
         }
         return count == 1;
     }
-
-    public int getValue(String Username, String type) {
-        int total = 0;
-        String query = "";
-
-        if (type.equals("deposit")) {
-            query = "SELECT Deposit from Balance where Account_Username = ?";
-        } else {
-            query = "SELECT Payment from Balance where Account_Username = ?";
+    public void setBalance(int amount, String type, String userName){
+        String query;
+        if(type.equals("Deposit")){
+            query = "INSERT into Balance (Deposit, Account_Username) VALUE (?,?)";
+        }else{
+            query = "INSERT into Balance (Payment, Account_Username) VALUE (?,?)";
         }
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setInt(1, amount);
+            ps.setString(2, userName);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    public int getValue(String Username) {
+        int total = 0;
+        String query = "SELECT SUM(Deposit)-SUM(Payment) from Balance where Account_Username = ?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, Username);
-
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
                     total = rs.getInt(1);
                 }
@@ -265,9 +311,68 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
         return total;
-}
+    }
+
+    public GridPane getTransaction(){
+        String query = "SELECT Deposit, Payment, CreationDate FROM Transportation_System_db.Balance WHERE Account_Username = ?";
+        GridPane gridPane = new GridPane();
+        int rowNo = 1;
+        gridPane.add(new Label("Deposit"), 0,0);
+        gridPane.add(new Label("Payment"), 1,0);
+        gridPane.add(new Label("Time"), 2,0);
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Account.getInstance().getAccountId());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    gridPane.add(new Label(String.valueOf(rs.getInt(1))), 0,rowNo);
+                    gridPane.add(new Label(String.valueOf(rs.getInt(2))), 1,rowNo);
+                    gridPane.add(new Label(rs.getString(3)), 2,rowNo);
+                    rowNo++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return gridPane;
+    }
+
+    public GridPane getBookingHistory(){
+        String query = "SELECT Station_From,Station_To, AMOUNT, Booking.Date FROM Transportation_System_db.Booking WHERE Account_Username = ?";
+        GridPane gridPane = new GridPane();
+        int rowNo = 1;
+        gridPane.add(new Label("From"), 0,0);
+        gridPane.add(new Label("To"), 1,0);
+        gridPane.add(new Label("Amount"), 3,0);
+        gridPane.add(new Label("Date"), 4,0);
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Account.getInstance().getAccountId());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    gridPane.add(new Label(Destinations.getInstance().getStations().get(rs.getInt(1)).toString()), 0,rowNo);
+                    gridPane.add(new Label(Destinations.getInstance().getStations().get(rs.getInt(2)).toString()), 1,rowNo);
+                    gridPane.add(new Label(rs.getString(3)), 3,rowNo);
+                    gridPane.add(new Label(rs.getString(4)), 4,rowNo);
+                    rowNo++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return gridPane;
+    }
 
 
     public String getRole(String userName) {
@@ -346,17 +451,16 @@ public class DBConnection {
         }
     }
 
-    public ArrayList<Station> getStations() {
-        ArrayList<Station> stations = new ArrayList<>();
-        String query = "SELECT * FROM TransportationSystem.Station";
+    public HashMap<Integer, Station> getStations() {
+        HashMap<Integer, Station> stations = new HashMap<>();
+        String query = "SELECT * FROM Transportation_System_db.Station";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    stations.add(new Station(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
+                    stations.put(rs.getInt(1), new Station(rs));
                 }
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Query failed.");
@@ -371,46 +475,17 @@ public class DBConnection {
         return stations;
     }
 
-    public RouteCalculate getRoutesSearched(String from, String to) {
-        String query = "SELECT * FROM Route_Driver_Vehicle where IDSpecial IN (SELECT IDSpecial  FROM Route_Driver_Vehicle WHERE fromStation = ?) AND IDSpecial IN (SELECT IDSpecial  FROM Route_Driver_Vehicle WHERE toStation = ?)";
-        RouteCalculate scheduledRoutes = new RouteCalculate();
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, from);
-            ps.setString(2, to);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    scheduledRoutes.addToList(rs.getInt(3), new ScheduledRoute(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getTime(8), rs.getTime(9), rs.getTime(10), rs.getFloat(11), rs.getString(12), rs.getString(13), rs.getInt(14)));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return scheduledRoutes;
-    }
-
-    public ArrayList<String> getAvailableDestination(String from) {
-        String query = "SELECT AvailableDes FROM\n" +
-                "(SELECT DISTINCT toStation AS AvailableDes" +
-                " FROM Route_Driver_Vehicle" +
-                " WHERE ID IN" +
-                "   (SELECT DISTINCT ID FROM\n" +
-                "      Route_Driver_Vehicle\n" +
-                "    WHERE\n" +
-                "      fromStation = ?\n" +
-                "   )\n" +
-                ")\n" +
-                "AS Des WHERE AvailableDes !=  ?";
+    public ArrayList<String> getAvailableDestination(int from) {
+        System.out.println(from);
+        String query = "SELECT Station.Name FROM Station WHERE StationId IN (\n" +
+                "SELECT AvailableDes FROM (\n" +
+                "SELECT DISTINCT Schedule.Station_To AS AvailableDes FROM Schedule WHERE Route_Id IN (\n" +
+                "SELECT DISTINCT Schedule.Route_Id FROM Schedule WHERE Station_From = ?) )AS Des WHERE AvailableDes != ?)";
         ArrayList<String> availableDestination = new ArrayList<>();
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, from);
-            ps.setString(2, from);
+            ps.setInt(1,from);
+            ps.setInt(2,from);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     availableDestination.add(rs.getString(1));
@@ -430,13 +505,14 @@ public class DBConnection {
     }
 
 
-    public ArrayList<ScheduledRoute> getRoutesFFF() {
-        String query = "SELECT * FROM TransportationSystem.Route_Driver_Vehicle";
-        ArrayList<ScheduledRoute> scheduledRoutes = new ArrayList<>();
+    public ScheduleOrganizer getRoutesFFF() {
+        ScheduleOrganizer so = new ScheduleOrganizer();
+        String query = "SELECT * FROM Transportation_System_db.Schedule";
+        HashMap<Integer, ArrayList<ScheduledRoute>> scheduledRoutes = new HashMap<>();
         try (PreparedStatement ps = c.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    scheduledRoutes.add(new ScheduledRoute(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getTime(8), rs.getTime(9), rs.getTime(10), rs.getFloat(11), rs.getString(12), rs.getString(13), rs.getInt(14)));
+                    so.addToList(rs.getInt(5),new ScheduledRoute(rs));
                 }
             }
         } catch (SQLException e) {
@@ -449,7 +525,7 @@ public class DBConnection {
             }
         }
 
-        return scheduledRoutes;
+        return so;
     }
 
     public int getNumberOfComplains() {
@@ -610,5 +686,35 @@ public class DBConnection {
             }
         }
 
+    }
+
+    public ObservableList<Booking> getBookings(String sql){
+        ObservableList<Booking> bookings = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                  bookings.add(new Booking(rs.getString(1),rs.getString(2),rs.getString(3),
+                          rs.getString(4),rs.getString(5),rs.getString(6),
+                          rs.getString(7)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        return bookings;
     }
 }

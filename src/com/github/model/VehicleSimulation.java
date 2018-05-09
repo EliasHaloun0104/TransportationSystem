@@ -19,49 +19,13 @@ public class VehicleSimulation {
     }
 
     public void callScheduledRoute(){
-        vehicles = new ArrayList<>();
-        for (ScheduledRoute t: Destinations.getInstance().scheduledRoutes) {
-            try {
-                TimeProcess tp_0 = TimeProcess.now(0);
-                TimeProcess tp_1 = TimeProcess.now(1);
-                if(t.isTimeBetween(tp_0) || t.isTimeBetween(tp_1)){
-                    vehicles.add(new Vehicle(t));
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
+        vehicles = Destinations.getInstance().getScheduledRoutes().generateVehicles();
         timeToUpdate =Calendar.getInstance().get(Calendar.MINUTE);
         breakNews = new BreakNews(getNews());
-
-
     }
 
     public BreakNews getBreakNews() {
         return breakNews;
-    }
-
-    public void setBreakNews(BreakNews breakNews) {
-        this.breakNews = breakNews;
-    }
-
-    public ArrayList<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-
-
-    public int getTimeToUpdate() {
-        return timeToUpdate;
-    }
-
-    public void setTimeToUpdate(int timeToUpdate) {
-        this.timeToUpdate = timeToUpdate;
     }
 
     public void draw(GraphicsContext gc_Region, GraphicsContext gc_City){
@@ -75,6 +39,7 @@ public class VehicleSimulation {
                     v.draw(gc_City);
                     break;
             }
+
         }
 
         if(Calendar.getInstance().get(Calendar.MINUTE)!=timeToUpdate){//Update every one minute

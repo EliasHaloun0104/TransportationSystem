@@ -1,15 +1,12 @@
 package com.github.controller;
 
+import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.github.model.Destinations;
-import com.github.model.RouteCalculate;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,30 +18,35 @@ public class UserScreenController implements Initializable {
     @FXML Label cost;
     @FXML TextField deposit;
     @FXML Button processBtn;
-    @FXML VBox searchResult;
+    @FXML ScrollPane searchResults;
+    @FXML Button searchButton;
+    @FXML Label balance;
+    @FXML ScrollPane resultsContainer;
+    @FXML Tab balanceTab;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         fromCombo.getItems().addAll(Destinations.getInstance().getStationsName());
-        toCombo.getItems().addAll(Destinations.getInstance().getStationsName());
+        balance.setText(Account.getInstance().getBalance() + " GD");
 
         fromCombo.valueProperty().addListener((observableValue, oldString, newString) -> {
-            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
             toCombo.getItems().removeAll(toCombo.getItems());
-            toCombo.getItems().addAll(dbConnection.getAvailableDestination(newString.toString()));
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            toCombo.getItems().addAll(dbConnection.getAvailableDestination(Destinations.getInstance().getStationID(newString.toString())));
+            searchButton.setDisable(true);
         });
 
         toCombo.valueProperty().addListener((observableValue, oldString, newString) -> {
-
-            setSearchResult();
-            /* try {
-               //cost.setText(Destinations.getInstance().getSomeThing(fromCombo.getValue().toString(), toCombo.getValue().toString()));
-            }catch (NullPointerException e){
-                cost.setText(" ");
-            }*/
-
-
+            if(fromCombo.getSelectionModel().isEmpty() && toCombo.getSelectionModel().isEmpty()){
+                searchButton.setDisable(true);
+            }else{
+                searchButton.setDisable(false);
+            }
         });
+
+        balanceTab.setOnSelectionChanged(event -> setBalance());
 
         deposit.textProperty().addListener((observableValue, oldString, newString)->
         {
@@ -53,23 +55,35 @@ public class UserScreenController implements Initializable {
 
 
 
+
     }
 
+    @FXML private void processButton(){
+        Account.getInstance().addToBalance(Integer.valueOf(deposit.getText()));
+        balance.setText(Account.getInstance().getBalance() + " GD");
+
+    }
+
+    @FXML private void transactionHistory(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        resultsContainer.setContent(dbConnection.getTransaction());
+    }
+    @FXML private void bookingHistory(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        resultsContainer.setContent(dbConnection.getBookingHistory());
+    }
+
+    @FXML
     private void setSearchResult(){
         try {
-            String fromSelect = fromCombo.getSelectionModel().getSelectedItem().toString();
-            String toSelect = toCombo.getSelectionModel().getSelectedItem().toString();
-            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            RouteCalculate scheduledRoutes = dbConnection.getRoutesSearched(fromSelect,toSelect);
-            scheduledRoutes.getResult(fromSelect,toSelect);
-
-            searchResult.getChildren().add(scheduledRoutes.getText());
-
-            
+            int fromSelect = Destinations.getInstance().getStationID(fromCombo.getSelectionModel().getSelectedItem().toString());
+            int toSelect = Destinations.getInstance().getStationID(toCombo.getSelectionModel().getSelectedItem().toString());
+            searchResults.setContent(Destinations.getInstance().getScheduledRoutes().getText(fromSelect,toSelect));
         }catch (NullPointerException e){
-
+            e.printStackTrace();
         }
     }
+
 
     private void handleDepositAmount(String oldString , String newString ){
         int length = newString.length();
@@ -91,6 +105,7 @@ public class UserScreenController implements Initializable {
 
     }
 
-
-
+    public void setBalance() {
+        balance.setText(Account.getInstance().getBalance() + " GD");
+    }
 }

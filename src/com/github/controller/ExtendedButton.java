@@ -8,9 +8,6 @@ import javafx.scene.control.ButtonType;
 import javafx.util.Duration;
 
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class ExtendedButton extends Button {
     enum Type{
@@ -38,7 +35,7 @@ public class ExtendedButton extends Button {
         alert.setHeaderText("Do you wish to sign out");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get()==ButtonType.OK){
-            StageManager.getInstance().getLogin().show();
+            StageManager.getInstance().getLogin();
         }
     }
 

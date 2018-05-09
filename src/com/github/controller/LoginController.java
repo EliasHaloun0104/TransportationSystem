@@ -3,6 +3,8 @@ package com.github.controller;
 import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.github.model.SMS_Manager;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,10 +26,9 @@ public class LoginController {
 
     @FXML private Button exitLoginButton;
     @FXML private Pane loginPane, registrationPane, passwordPane, resetPasswordPane;
-    @FXML private TextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
-    @FXML private PasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
-    @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, passwordDetailsLabel;
-    private ExtendedButton extendedButton;
+    @FXML private JFXTextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
+    @FXML private JFXPasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
+    @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, loginButtonPressed;
 
 
     public void initialize() {
@@ -65,28 +66,28 @@ public class LoginController {
         switch (db.getRole(userName)) {
             case "USER":
                 try {
-                    StageManager.getInstance().getUserScreen().show();
+                    StageManager.getInstance().getUserScreen();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "ADMIN":
                 try {
-                    StageManager.getInstance().getAdminScreen().show();
+                    StageManager.getInstance().getAdminScreen();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "TRAIN_DRIVER": case "BUS_DRIVER":
                 try {
-                    StageManager.getInstance().getDriverScreen().show();
+                    StageManager.getInstance().getDriverScreen();
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
             case "TAXI_DRIVER":
                 try {
-                    StageManager.getInstance().getTaxiScreen().show();
+                    StageManager.getInstance().getTaxiScreen();
 
                 }catch (Exception e){
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);

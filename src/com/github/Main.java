@@ -8,7 +8,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-    StageManager.getInstance().getDeveloperMenu().show();
+    StageManager.getInstance().getDeveloperMenu();
 
     }
 

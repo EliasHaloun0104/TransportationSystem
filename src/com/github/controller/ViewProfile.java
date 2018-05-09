@@ -2,6 +2,9 @@ package com.github.controller;
 
 import com.github.model.Account;
 import com.github.model.DBConnection;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -14,8 +17,9 @@ import java.util.*;
 
 public class ViewProfile implements Initializable {
     @FXML
-    private Button editButton,saveButton;
-    @FXML private TextField userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField;
+    private JFXButton editButton,saveButton;
+    @FXML private JFXTextField userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField, createdDateTextField;
+    @FXML private JFXPasswordField newPasswordPF,confirmPasswordPF;
     @FXML private Tab viewProfileTab;
     @FXML private VBox textFieldsWrapper;
 
@@ -31,14 +35,14 @@ public class ViewProfile implements Initializable {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
 
 
-        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
+        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordPF,confirmPasswordPF, createdDateTextField));
         for (TextField t: textFields) {
             t.setDisable(false);
             t.setEditable(true);
         }
     }
     public void saveButtonPressed(){
-        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
+        ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordPF,confirmPasswordPF, createdDateTextField));
         for (TextField t: textFields) {
             t.setDisable(true);
             t.setEditable(false);
@@ -79,7 +83,7 @@ public class ViewProfile implements Initializable {
     private void handleSaveButtonPressed() {
         boolean status = true;
         if (firstNameTextField.getText().trim().isEmpty()||lastNameTextField.getText().trim().isEmpty()||
-            phoneNbrTextField.getText().trim().isEmpty()||newPasswordTextField.getText().trim().isEmpty()){
+            phoneNbrTextField.getText().trim().isEmpty()||newPasswordPF.getText().trim().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid");
             alert.setHeaderText("Fill the fields");
@@ -87,17 +91,17 @@ public class ViewProfile implements Initializable {
             alert.showAndWait();
             status = false;
         }
-        if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())){
+        if (!newPasswordPF.getText().equals(confirmPasswordPF.getText())){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid");
             alert.setHeaderText("Confirmation password doesn't match");
             alert.setContentText("Please make sure that both the new password and confirmation password match");
-            newPasswordTextField.setText("");
-            confirmPasswordTextField.setText("");
+            newPasswordPF.setText("");
+            confirmPasswordPF.setText("");
             alert.showAndWait();
             status =false;
         }if (status){
-            ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordTextField,confirmPasswordTextField, createdDateTextField));
+            ArrayList<TextField> textFields = new ArrayList<>(Arrays.asList(userNameTextField,firstNameTextField,lastNameTextField, emailTextField,phoneNbrTextField,roleTextField,newPasswordPF,confirmPasswordPF, createdDateTextField));
             for (TextField t: textFields) {
                 t.setDisable(true);
                 t.setEditable(false);
@@ -105,7 +109,7 @@ public class ViewProfile implements Initializable {
 
             DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
             dbConnection.updateAccountDetails(firstNameTextField.getText(),lastNameTextField.getText(),phoneNbrTextField.getText(),
-                newPasswordTextField.getText());
+                newPasswordPF.getText());
 
         }
 
