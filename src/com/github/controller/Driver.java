@@ -3,6 +3,7 @@ package com.github.controller;
 import com.github.model.DBConnection;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,14 +19,18 @@ public class Driver implements Initializable {
     @FXML private JFXTextArea driverMessage;
     @FXML private JFXTreeTableView<Delays> treeView;
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         viewUpdateTimeTab();
+
     }
     @FXML
     private void saveDelayAndMessage(){
-
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.UpdateDelayAndMessage(delay.getText(),driverMessage.getText());
     }
     private void viewUpdateTimeTab(){
         load("SELECT Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");

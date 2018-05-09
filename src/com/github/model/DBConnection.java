@@ -2,6 +2,8 @@ package com.github.model;
 
 import com.github.controller.Booking;
 import com.github.controller.Delays;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -744,17 +746,18 @@ public class DBConnection {
         }
         return delays;
     }
-    public void updateDelay(String Delay, String DelayMessage) {
-        String query = "Update Schedule set Delay = ?, DelayMessage = ? where ScheduleId =?";
+    public void UpdateDelayAndMessage(String delay, String delayMessage) {
+        String query = "UPDATE Schedule SET Delay = ?, DelayMessage=? WHERE ScheduleId =? ";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, Delay);
-            ps.setString(2, DelayMessage);
+
+            ps.setString(1, delay);
+            ps.setString(2, delayMessage);
 
             ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             try {
                 c.close();
@@ -762,6 +765,5 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-
     }
 }
