@@ -21,13 +21,15 @@ public class Driver implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
-        
+        viewUpdateTimeTab();
     }
     @FXML
     private void saveDelayAndMessage(){
 
     }
-
+    private void viewUpdateTimeTab(){
+        load("SELECT Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");
+    }
     private void load(String sql){
         JFXTreeTableColumn<Delays,String> Station_From=new JFXTreeTableColumn<>("From");
         Station_From.setPrefWidth(100);
