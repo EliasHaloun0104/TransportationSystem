@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Delays extends RecursiveTreeObject<Delays> {
+    StringProperty ScheduleId;
     StringProperty From;
     StringProperty To;
     StringProperty ActualTime;
@@ -15,7 +16,8 @@ public class Delays extends RecursiveTreeObject<Delays> {
         super();
     }
 
-    public Delays(String from, String to, String actualTime, String delay, String message) {
+    public Delays(String scheduleId,String from, String to, String actualTime, String delay, String message) {
+        this.ScheduleId=new SimpleStringProperty(scheduleId);
         this.From = new SimpleStringProperty(from);
         this.To = new SimpleStringProperty(to);
         this.ActualTime = new SimpleStringProperty(actualTime);

@@ -31,13 +31,16 @@ public class Driver implements Initializable {
     @FXML
     private void saveDelayAndMessage(){
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        System.out.println(treeView.isPressed());
         db.UpdateDelayAndMessage(Integer.parseInt(id.getText()),delay.getText(),driverMessage.getText());
     }
     private void viewUpdateTimeTab(){
-        load("SELECT Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");
+        load("SELECT ScheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");
     }
     private void load(String sql){
+        JFXTreeTableColumn<Delays,String> scheduleId=new JFXTreeTableColumn<>("Id");
+        scheduleId.setPrefWidth(30);
+        scheduleId.setCellValueFactory(e->e.getValue().getValue().ScheduleId);
+
         JFXTreeTableColumn<Delays,String> Station_From=new JFXTreeTableColumn<>("From");
         Station_From.setPrefWidth(100);
         Station_From.setCellValueFactory(e->e.getValue().getValue().From);
@@ -62,7 +65,7 @@ public class Driver implements Initializable {
 
         final TreeItem<Delays> root = new RecursiveTreeItem<>(db.getSchedule(sql), RecursiveTreeObject::getChildren);
 
-        treeView.getColumns().setAll(Station_From,Station_To,StartTime,Delay,DelayMessage);
+        treeView.getColumns().setAll(scheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage);
         treeView.setRoot(root);
         treeView.setShowRoot(false);
     }
