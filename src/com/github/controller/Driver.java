@@ -1,5 +1,6 @@
 package com.github.controller;
 
+import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -18,7 +19,7 @@ public class Driver implements Initializable {
     @FXML private JFXTextField delay;
     @FXML private JFXTextArea driverMessage;
     @FXML private JFXTreeTableView<Delays> treeView;
-    @FXML private JFXTextField id ;
+    @FXML private JFXTextField taxiId ;
 
 
 
@@ -29,12 +30,24 @@ public class Driver implements Initializable {
 
     }
     @FXML
-    private void saveDelayAndMessage(){
+    private void saveDelayAndMessage() {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.UpdateDelayAndMessage(Integer.parseInt(id.getText()),delay.getText(),driverMessage.getText());
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+
+            if (delay.getText().trim().isEmpty() || driverMessage.getText().trim().isEmpty() || taxiId.getText().trim().isEmpty()) {
+                alert.setContentText("The fields are empty.\n" +
+                        "Please make sure you fill the fields.");
+                alert.showAndWait();
+            }
+            if ((!delay.getText().matches("\\d+")) || !taxiId.getText().matches("\\d+")) {
+                alert.setContentText("The Delay,TaxiId fields should be digits.\n"+"Please make sure you fill the fields.");
+                alert.showAndWait();
+            }
+            db.updateDelayAndMessage(Integer.parseInt(taxiId.getText()),delay.getText(),driverMessage.getText());
     }
+
     private void viewUpdateTimeTab(){
-        load("SELECT ScheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");
+        load("SELECT ScheduleId, Station_From, Station_To, StartTime, Delay, DelayMessage FROM Schedule JOIN Vehicle ON Vehicle.VehicleId= Schedule.Vehicle_Id AND Account_Username ='"+ Account.getInstance().getAccountId()+"'");
     }
     private void load(String sql){
         JFXTreeTableColumn<Delays,String> scheduleId=new JFXTreeTableColumn<>("Id");
@@ -62,7 +75,6 @@ public class Driver implements Initializable {
         DelayMessage.setCellValueFactory(e->e.getValue().getValue().Message);
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-
         final TreeItem<Delays> root = new RecursiveTreeItem<>(db.getSchedule(sql), RecursiveTreeObject::getChildren);
 
         treeView.getColumns().setAll(scheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage);
