@@ -1,6 +1,9 @@
 package com.github.model;
 
 import com.github.controller.Booking;
+import com.github.controller.Delays;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -716,5 +719,51 @@ public class DBConnection {
         }
 
         return bookings;
+    }
+    public ObservableList<Delays> getSchedule(String sql) {
+        ObservableList<Delays> delays = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    delays.add(new Delays(rs.getString(1), rs.getString(2), rs.getString(3)
+                    ,rs.getString(4),rs.getString(5),rs.getString(6)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return delays;
+    }
+    public void UpdateDelayAndMessage(int pressed, String delay, String delayMessage) {
+        String query = "UPDATE Schedule SET Delay = ?, DelayMessage=? WHERE ScheduleId ='"+pressed+"'";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            ps.setString(1, delay);
+            ps.setString(2, delayMessage);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
