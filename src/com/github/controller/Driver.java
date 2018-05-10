@@ -1,5 +1,6 @@
 package com.github.controller;
 
+import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -46,7 +47,7 @@ public class Driver implements Initializable {
     }
 
     private void viewUpdateTimeTab(){
-        load("SELECT ScheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage FROM Schedule");
+        load("SELECT ScheduleId, Station_From, Station_To, StartTime, Delay, DelayMessage FROM Schedule JOIN Vehicle ON Vehicle.VehicleId= Schedule.Vehicle_Id AND Account_Username ='"+ Account.getInstance().getAccountId()+"'");
     }
     private void load(String sql){
         JFXTreeTableColumn<Delays,String> scheduleId=new JFXTreeTableColumn<>("Id");
