@@ -19,7 +19,7 @@ public class Driver implements Initializable {
     @FXML private JFXTextArea driverMessage;
     @FXML private JFXTreeTableView<Delays> treeView;
     @FXML private JFXTextField taxiId ;
-    private DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
 
 
     @Override
@@ -30,6 +30,7 @@ public class Driver implements Initializable {
     }
     @FXML
     private void saveDelayAndMessage() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
             if (delay.getText().trim().isEmpty() || driverMessage.getText().trim().isEmpty() || taxiId.getText().trim().isEmpty()) {
@@ -72,7 +73,7 @@ public class Driver implements Initializable {
         DelayMessage.setPrefWidth(130);
         DelayMessage.setCellValueFactory(e->e.getValue().getValue().Message);
 
-
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
         final TreeItem<Delays> root = new RecursiveTreeItem<>(db.getSchedule(sql), RecursiveTreeObject::getChildren);
 
         treeView.getColumns().setAll(scheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage);
