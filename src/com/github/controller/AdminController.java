@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -35,16 +34,34 @@ public class AdminController {
     @FXML
     private Tab complainsTab, viewBookingTab;
     @FXML
-    private Button signOutButton, compensateButton, ApologyButton;
+    private Button signOutButton;
     @FXML
     private VBox textFieldsWrapper;
+
+
     @FXML
-    private TextField tfNumberOfComplains, tfDateOfComplain;
+    private JFXButton searchComplaintsButton;
+
     @FXML
-    private ChoiceBox userNameChoiceBox;
+    private JFXCheckBox handledCheckBox;
+
     @FXML
-    private TextArea complainMessagetextArea, answerTextArea;
-    private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
+    private JFXCheckBox NotHandledCheckBox;
+
+    @FXML
+    private JFXTextField enterUsernameTextField;
+
+    @FXML
+    private JFXTextArea messageTextArea;
+
+    @FXML
+    private JFXTextArea answerTextArea;
+
+    @FXML
+    private JFXButton compensateButton;
+
+    @FXML
+    private JFXButton loadComplaintButton;
 
 
 
@@ -80,55 +97,44 @@ public class AdminController {
     @FXML
     private void complainsTabSelected() {
 
-        setTfNumberOfComplains();
 
-        setComplains(complainPeople);
-
-        Platform.runLater(() -> {
-
-
-            userNameChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-                setDateAndMessage();
-
-//                tfDateOfComplain.setText(complainPeople.get(newValue.intValue()).getDate());
-//                complainMessagetextArea.setText(complainPeople.get(newValue.intValue()).getMessage());
-            });
-
-            loadComplains();
-            if (!complainPeople.isEmpty()) {
-                addComplainsToChoice();
-                userNameChoiceBox.getSelectionModel().select(0);
-            }
-        });
     }
 
     @FXML
     private void ApologyButtonPressed() {
-        System.out.println(userNameChoiceBox.getValue());
+//        System.out.println(userNameChoiceBox.getValue());
+//
+//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+//        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
+//        setTfNumberOfComplains();
+//
+//        complainsTabSelected();
+//
+//        answerTextArea.setText("");
 
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
-        setTfNumberOfComplains();
-
-        complainsTabSelected();
-
-        answerTextArea.setText("");
 
 
+    }
+    @FXML
+    void loadComplaintButtonPressed(ActionEvent event) {
+
+    }
+    @FXML
+    void searchComplaintsButtonPressed(ActionEvent event) {
 
     }
 
     @FXML
     private void compensateButtonPressed() {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
-
-        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        dbConnection.addCompensationValue(String.valueOf(userNameChoiceBox.getValue()));
-        setTfNumberOfComplains();
-        complainsTabSelected();
-
-        answerTextArea.setText("");
+//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+//        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
+//
+//        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+//        dbConnection.addCompensationValue(String.valueOf(userNameChoiceBox.getValue()));
+//        setTfNumberOfComplains();
+//        complainsTabSelected();
+//
+//        answerTextArea.setText("");
 
     }
     @FXML
@@ -186,37 +192,11 @@ public class AdminController {
     private void deleteButtonPressed(ActionEvent event) {
     }
 
-    private void addComplainsToChoice() {
-        userNameChoiceBox.getItems().clear();
-        for (ComplainPerson person : complainPeople) {
-            userNameChoiceBox.getItems().add(person);
-        }
-    }
 
-    public void setComplains(ArrayList<ComplainPerson> complains) {
-        this.complainPeople = complains;
-        addComplainsToChoice();
-    }
-
-    private void loadComplains() {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        complainPeople = db.getComplain();
-    }
-
-    private void setTfNumberOfComplains() {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        tfNumberOfComplains.setText(String.valueOf(db.getNumberOfComplains()));
-    }
-
-    private void setDateAndMessage() {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.setDateAndMessage(String.valueOf(userNameChoiceBox.getValue()), tfDateOfComplain, complainMessagetextArea);
-    }
+    private void loadCompalaints(String sql){}
 
 
     private void loadBookings(String sql){
-
-
         JFXTreeTableColumn<Booking,String> booking_id=new JFXTreeTableColumn<>("Id");
         booking_id.setPrefWidth(30);
         booking_id.setCellValueFactory(e->e.getValue().getValue().bookingId);
