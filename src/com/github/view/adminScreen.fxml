@@ -153,14 +153,14 @@
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView layoutX="174.0" layoutY="14.0" opacity="0.7" prefHeight="448.0" prefWidth="362.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.7" prefHeight="448.0" prefWidth="362.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      <Pane layoutX="14.0" layoutY="14.0" opacity="0.7" prefHeight="451.0" prefWidth="162.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                         <children>
                            <Pane layoutX="9.0" layoutY="11.0" prefHeight="120.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXButton fx:id="searchComplaintsButton" buttonType="RAISED" layoutX="15.0" layoutY="89.0" onAction="#searchComplaintsButtonPressed" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search Complaints" textFill="WHITE" />
-                                 <JFXCheckBox fx:id="handledCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="21.0" text="Handled" unCheckedColor="#641c24" />
-                                 <JFXCheckBox fx:id="NotHandledCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="55.0" text="Not Handled" unCheckedColor="#641c24" />
+                                 <JFXCheckBox fx:id="handledCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="21.0" onAction="#handledCrossed" text="Handled" unCheckedColor="#641c24" />
+                                 <JFXCheckBox fx:id="notHandledCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="55.0" onAction="#notHandledCrossed" text="Not Handled" unCheckedColor="#641c24" />
                               </children>
                            </Pane>
                            <Pane layoutX="9.0" layoutY="145.0" prefHeight="289.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">

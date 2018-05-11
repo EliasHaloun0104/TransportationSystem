@@ -1,10 +1,8 @@
 package com.github.controller;
 
-import com.github.model.ComplainPerson;
 import com.github.model.DBConnection;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -12,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +35,7 @@ public class AdminController {
     @FXML
     private VBox textFieldsWrapper;
 
+    @FXML JFXTreeTableView<Complaint> complaintTreeView;
 
     @FXML
     private JFXButton searchComplaintsButton;
@@ -46,7 +44,7 @@ public class AdminController {
     private JFXCheckBox handledCheckBox;
 
     @FXML
-    private JFXCheckBox NotHandledCheckBox;
+    private JFXCheckBox notHandledCheckBox;
 
     @FXML
     private JFXTextField enterUsernameTextField;
@@ -63,10 +61,16 @@ public class AdminController {
     @FXML
     private JFXButton loadComplaintButton;
 
+    private String status = null;
+
 
 
     public void initialize() {
         ExtendedButton.setFunction(signOutButton,ExtendedButton.Type.TO_LOGIN);
+        searchComplaintsButton.setDisable(true);
+        compensateButton.setDisable(true);
+
+
     }
 
 
@@ -96,45 +100,52 @@ public class AdminController {
 
     @FXML
     private void complainsTabSelected() {
+       loadCompalaints("Select * from Complaint");
 
 
     }
 
-    @FXML
-    private void ApologyButtonPressed() {
-//        System.out.println(userNameChoiceBox.getValue());
-//
-//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-//        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
-//        setTfNumberOfComplains();
-//
-//        complainsTabSelected();
-//
-//        answerTextArea.setText("");
-
-
-
-    }
     @FXML
     void loadComplaintButtonPressed(ActionEvent event) {
+        DBConnection db =new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.getComplaintMessageAndAnswer(enterUsernameTextField.getText(),messageTextArea,answerTextArea);
+        compensateButton.setDisable(false);
+
+    }
+    @FXML
+    private void notHandledCrossed(){
+        handledCheckBox.setSelected(false);
+        status = "Select * from Complaint where complaintStatus = 'NotHandled'";
+        System.out.println(status);
+        searchComplaintsButton.setDisable(false);
+
+    }
+    @FXML
+    private void handledCrossed(){
+        notHandledCheckBox.setSelected(false);
+        status = "Select * from Complaint where complaintStatus = 'Handled'";
+        System.out.println(status);
+        searchComplaintsButton.setDisable(false);
 
     }
     @FXML
     void searchComplaintsButtonPressed(ActionEvent event) {
+            loadCompalaints(status);
 
     }
 
     @FXML
     private void compensateButtonPressed() {
-//        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-//        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
-//
-//        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-//        dbConnection.addCompensationValue(String.valueOf(userNameChoiceBox.getValue()));
-//        setTfNumberOfComplains();
-//        complainsTabSelected();
-//
-//        answerTextArea.setText("");
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.updateComplainAnswer(answerTextArea.getText(),enterUsernameTextField.getText());
+
+        DBConnection db1 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        db1.setBalance(50,"Deposit", enterUsernameTextField.getText());
+
+        messageTextArea.setText("");
+        answerTextArea.setText("");
+        enterUsernameTextField.setText("");
+
 
     }
     @FXML
@@ -193,7 +204,27 @@ public class AdminController {
     }
 
 
-    private void loadCompalaints(String sql){}
+    private void loadCompalaints(String sql){
+        JFXTreeTableColumn<Complaint,String> complaint_username=new JFXTreeTableColumn<>("Username");
+        complaint_username.setPrefWidth(110);
+        complaint_username.setCellValueFactory(e->e.getValue().getValue().username);
+
+        JFXTreeTableColumn<Complaint,String> complaint_date=new JFXTreeTableColumn<>("Date");
+        complaint_date.setPrefWidth(130);
+        complaint_date.setCellValueFactory(e->e.getValue().getValue().date);
+
+        JFXTreeTableColumn<Complaint,String> complaint_isHandled=new JFXTreeTableColumn<>("Status");
+        complaint_isHandled.setPrefWidth(100);
+        complaint_isHandled.setCellValueFactory(e->e.getValue().getValue().isHandled);
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
+        final TreeItem<Complaint> root = new RecursiveTreeItem<>( db.getComplaints(sql),RecursiveTreeObject::getChildren);
+
+        complaintTreeView.getColumns().setAll(complaint_username,complaint_date,complaint_isHandled);
+        complaintTreeView.setRoot(root);
+        complaintTreeView.setShowRoot(false);
+    }
 
 
     private void loadBookings(String sql){

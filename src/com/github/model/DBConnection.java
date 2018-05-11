@@ -1,12 +1,11 @@
 package com.github.model;
 
 import com.github.controller.Booking;
+import com.github.controller.Complaint;
 import com.github.controller.Delays;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -531,96 +530,14 @@ public class DBConnection {
         return so;
     }
 
-    public int getNumberOfComplains() {
-        int numberOfComplains = 0;
-        String query = "select count(*) from Complaint where isHandled = 0";
+
+    public void updateComplainAnswer(String answer, String username) {
+        String query = "Update Complaint set answer = ?, complaintStatus = ? where Account_userName =?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-
-                    numberOfComplains = rs.getInt(1);
-
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return numberOfComplains;
-    }
-
-    public ArrayList<ComplainPerson> getComplain() {
-        ArrayList<ComplainPerson> person = new ArrayList<>();
-
-        String query = "select Account_userName, message, creationDate from Complaint where isHandled = 0";
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-
-                    person.add(new ComplainPerson(rs.getString(1), rs.getString(2), rs.getString(3)));
-
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        return person;
-    }
-
-    public void setDateAndMessage(String userName, TextField date, TextArea message) {
-
-
-        String query = "Select creationDate, message from Complaint where Account_userName = ?  and isHandled = 0";
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-
-            ps.setString(1, userName);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    date.setText(rs.getString(1));
-                    message.setText(rs.getString(2));
-
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-    }
-
-    public void updateComplainAnswer(String message, String userName) {
-        String query = "Update Complaint set answer = ?, isHandled = 1 where Account_userName =?";
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, message);
-            ps.setString(2, userName);
+            ps.setString(1, answer);
+            ps.setString(2,"Handled");
+            ps.setString(3, username);
 
             ps.executeUpdate();
 
@@ -636,25 +553,7 @@ public class DBConnection {
 
     }
 
-    public void addCompensationValue(String userName) {
-        String query = "Update Account set balance = 100 where userName = ?";
 
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, userName);
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
     public void addEmployee(String userName, String firstName, String lastName, String email,
                             String phoneNbr, String role, String password) {
@@ -765,5 +664,62 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ObservableList<Complaint> getComplaints(String sql){
+        ObservableList<Complaint> complaints = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    complaints.add(new Complaint(rs.getString(6),rs.getString(4),rs.getString(5),
+                            rs.getString(2)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        return complaints;
+    }
+
+    public void getComplaintMessageAndAnswer(String username, JFXTextArea message, JFXTextArea answer){
+
+        String query = "SELECT Message, Answer from Complaint where Account_Username=?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1,username);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    message.setText(rs.getString(1));
+                    answer.setText(rs.getString(2));
+
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 }
