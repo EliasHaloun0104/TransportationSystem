@@ -1,19 +1,15 @@
 package com.github.controller;
 
-import com.github.model.ComplainPerson;
 import com.github.model.DBConnection;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,21 +31,46 @@ public class AdminController {
     @FXML
     private Tab complainsTab, viewBookingTab;
     @FXML
-    private Button signOutButton, compensateButton, ApologyButton;
+    private Button signOutButton;
     @FXML
     private VBox textFieldsWrapper;
+
+    @FXML JFXTreeTableView<Complaint> complaintTreeView;
+
     @FXML
-    private TextField tfNumberOfComplains, tfDateOfComplain;
+    private JFXButton searchComplaintsButton;
+
     @FXML
-    private ChoiceBox userNameChoiceBox;
+    private JFXCheckBox handledCheckBox;
+
     @FXML
-    private TextArea complainMessagetextArea, answerTextArea;
-    private ArrayList<ComplainPerson> complainPeople = new ArrayList<>();
+    private JFXCheckBox notHandledCheckBox;
+
+    @FXML
+    private JFXTextField enterUsernameTextField;
+
+    @FXML
+    private JFXTextArea messageTextArea;
+
+    @FXML
+    private JFXTextArea answerTextArea;
+
+    @FXML
+    private JFXButton compensateButton;
+
+    @FXML
+    private JFXButton loadComplaintButton;
+
+    private String status = null;
 
 
 
     public void initialize() {
         ExtendedButton.setFunction(signOutButton,ExtendedButton.Type.TO_LOGIN);
+        searchComplaintsButton.setDisable(true);
+        compensateButton.setDisable(true);
+
+
     }
 
 
@@ -79,56 +100,52 @@ public class AdminController {
 
     @FXML
     private void complainsTabSelected() {
-
-        setTfNumberOfComplains();
-
-        setComplains(complainPeople);
-
-        Platform.runLater(() -> {
+       loadCompalaints("Select * from Complaint");
 
 
-            userNameChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-                setDateAndMessage();
-
-//                tfDateOfComplain.setText(complainPeople.get(newValue.intValue()).getDate());
-//                complainMessagetextArea.setText(complainPeople.get(newValue.intValue()).getMessage());
-            });
-
-            loadComplains();
-            if (!complainPeople.isEmpty()) {
-                addComplainsToChoice();
-                userNameChoiceBox.getSelectionModel().select(0);
-            }
-        });
     }
 
     @FXML
-    private void ApologyButtonPressed() {
-        System.out.println(userNameChoiceBox.getValue());
+    void loadComplaintButtonPressed(ActionEvent event) {
+        DBConnection db =new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.getComplaintMessageAndAnswer(enterUsernameTextField.getText(),messageTextArea,answerTextArea);
+        compensateButton.setDisable(false);
 
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
-        setTfNumberOfComplains();
+    }
+    @FXML
+    private void notHandledCrossed(){
+        handledCheckBox.setSelected(false);
+        status = "Select * from Complaint where complaintStatus = 'NotHandled'";
+        System.out.println(status);
+        searchComplaintsButton.setDisable(false);
 
-        complainsTabSelected();
+    }
+    @FXML
+    private void handledCrossed(){
+        notHandledCheckBox.setSelected(false);
+        status = "Select * from Complaint where complaintStatus = 'Handled'";
+        System.out.println(status);
+        searchComplaintsButton.setDisable(false);
 
-        answerTextArea.setText("");
-
-
+    }
+    @FXML
+    void searchComplaintsButtonPressed(ActionEvent event) {
+            loadCompalaints(status);
 
     }
 
     @FXML
     private void compensateButtonPressed() {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.updateComplainAnswer(answerTextArea.getText(), String.valueOf(userNameChoiceBox.getValue()));
+        db.updateComplainAnswer(answerTextArea.getText(),enterUsernameTextField.getText());
 
-        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        dbConnection.addCompensationValue(String.valueOf(userNameChoiceBox.getValue()));
-        setTfNumberOfComplains();
-        complainsTabSelected();
+        DBConnection db1 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        db1.setBalance(50,"Deposit", enterUsernameTextField.getText());
 
+        messageTextArea.setText("");
         answerTextArea.setText("");
+        enterUsernameTextField.setText("");
+
 
     }
     @FXML
@@ -186,37 +203,31 @@ public class AdminController {
     private void deleteButtonPressed(ActionEvent event) {
     }
 
-    private void addComplainsToChoice() {
-        userNameChoiceBox.getItems().clear();
-        for (ComplainPerson person : complainPeople) {
-            userNameChoiceBox.getItems().add(person);
-        }
-    }
 
-    public void setComplains(ArrayList<ComplainPerson> complains) {
-        this.complainPeople = complains;
-        addComplainsToChoice();
-    }
+    private void loadCompalaints(String sql){
+        JFXTreeTableColumn<Complaint,String> complaint_username=new JFXTreeTableColumn<>("Username");
+        complaint_username.setPrefWidth(110);
+        complaint_username.setCellValueFactory(e->e.getValue().getValue().username);
 
-    private void loadComplains() {
+        JFXTreeTableColumn<Complaint,String> complaint_date=new JFXTreeTableColumn<>("Date");
+        complaint_date.setPrefWidth(130);
+        complaint_date.setCellValueFactory(e->e.getValue().getValue().date);
+
+        JFXTreeTableColumn<Complaint,String> complaint_isHandled=new JFXTreeTableColumn<>("Status");
+        complaint_isHandled.setPrefWidth(100);
+        complaint_isHandled.setCellValueFactory(e->e.getValue().getValue().isHandled);
+
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        complainPeople = db.getComplain();
-    }
 
-    private void setTfNumberOfComplains() {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        tfNumberOfComplains.setText(String.valueOf(db.getNumberOfComplains()));
-    }
+        final TreeItem<Complaint> root = new RecursiveTreeItem<>( db.getComplaints(sql),RecursiveTreeObject::getChildren);
 
-    private void setDateAndMessage() {
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.setDateAndMessage(String.valueOf(userNameChoiceBox.getValue()), tfDateOfComplain, complainMessagetextArea);
+        complaintTreeView.getColumns().setAll(complaint_username,complaint_date,complaint_isHandled);
+        complaintTreeView.setRoot(root);
+        complaintTreeView.setShowRoot(false);
     }
 
 
     private void loadBookings(String sql){
-
-
         JFXTreeTableColumn<Booking,String> booking_id=new JFXTreeTableColumn<>("Id");
         booking_id.setPrefWidth(30);
         booking_id.setCellValueFactory(e->e.getValue().getValue().bookingId);
