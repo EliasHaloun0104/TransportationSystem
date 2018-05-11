@@ -4,12 +4,10 @@ import com.github.model.*;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import resources.properties.Configuration;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -31,10 +29,11 @@ public class LoginController {
     @FXML private JFXTextField tfAccountLogin, tfFirstName, tfLastName, tfUsernameReg, tfPhoneReg, tfEmailReg, tfAccountPass, tfEmailReset;
     @FXML private JFXPasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, loginButtonPressed;
+    private SMS_Manager sms;
 
     public void initialize() {
         ExtendedButton.setFunction(exitLoginButton, ExtendedButton.Type.EXIT_PLATFORM);
-        Platform.runLater(() -> new Configuration().start());
+        sms = new SMS_Manager();
     }
 
     // LOGIN PANE
@@ -135,7 +134,6 @@ public class LoginController {
                 db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
             }
 
-            SMS_Manager sms = new SMS_Manager();
             sms.sendSMS("Confirmation code: " +  confirmationCode);
 
             Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
@@ -300,7 +298,7 @@ public class LoginController {
             message.setSubject("Westeros Traffic: Confirmation code");
             message.setText("Use the following confirmation code to complete your account creation and setup your password: " + confirmationCode);
             Transport.send(message);
-//            SMS_Manager.sendSMS("Confirmation code: " + confirmationCode);
+            sms.sendSMS("Confirmation code: " + confirmationCode);
             emailSent = true;
         } catch (MessagingException e) {
             e.printStackTrace();
