@@ -39,9 +39,9 @@ public class DBConnection {
         }
 
         // ssl certificate config
-        System.setProperty("javax.net.ssl.trustStore", System.getProperty("user.home")
+        System.setProperty("javax.net.ssl.trustStore", System.getProperty("user.dir")
                 + System.getProperty("file.separator")
-                + "myKeyStore");
+                + String.format("src/resources/keystore/myKeystore"));
         System.setProperty("javax.net.ssl.trustStorePassword", prop.getProperty("trustStorePassword"));
 
         // depending on connection type create correct access to db

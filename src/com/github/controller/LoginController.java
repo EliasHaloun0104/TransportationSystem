@@ -1,24 +1,26 @@
 package com.github.controller;
 
-import com.github.model.Account;
-import com.github.model.DBConnection;
-import com.github.model.SMS_Manager;
+import com.github.model.*;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import resources.properties.Configuration;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Properties;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,9 +32,9 @@ public class LoginController {
     @FXML private JFXPasswordField pfPasswordLogin, pfPasswordPass, pfPasswordConfirm, pfConfirmationCode;
     @FXML private Label newUserMsgLabel, resetPasswordMsgLabel, loginButtonPressed;
 
-
     public void initialize() {
         ExtendedButton.setFunction(exitLoginButton, ExtendedButton.Type.EXIT_PLATFORM);
+        Platform.runLater(() -> new Configuration().start());
     }
 
     // LOGIN PANE
@@ -133,7 +135,8 @@ public class LoginController {
                 db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
             }
 
-            SMS_Manager.sendSMS("Hi!" + confirmationCode);
+            SMS_Manager sms = new SMS_Manager();
+            sms.sendSMS("Confirmation code: " +  confirmationCode);
 
             Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
                     tfEmailReset.getText() + " with the confirmation code.");
