@@ -22,8 +22,6 @@ public class SMS_Manager {
         final String AUTH_TOKEN = prop.getProperty("authToken");
 
         // ssl certificate config
-//        System.setProperty("javax.net.ssl.trustStore", "/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home/lib/security/cacerts");
-//        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
         System.setProperty("javax.net.ssl.trustStore", System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + String.format("src/resources/keystore/myKeystore"));
