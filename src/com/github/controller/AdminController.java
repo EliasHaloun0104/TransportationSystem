@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -197,6 +198,17 @@ public class AdminController {
     private void printButtonPressed(ActionEvent event) {
     loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date " +
             "from Booking where BookingId ='"+searchTF.getText()+"'");
+        try {
+            new Booking(treeView.getColumns().get(0).getCellObservableValue(0).getValue().toString(),
+                    treeView.getColumns().get(1).getCellObservableValue(0).getValue().toString(),
+                    treeView.getColumns().get(2).getCellObservableValue(0).getValue().toString(),
+                    treeView.getColumns().get(3).getCellObservableValue(0).getValue().toString(),
+                    treeView.getColumns().get(4).getCellObservableValue(0).getValue().toString(),
+                    treeView.getColumns().get(5).getCellObservableValue(0).getValue().toString(),
+                    treeView.getColumns().get(6).getCellObservableValue(0).getValue().toString()).printToPdf();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

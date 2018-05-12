@@ -134,8 +134,6 @@ public class LoginController {
                 db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
             }
 
-//            sms.sendSMS("Confirmation code: " +  confirmationCode);
-
             Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
                     tfEmailReset.getText() + " with the confirmation code.");
             a.showAndWait();
