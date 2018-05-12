@@ -23,7 +23,7 @@ public class AdminController {
     @FXML
     private Tab complainsTab, viewBookingTab, employeeTab;
     @FXML
-    JFXTreeTableView<?> employeeTreeView;
+    JFXTreeTableView<Employee> employeeTreeView;
 
     @FXML
     JFXTextField employeeSearchTextField,employeeUsernameTextField,employeeFirstNameTextField,employeeLastNameTextField,
@@ -272,6 +272,46 @@ public class AdminController {
     private void deleteBookingButtonPressed(ActionEvent event) {
     }
 
+    private void loadEmployees(String sql){
+        JFXTreeTableColumn<Employee, String> employee_username = new JFXTreeTableColumn<>("Username");
+        employee_username.setPrefWidth(40);
+        employee_username.setCellValueFactory(e -> e.getValue().getValue().username);
+
+        JFXTreeTableColumn<Employee, String> employee_firstName = new JFXTreeTableColumn<>("First name");
+        employee_firstName.setPrefWidth(40);
+        employee_firstName.setCellValueFactory(e -> e.getValue().getValue().firstName);
+
+        JFXTreeTableColumn<Employee, String> employee_lastName = new JFXTreeTableColumn<>("Last name");
+        employee_username.setPrefWidth(40);
+        employee_username.setCellValueFactory(e -> e.getValue().getValue().lastName);
+
+        JFXTreeTableColumn<Employee, String> employee_email = new JFXTreeTableColumn<>("Email");
+        employee_email.setPrefWidth(40);
+        employee_email.setCellValueFactory(e -> e.getValue().getValue().email);
+
+        JFXTreeTableColumn<Employee, String> employee_phone = new JFXTreeTableColumn<>("Phone");
+        employee_phone.setPrefWidth(40);
+        employee_phone.setCellValueFactory(e -> e.getValue().getValue().phone);
+
+        JFXTreeTableColumn<Employee, String> employee_role = new JFXTreeTableColumn<>("Role");
+        employee_role.setPrefWidth(40);
+        employee_role.setCellValueFactory(e -> e.getValue().getValue().role);
+
+        JFXTreeTableColumn<Employee, String> employee_date = new JFXTreeTableColumn<>("Date");
+        employee_date.setPrefWidth(40);
+        employee_date.setCellValueFactory(e -> e.getValue().getValue().creationDate);
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
+        final TreeItem<Employee> root = new RecursiveTreeItem<>( RecursiveTreeObject::getChildren);
+
+        employeeTreeView.getColumns().setAll(employee_username, employee_firstName, employee_lastName, employee_email,employee_phone,
+                employee_role,employee_date);
+
+        employeeTreeView.setRoot(root);
+        employeeTreeView.setShowRoot(false);
+
+    }
 
     private void loadCompalaints(String sql) {
         JFXTreeTableColumn<Complaint, String> complaint_id = new JFXTreeTableColumn<>("Id");
