@@ -57,7 +57,6 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
             PDFont fontRegular = PDType1Font.HELVETICA;
             PDPageContentStream contents = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true);
 
-
             float scale = 0.5f;
             contents.drawImage(pdImage, 100, 680, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
             int startY = 650;

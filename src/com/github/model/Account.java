@@ -1,7 +1,5 @@
 package com.github.model;
 
-import com.github.controller.StageManager;
-import com.github.controller.UserScreenController;
 import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -27,21 +25,12 @@ public class Account implements Printable {
     private String role;
     private int balance;
     private String creationDate;
-    private Account[] accountList;
-
 
     public static Account getInstance() {
         return ourInstance;
     }
 
-    private Account() {
-        accountList = new Account[1];
-    }
-
-    public Account[] getAccountList() {
-        return accountList;
-    }
-
+    private Account() { }
 
     public String getAccountId() {
         return accountId;
