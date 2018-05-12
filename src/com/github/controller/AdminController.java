@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -189,14 +190,35 @@ public class AdminController {
     }
     @FXML
     private void printAllButtonPressed(ActionEvent event) {
-
-
+        print();
     }
 
     @FXML
     private void printButtonPressed(ActionEvent event) {
     loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date " +
             "from Booking where BookingId ='"+searchTF.getText()+"'");
+        print();
+    }
+
+    private void print() {
+        int count = treeView.currentItemsCountProperty().getValue();
+        Booking[] bookingList = new Booking[count];
+        for (int i = 0; i < count; i++) {
+            Booking booking = new Booking(treeView.getColumns().get(0).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(1).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(2).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(3).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(4).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(5).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(6).getCellObservableValue(i).getValue().toString());
+            bookingList[i] = booking;
+        }
+
+        try {
+            new Booking().printToPdf(bookingList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

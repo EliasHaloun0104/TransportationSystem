@@ -1,7 +1,5 @@
 package com.github.model;
 
-import com.github.controller.StageManager;
-import com.github.controller.UserScreenController;
 import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -28,13 +26,11 @@ public class Account implements Printable {
     private int balance;
     private String creationDate;
 
-
     public static Account getInstance() {
         return ourInstance;
     }
 
-    private Account() {
-    }
+    private Account() { }
 
     public String getAccountId() {
         return accountId;
@@ -129,7 +125,8 @@ public class Account implements Printable {
     }
 
     @Override
-    public void printToPdf() throws IOException {
+    public <T> void printToPdf(T... account) throws IOException {
+
 
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage();
