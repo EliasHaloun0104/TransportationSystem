@@ -24,6 +24,7 @@ public class AdminController {
     private Tab complainsTab, viewBookingTab, employeeTab;
     @FXML
     JFXTreeTableView<?> employeeTreeView;
+
     @FXML
     JFXTextField employeeSearchTextField,employeeUsernameTextField,employeeFirstNameTextField,employeeLastNameTextField,
             employeeEmailTextField,employeePhoneNbrTextField,employeeRoleTextField;
@@ -88,7 +89,7 @@ public class AdminController {
     }
     @FXML
     private void employeeTabSelected(){
-        
+
     }
     @FXML
     private void searchEmployeeButtonPressed(){

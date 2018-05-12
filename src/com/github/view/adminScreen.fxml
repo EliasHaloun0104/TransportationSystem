@@ -31,7 +31,7 @@
                            </Pane>
                            <Pane layoutX="7.0" layoutY="112.0" prefHeight="331.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
-                                 <VBox fx:id="employeeLastNameTextField" layoutX="22.0" layoutY="14.0">
+                                 <VBox layoutX="22.0" layoutY="14.0">
                                     <children>
                                        <JFXTextField fx:id="employeeUsernameTextField" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Username*" unFocusColor="#641c24">
                                           <VBox.margin>
@@ -140,66 +140,6 @@
            </content>
          </Tab>
        <fx:include source="viewProfile.fxml" />
-         <Tab fx:id="employeeTab1" onSelectionChanged="#employeeTabSelected" style="-fx-background-radius: 20;" text="Employees">
-            <content>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                     <JFXTreeTableView fx:id="employeeTreeView1" layoutX="203.0" layoutY="13.0" opacity="0.7" prefHeight="414.0" prefWidth="334.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutX="14.0" layoutY="36.0" prefHeight="451.0" prefWidth="191.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="10.0">
-                        <children>
-                           <Pane layoutX="7.0" layoutY="6.0" prefHeight="97.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
-                              <children>
-                                 <JFXTextField fx:id="employeeSearchTextField1" focusColor="#641c24" labelFloat="true" layoutX="21.0" layoutY="20.0" prefWidth="130.0" promptText="Enter username" unFocusColor="#641c24" />
-                                 <JFXButton fx:id="searchEmployeeButton1" buttonType="RAISED" layoutX="22.0" layoutY="56.0" onAction="#searchEmployeeButtonPressed" prefHeight="25.0" prefWidth="129.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
-                              </children>
-                           </Pane>
-                           <Pane layoutX="7.0" layoutY="112.0" prefHeight="331.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
-                              <children>
-                                 <VBox fx:id="employeeLastNameTextField" layoutX="22.0" layoutY="14.0">
-                                    <children>
-                                       <JFXTextField fx:id="employeeUsernameTextField1" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Username*" unFocusColor="#641c24">
-                                          <VBox.margin>
-                                             <Insets top="10.0" />
-                                          </VBox.margin>
-                                       </JFXTextField>
-                                       <JFXTextField fx:id="employeeFirstNameTextField1" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="First name*" unFocusColor="#641c24">
-                                          <VBox.margin>
-                                             <Insets top="20.0" />
-                                          </VBox.margin>
-                                       </JFXTextField>
-                                       <JFXTextField fx:id="employeeLastNameTextField1" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Last name*" unFocusColor="#641c24">
-                                          <VBox.margin>
-                                             <Insets top="20.0" />
-                                          </VBox.margin>
-                                       </JFXTextField>
-                                       <JFXTextField fx:id="employeeEmailTextField1" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Email*" unFocusColor="#641c24">
-                                          <VBox.margin>
-                                             <Insets top="20.0" />
-                                          </VBox.margin>
-                                       </JFXTextField>
-                                       <JFXTextField fx:id="employeePhoneNbrTextField1" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Phone number*" unFocusColor="#641c24">
-                                          <VBox.margin>
-                                             <Insets top="20.0" />
-                                          </VBox.margin>
-                                       </JFXTextField>
-                                       <JFXTextField fx:id="employeeRoleTextField1" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="ROLE" unFocusColor="#641c24">
-                                          <VBox.margin>
-                                             <Insets top="20.0" />
-                                          </VBox.margin>
-                                       </JFXTextField>
-                                    </children>
-                                 </VBox>
-                                 <JFXButton fx:id="createEmployeeButton1" buttonType="RAISED" layoutX="6.0" layoutY="288.0" onAction="#createEmployeeButtonPressed" prefWidth="51.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Create" textFill="WHITE" />
-                                 <JFXButton fx:id="updateEmployeeButton1" buttonType="RAISED" layoutX="61.0" layoutY="288.0" onAction="#updateEmployeeButtonPressed" prefWidth="55.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Update" textFill="WHITE" />
-                                 <JFXButton fx:id="deleteEmployeeButton1" buttonType="RAISED" layoutX="120.0" layoutY="288.0" onAction="#deleteEmployeeButtonPressed" prefWidth="51.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
-                              </children>
-                           </Pane>
-                        </children>
-                     </Pane>
-                  </children>
-               </AnchorPane>
-            </content>
-         </Tab>
      </tabs>
    </TabPane>
    <Button id="exitLoginButton" fx:id="signOutButton" layoutX="522.0" layoutY="1.5" mnemonicParsing="false" onAction="#handleSignOutButtonPressed" prefHeight="24.0" prefWidth="24.0" />
