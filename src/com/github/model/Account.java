@@ -27,6 +27,7 @@ public class Account implements Printable {
     private String role;
     private int balance;
     private String creationDate;
+    private Account[] accountList;
 
 
     public static Account getInstance() {
@@ -34,7 +35,13 @@ public class Account implements Printable {
     }
 
     private Account() {
+        accountList = new Account[1];
     }
+
+    public Account[] getAccountList() {
+        return accountList;
+    }
+
 
     public String getAccountId() {
         return accountId;
@@ -129,7 +136,8 @@ public class Account implements Printable {
     }
 
     @Override
-    public void printToPdf() throws IOException {
+    public <T> void printToPdf(T... account) throws IOException {
+
 
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage();

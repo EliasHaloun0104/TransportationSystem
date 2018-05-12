@@ -190,22 +190,32 @@ public class AdminController {
     }
     @FXML
     private void printAllButtonPressed(ActionEvent event) {
-
-
+        print();
     }
 
     @FXML
     private void printButtonPressed(ActionEvent event) {
     loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date " +
             "from Booking where BookingId ='"+searchTF.getText()+"'");
+        print();
+    }
+
+    private void print() {
+        int count = treeView.currentItemsCountProperty().getValue();
+        Booking[] bookingList = new Booking[count];
+        for (int i = 0; i < count; i++) {
+            Booking booking = new Booking(treeView.getColumns().get(0).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(1).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(2).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(3).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(4).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(5).getCellObservableValue(i).getValue().toString(),
+                    treeView.getColumns().get(6).getCellObservableValue(i).getValue().toString());
+            bookingList[i] = booking;
+        }
+
         try {
-            new Booking(treeView.getColumns().get(0).getCellObservableValue(0).getValue().toString(),
-                    treeView.getColumns().get(1).getCellObservableValue(0).getValue().toString(),
-                    treeView.getColumns().get(2).getCellObservableValue(0).getValue().toString(),
-                    treeView.getColumns().get(3).getCellObservableValue(0).getValue().toString(),
-                    treeView.getColumns().get(4).getCellObservableValue(0).getValue().toString(),
-                    treeView.getColumns().get(5).getCellObservableValue(0).getValue().toString(),
-                    treeView.getColumns().get(6).getCellObservableValue(0).getValue().toString()).printToPdf();
+            new Booking().printToPdf(bookingList);
         } catch (IOException e) {
             e.printStackTrace();
         }

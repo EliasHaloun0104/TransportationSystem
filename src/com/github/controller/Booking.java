@@ -8,6 +8,7 @@ import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
@@ -25,7 +26,7 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
     StringProperty amount;
     StringProperty date;
 
-    public Booking(){
+    public Booking() {
         super();
     }
 
@@ -41,7 +42,10 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
     }
 
     @Override
-    public void printToPdf() throws IOException {
+    public <T> void printToPdf(T... list) throws IOException {
+
+        Booking[] bookingList = (Booking[]) list;
+
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage();
             doc.addPage(page);
@@ -51,58 +55,81 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
 
             PDFont fontBold = PDType1Font.HELVETICA_BOLD;
             PDFont fontRegular = PDType1Font.HELVETICA;
+            PDPageContentStream contents = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true);
 
-            try (PDPageContentStream contents = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
 
-                float scale = 0.5f;
-                contents.drawImage(pdImage, 100, 680, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
+            float scale = 0.5f;
+            contents.drawImage(pdImage, 100, 680, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
+            int startY = 650;
+            int diffY = 120;
+
+            for (int i = 0; i < list.length; i++) {
+
+                if (startY < 200) {
+                    page = new PDPage();
+                    doc.addPage(page);
+                    contents.close();
+                    contents = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true);
+                    contents.drawImage(pdImage, 100, 680, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
+                    startY = 770;
+                }
 
                 contents.beginText();
                 contents.setFont(fontBold, 12);
-                contents.newLineAtOffset(100, 650);
+                if (i == 0) {
+                    contents.newLineAtOffset(100, startY);
+                } else {
+                    startY -= diffY;
+                    contents.newLineAtOffset(100, startY);
+                }
                 contents.showText("Booking ID: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(bookingId.getValue());
+                contents.showText(bookingList[i].bookingId.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
                 contents.showText("Username: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(accountUserName.getValue());
+                contents.showText(bookingList[i].accountUserName.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
                 contents.showText("From: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(fromStation.getValue());
+                contents.showText(bookingList[i].fromStation.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
                 contents.showText("To: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(toStation.getValue());
+                contents.showText(bookingList[i].toStation.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
                 contents.showText("Route ID: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(routId.getValue());
+                contents.showText(bookingList[i].routId.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
                 contents.showText("Amount: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(amount.getValue());
+                contents.showText(bookingList[i].amount.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
                 contents.showText("Date: ");
                 contents.setFont(fontRegular, 12);
-                contents.showText(date.getValue());
+                contents.showText(bookingList[i].date.getValue());
 
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(0, -30);
+                contents.showText(" ");
 
                 contents.endText();
             }
+
+            contents.close();
 
             FileChooser fc = new FileChooser();
             fc.setTitle("Save File");
