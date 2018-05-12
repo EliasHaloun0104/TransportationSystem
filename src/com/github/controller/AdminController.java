@@ -15,6 +15,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class AdminController {
+    @FXML
+    private Button signOutButton;
+    @FXML
+    private VBox textFieldsWrapper;
+
+    @FXML
+    private Tab complainsTab, viewBookingTab, employeeTab;
+    @FXML
+    JFXTreeTableView<?> employeeTreeView;
+    @FXML
+    JFXTextField employeeSearchTextField,employeeUsernameTextField,employeeFirstNameTextField,employeeLastNameTextField,
+            employeeEmailTextField,employeePhoneNbrTextField,employeeRoleTextField;
+    @FXML
+    JFXButton searchEmployeeButton,createEmployeeButton,updateEmployeeButton,deleteEmployeeButton;
 
     @FXML
     private JFXTreeTableView<Booking> treeView;
@@ -24,17 +38,6 @@ public class AdminController {
 
     @FXML
     private JFXButton deleteBookingButton, printBookingButton, printAllBookingsButton;
-
-
-    @FXML
-    private TextField userNameTextField, firstNameTextField, lastNameTextField, emailTextField, phoneNbrTextField,
-            roleTextField, passwordTextField, confirmPasswordTextField, vehicleNumberTextField;
-    @FXML
-    private Tab complainsTab, viewBookingTab;
-    @FXML
-    private Button signOutButton;
-    @FXML
-    private VBox textFieldsWrapper;
 
     @FXML
     JFXTreeTableView<Complaint> complaintTreeView;
@@ -82,6 +85,26 @@ public class AdminController {
                 }
             }
         }
+    }
+    @FXML
+    private void employeeTabSelected(){
+        
+    }
+    @FXML
+    private void searchEmployeeButtonPressed(){
+
+    }
+    @FXML
+    private void createEmployeeButtonPressed(){
+
+    }
+    @FXML
+    private void updateEmployeeButtonPressed(){
+
+    }
+    @FXML
+    private void deleteEmployeeButtonPressed(){
+
     }
 
     @FXML
@@ -171,45 +194,45 @@ public class AdminController {
 
     }
 
-    @FXML
-    private void createButtonPressed() {
-        boolean status = true;
-
-        if (userNameTextField.getText().trim().isEmpty() || firstNameTextField.getText().trim().isEmpty() ||
-                lastNameTextField.getText().trim().isEmpty() || phoneNbrTextField.getText().trim().isEmpty() ||
-                passwordTextField.getText().trim().isEmpty() || confirmPasswordTextField.getText().trim().isEmpty() ||
-                roleTextField.getText().trim().isEmpty() || emailTextField.getText().trim().isEmpty() ||
-                vehicleNumberTextField.getText().trim().isEmpty()) {
-            Alert a = new Alert(Alert.AlertType.WARNING, "The fields are empty.\n" +
-                    "Please make sure you fill the fields.", ButtonType.OK);
-            a.showAndWait();
-            status = false;
-        }
-        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())) {
-            Alert a = new Alert(Alert.AlertType.WARNING, "Password doesn't match.\n" +
-                    "Please try again.", ButtonType.OK);
-            passwordTextField.setText("");
-            confirmPasswordTextField.setText("");
-            a.showAndWait();
-            status = false;
-        }
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-        if (db.usernameExists(userNameTextField.getText())) {
-            Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
-                    "Choose a different one.", ButtonType.OK);
-            a.showAndWait();
-            status = false;
-        }
-        if (status) {
-            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            dbConnection.addEmployee(userNameTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(),
-                    emailTextField.getText(), phoneNbrTextField.getText(),
-                    roleTextField.getText(), passwordTextField.getText());
-
-        }
-
-
-    }
+//    @FXML
+//    private void createButtonPressed() {
+//        boolean status = true;
+//
+//        if (userNameTextField.getText().trim().isEmpty() || firstNameTextField.getText().trim().isEmpty() ||
+//                lastNameTextField.getText().trim().isEmpty() || phoneNbrTextField.getText().trim().isEmpty() ||
+//                passwordTextField.getText().trim().isEmpty() || confirmPasswordTextField.getText().trim().isEmpty() ||
+//                roleTextField.getText().trim().isEmpty() || emailTextField.getText().trim().isEmpty() ||
+//                vehicleNumberTextField.getText().trim().isEmpty()) {
+//            Alert a = new Alert(Alert.AlertType.WARNING, "The fields are empty.\n" +
+//                    "Please make sure you fill the fields.", ButtonType.OK);
+//            a.showAndWait();
+//            status = false;
+//        }
+//        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())) {
+//            Alert a = new Alert(Alert.AlertType.WARNING, "Password doesn't match.\n" +
+//                    "Please try again.", ButtonType.OK);
+//            passwordTextField.setText("");
+//            confirmPasswordTextField.setText("");
+//            a.showAndWait();
+//            status = false;
+//        }
+//        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+//        if (db.usernameExists(userNameTextField.getText())) {
+//            Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
+//                    "Choose a different one.", ButtonType.OK);
+//            a.showAndWait();
+//            status = false;
+//        }
+//        if (status) {
+//            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+//            dbConnection.addEmployee(userNameTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(),
+//                    emailTextField.getText(), phoneNbrTextField.getText(),
+//                    roleTextField.getText(), passwordTextField.getText());
+//
+//        }
+//
+//
+//    }
 
     @FXML
     private void printAllBookingsButtonPressed(ActionEvent event) {
