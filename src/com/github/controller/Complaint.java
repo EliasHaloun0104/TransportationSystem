@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 
 public class Complaint extends RecursiveTreeObject<Complaint> {
 
+    StringProperty id;
     StringProperty username;
     StringProperty date;
     StringProperty isHandled;
@@ -15,7 +16,8 @@ public class Complaint extends RecursiveTreeObject<Complaint> {
         super();
     }
 
-    public Complaint(String username, String date, String isHandled,String message) {
+    public Complaint(String id,String username, String date, String isHandled,String message) {
+        this.id = new SimpleStringProperty(id);
         this.username = new SimpleStringProperty(username);
         this.date = new SimpleStringProperty(date);
         this.isHandled = new SimpleStringProperty(isHandled);
