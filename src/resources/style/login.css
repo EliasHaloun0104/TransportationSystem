@@ -91,3 +91,16 @@ GridPane Label{
 #RegionAnchorPane{
     -fx-background-image: url('../img/TrainMap.png');
 }
+
+.tree-table-view{
+    -fx-tree-table-color: #641c24;
+}
+
+.tree-table-view:focused .tree-table-row-cell:selected{
+    -fx-background-color: -fx-tree-table-color;
+    -fx-table-cell-border-color: -fx-tree-table-color;
+}
+
+.tree-table-row-cell:hover{
+    -fx-background-color: #9d8c8c;
+}
