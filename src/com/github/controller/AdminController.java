@@ -66,7 +66,7 @@ public class AdminController {
     @FXML
     JFXTimePicker startTimePicker, endTimePicker;
     @FXML
-    JFXTextField updatesScheduleId, updatesPriceTextField, updatesRouteIdTextField, updatesRouteTypeTextField,
+    JFXTextField updatesScheduleIdTextField, updatesPriceTextField, updatesRouteIdTextField, updatesRouteTypeTextField,
             updatesUsernameTextField, updatesVehicleIdTextField, updatesPDurationTextField;
 
     private String complaintStatus = null;
@@ -77,8 +77,7 @@ public class AdminController {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         searchComplaintsButton.setDisable(true);
         compensateButton.setDisable(true);
-        startTimePicker.setIs24HourView(true);
-        endTimePicker.setIs24HourView(true);
+        updatesUpdateButton.setDisable(true);
 
 
     }
@@ -362,11 +361,55 @@ public class AdminController {
 
     @FXML
     private void updatesLoadButtonPressed() {
+loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime,Schedule.Duration,Schedule.Price,Schedule.Station_From,\n" +
+        "Schedule.Station_To,Schedule.Route_Id,Route.RouteType,Schedule.Vehicle_Id,Vehicle.Account_Username,Station.Name,Station.StationId\n" +
+        "FROM \n" +
+        "Schedule inner join Route on Route_Id= Route.IdRoute \n" +
+        "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId\n" +
+        "left join Station on Schedule.ScheduleId = StationId where ScheduleId ='"+updatesScheduleIdTextField.getText()+"'");
+
+    DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+    db.loadASchedule(updatesScheduleIdTextField.getText(),updatesPDurationTextField,updatesPriceTextField,updatesRouteIdTextField,
+            updatesRouteTypeTextField,updatesUsernameTextField,updatesVehicleIdTextField);
+        updatesUpdateButton.setDisable(false);
 
     }
 
     @FXML
     private void updatesUpdateButtonPressed() {
+        if (updatesScheduleIdTextField.getText().isEmpty()|updatesRouteTypeTextField.getText().isEmpty()|
+                updatesRouteIdTextField.getText().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Search filed is empty.\n" +
+                    "Please make sure you enter a number in the search field.", ButtonType.OK);
+            a.showAndWait();
+            updatesScheduleIdTextField.setText("");
+        }
+        else {
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db.updateVehicleUsername(updatesVehicleIdTextField.getText(), updatesUsernameTextField.getText());
+
+            DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db1.updateSchedule(updatesScheduleIdTextField.getText(), startTimePicker.getValue() + ":00",
+                    endTimePicker.getValue() + ":00", updatesPDurationTextField.getText(), updatesPriceTextField.getText());
+
+            updatesScheduleIdTextField.setText("");
+            updatesPriceTextField.setText("");
+            updatesRouteIdTextField.setText("");
+            updatesRouteTypeTextField.setText("");
+            updatesUsernameTextField.setText("");
+            updatesVehicleIdTextField.setText("");
+            updatesPDurationTextField.setText("");
+
+            loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime,Schedule.Duration,Schedule.Price,Schedule.Station_From,\n" +
+                    "Schedule.Station_To,Schedule.Route_Id,Route.RouteType,Schedule.Vehicle_Id,Vehicle.Account_Username,Station.Name,Station.StationId\n" +
+                    "FROM \n" +
+                    "Schedule inner join Route on Route_Id= Route.IdRoute \n" +
+                    "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId\n" +
+                    "left join Station on Schedule.ScheduleId = StationId order by ScheduleId");
+        }
+        updatesUpdateButton.setDisable(true);
+
+
 
     }
 

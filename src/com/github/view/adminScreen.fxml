@@ -112,7 +112,7 @@
                            <Pane layoutX="150.0" layoutY="8.0" opacity="0.85" prefHeight="204.0" prefWidth="374.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXButton fx:id="updatesLoadButton" buttonType="RAISED" layoutX="207.0" layoutY="16.0" onAction="#updatesLoadButtonPressed" prefHeight="25.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Load" textFill="WHITE" />
-                                 <JFXTextField fx:id="updatesScheduleId" focusColor="#641c24" labelFloat="true" layoutX="61.0" layoutY="16.0" prefHeight="25.0" prefWidth="100.0" promptText="ScheduleID" unFocusColor="#641c24" />
+                                 <JFXTextField fx:id="updatesScheduleIdTextField" focusColor="#641c24" labelFloat="true" layoutX="61.0" layoutY="16.0" prefHeight="25.0" prefWidth="100.0" promptText="ScheduleID" unFocusColor="#641c24" />
                                  <JFXTimePicker fx:id="endTimePicker" defaultColor="#641c24" layoutX="11.0" layoutY="102.0" prefHeight="25.0" prefWidth="100.0" promptText="End time" />
                                  <JFXTimePicker fx:id="startTimePicker" defaultColor="#641c24" layoutX="10.0" layoutY="56.0" prefHeight="25.0" prefWidth="100.0" promptText="Start time" />
                                  <JFXButton fx:id="updatesUpdateButton" buttonType="RAISED" layoutX="257.0" layoutY="152.0" onAction="#updatesUpdateButtonPressed" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Update" textFill="WHITE" />

@@ -3,6 +3,8 @@ package com.github.model;
 import com.github.controller.*;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
+import com.mysql.cj.util.TimeUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -17,6 +19,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class DBConnection {
     // constructor needs a connection type argument
@@ -854,5 +858,83 @@ public class DBConnection {
         }
 
         return schedulesInfo;
+    }
+    public void loadASchedule(String scheduleId,JFXTextField duration,
+                              JFXTextField price, JFXTextField routeID, JFXTextField routeType, JFXTextField username,
+                              JFXTextField vehicleId){
+        String query ="SELECT * FROM Schedule inner join Route on Route_Id= Route.IdRoute \n" +
+                "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId where ScheduleId = ?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            ps.setString(1,scheduleId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    duration.setText(rs.getString(4));
+                    price.setText(rs.getString(9));
+                    routeID.setText(rs.getString(12));
+                    routeType.setText(rs.getString(15));
+                    username.setText(rs.getString(17));
+                    vehicleId.setText(rs.getString(13));
+
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+    public void updateSchedule(String scheduleId, String startTime, String endTime,String duration, String price){
+        String query = "Update Schedule set StartTime = ?, EndTime = ?, Duration = ?, Price = ? where ScheduleId =?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, startTime);
+            ps.setString(2,endTime);
+            ps.setString(3, duration);
+            ps.setString(4, price);
+            ps.setString(5, scheduleId);
+
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void updateVehicleUsername(String vehicleId, String username){
+
+        String query = "Update Vehicle set Account_Username = ? where VehicleId =?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.setString(2,vehicleId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
