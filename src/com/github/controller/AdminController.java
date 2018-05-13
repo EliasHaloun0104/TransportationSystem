@@ -89,14 +89,59 @@ public class AdminController {
     }
     @FXML
     private void employeeTabSelected(){
+        loadEmployees("select * from Account where ROLE not like 'USER'");
 
     }
     @FXML
     private void searchEmployeeButtonPressed(){
+        employeeUsernameTextField.setText("");
+        employeeFirstNameTextField.setText("");
+        employeeLastNameTextField.setText("");
+        employeeEmailTextField.setText("");
+        employeePhoneNbrTextField.setText("");
+        employeeRoleTextField.setText("");
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db.getEmployeeInfo(employeeSearchTextField.getText(),employeeUsernameTextField,employeeFirstNameTextField,employeeLastNameTextField,
+                employeeEmailTextField,employeePhoneNbrTextField,employeeRoleTextField);
+
+        employeeSearchTextField.setText("");
 
     }
     @FXML
     private void createEmployeeButtonPressed(){
+        boolean status = true;
+
+        if (employeeUsernameTextField.getText().trim().isEmpty() || employeeFirstNameTextField.getText().trim().isEmpty() ||
+                employeeLastNameTextField.getText().trim().isEmpty() || employeePhoneNbrTextField.getText().trim().isEmpty() ||
+                employeeRoleTextField.getText().trim().isEmpty() || employeeEmailTextField.getText().trim().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "The fields are empty.\n" +
+                    "Please make sure you fill the fields.", ButtonType.OK);
+            a.showAndWait();
+            status = false;
+        }
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+        if (db.usernameExists(employeeUsernameTextField.getText())) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
+                    "Choose a different one.", ButtonType.OK);
+            a.showAndWait();
+            status = false;
+        }
+        if (status) {
+            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            dbConnection.addEmployee(employeeUsernameTextField.getText(), employeeFirstNameTextField.getText(), employeeLastNameTextField.getText(),
+                    employeeEmailTextField.getText(), employeePhoneNbrTextField.getText(),
+                    employeeRoleTextField.getText());
+
+        }
+        loadEmployees("Select * from Account");
+        employeeUsernameTextField.setText("");
+        employeeFirstNameTextField.setText("");
+        employeeLastNameTextField.setText("");
+        employeeEmailTextField.setText("");
+        employeePhoneNbrTextField.setText("");
+        employeeRoleTextField.setText("");
 
     }
     @FXML
@@ -195,45 +240,6 @@ public class AdminController {
 
     }
 
-//    @FXML
-//    private void createButtonPressed() {
-//        boolean status = true;
-//
-//        if (userNameTextField.getText().trim().isEmpty() || firstNameTextField.getText().trim().isEmpty() ||
-//                lastNameTextField.getText().trim().isEmpty() || phoneNbrTextField.getText().trim().isEmpty() ||
-//                passwordTextField.getText().trim().isEmpty() || confirmPasswordTextField.getText().trim().isEmpty() ||
-//                roleTextField.getText().trim().isEmpty() || emailTextField.getText().trim().isEmpty() ||
-//                vehicleNumberTextField.getText().trim().isEmpty()) {
-//            Alert a = new Alert(Alert.AlertType.WARNING, "The fields are empty.\n" +
-//                    "Please make sure you fill the fields.", ButtonType.OK);
-//            a.showAndWait();
-//            status = false;
-//        }
-//        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())) {
-//            Alert a = new Alert(Alert.AlertType.WARNING, "Password doesn't match.\n" +
-//                    "Please try again.", ButtonType.OK);
-//            passwordTextField.setText("");
-//            confirmPasswordTextField.setText("");
-//            a.showAndWait();
-//            status = false;
-//        }
-//        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
-//        if (db.usernameExists(userNameTextField.getText())) {
-//            Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
-//                    "Choose a different one.", ButtonType.OK);
-//            a.showAndWait();
-//            status = false;
-//        }
-//        if (status) {
-//            DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
-//            dbConnection.addEmployee(userNameTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(),
-//                    emailTextField.getText(), phoneNbrTextField.getText(),
-//                    roleTextField.getText(), passwordTextField.getText());
-//
-//        }
-//
-//
-//    }
 
     @FXML
     private void printAllBookingsButtonPressed(ActionEvent event) {
@@ -274,36 +280,36 @@ public class AdminController {
 
     private void loadEmployees(String sql){
         JFXTreeTableColumn<Employee, String> employee_username = new JFXTreeTableColumn<>("Username");
-        employee_username.setPrefWidth(40);
+        employee_username.setPrefWidth(60);
         employee_username.setCellValueFactory(e -> e.getValue().getValue().username);
 
         JFXTreeTableColumn<Employee, String> employee_firstName = new JFXTreeTableColumn<>("First name");
-        employee_firstName.setPrefWidth(40);
+        employee_firstName.setPrefWidth(60);
         employee_firstName.setCellValueFactory(e -> e.getValue().getValue().firstName);
 
         JFXTreeTableColumn<Employee, String> employee_lastName = new JFXTreeTableColumn<>("Last name");
-        employee_username.setPrefWidth(40);
-        employee_username.setCellValueFactory(e -> e.getValue().getValue().lastName);
+        employee_lastName.setPrefWidth(60);
+        employee_lastName.setCellValueFactory(e -> e.getValue().getValue().lastName);
 
         JFXTreeTableColumn<Employee, String> employee_email = new JFXTreeTableColumn<>("Email");
-        employee_email.setPrefWidth(40);
+        employee_email.setPrefWidth(60);
         employee_email.setCellValueFactory(e -> e.getValue().getValue().email);
 
         JFXTreeTableColumn<Employee, String> employee_phone = new JFXTreeTableColumn<>("Phone");
-        employee_phone.setPrefWidth(40);
+        employee_phone.setPrefWidth(60);
         employee_phone.setCellValueFactory(e -> e.getValue().getValue().phone);
 
         JFXTreeTableColumn<Employee, String> employee_role = new JFXTreeTableColumn<>("Role");
-        employee_role.setPrefWidth(40);
+        employee_role.setPrefWidth(60);
         employee_role.setCellValueFactory(e -> e.getValue().getValue().role);
 
         JFXTreeTableColumn<Employee, String> employee_date = new JFXTreeTableColumn<>("Date");
-        employee_date.setPrefWidth(40);
+        employee_date.setPrefWidth(130);
         employee_date.setCellValueFactory(e -> e.getValue().getValue().creationDate);
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
 
-        final TreeItem<Employee> root = new RecursiveTreeItem<>( RecursiveTreeObject::getChildren);
+        final TreeItem<Employee> root = new RecursiveTreeItem<>(db.getEmployee(sql), RecursiveTreeObject::getChildren);
 
         employeeTreeView.getColumns().setAll(employee_username, employee_firstName, employee_lastName, employee_email,employee_phone,
                 employee_role,employee_date);

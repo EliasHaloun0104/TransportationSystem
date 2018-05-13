@@ -16,7 +16,7 @@
 <AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.AdminController">
    <TabPane prefHeight="500.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
-         <Tab fx:id="employeeTab" style="-fx-background-radius: 20;" text="Employees">
+         <Tab fx:id="employeeTab" onSelectionChanged="#employeeTabSelected" style="-fx-background-radius: 20;" text="Employees">
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -33,7 +33,7 @@
                               <children>
                                  <VBox layoutX="22.0" layoutY="14.0">
                                     <children>
-                                       <JFXTextField fx:id="employeeUsernameTextField" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Username*" unFocusColor="#641c24">
+                                       <JFXTextField fx:id="employeeUsernameTextField" editable="false" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Username*" unFocusColor="#641c24">
                                           <VBox.margin>
                                              <Insets top="10.0" />
                                           </VBox.margin>
@@ -58,7 +58,7 @@
                                              <Insets top="20.0" />
                                           </VBox.margin>
                                        </JFXTextField>
-                                       <JFXTextField fx:id="employeeRoleTextField" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="ROLE" unFocusColor="#641c24">
+                                       <JFXTextField fx:id="employeeRoleTextField" editable="false" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="ROLE" unFocusColor="#641c24">
                                           <VBox.margin>
                                              <Insets top="20.0" />
                                           </VBox.margin>
