@@ -531,13 +531,13 @@ public class DBConnection {
     }
 
 
-    public void updateComplainAnswer(String answer, String username) {
-        String query = "Update Complaint set answer = ?, complaintStatus = ? where Account_userName =?";
+    public void updateComplainAnswer(String answer, String id) {
+        String query = "Update Complaint set answer = ?, complaintStatus = ? where ComplaintId =?";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, answer);
             ps.setString(2,"Handled");
-            ps.setString(3, username);
+            ps.setString(3, id);
 
             ps.executeUpdate();
 
@@ -675,7 +675,7 @@ public class DBConnection {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    complaints.add(new Complaint(rs.getString(6),rs.getString(4),rs.getString(5),
+                    complaints.add(new Complaint(rs.getString(1),rs.getString(6),rs.getString(4),rs.getString(5),
                             rs.getString(2)));
 
                 }
@@ -695,11 +695,11 @@ public class DBConnection {
         return complaints;
     }
 
-    public void getComplaintMessageAndAnswer(String username, JFXTextArea message, JFXTextArea answer){
+    public void getComplaintMessageAndAnswer(String id, JFXTextArea message, JFXTextArea answer){
 
-        String query = "SELECT Message, Answer from Complaint where Account_Username=?";
+        String query = "SELECT Message, Answer from Complaint where ComplaintId=?";
         try (PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1,username);
+            ps.setString(1,id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -720,6 +720,33 @@ public class DBConnection {
 
 
         }
+
+    }
+    public String getComplaintUsername(String id){
+
+        String query = "SELECT Account_Username from Complaint where ComplaintId=?";
+        String username ="";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1,id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                username = rs.getString(1);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        return username;
 
     }
 }

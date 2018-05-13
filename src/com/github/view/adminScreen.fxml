@@ -132,10 +132,10 @@
                      <JFXTreeTableView fx:id="treeView" prefHeight="376.0" prefWidth="550.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      <Pane layoutY="383.0" prefHeight="88.0" prefWidth="550.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="383.0">
                         <children>
-                           <JFXButton fx:id="printAllButton" buttonType="RAISED" layoutX="436.0" layoutY="44.0" onAction="#printAllButtonPressed" prefHeight="30.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />
-                           <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="25.0" layoutY="44.0" onAction="#deleteButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
-                           <JFXButton fx:id="printButton" buttonType="RAISED" layoutX="118.0" layoutY="44.0" onAction="#printButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print" textFill="WHITE" />
-                           <JFXTextField fx:id="searchTF" focusColor="#641c24" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Id" />
+                           <JFXButton fx:id="printAllBookingsButton" buttonType="RAISED" layoutX="436.0" layoutY="44.0" onAction="#printAllBookingsButtonPressed" prefHeight="30.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />
+                           <JFXButton fx:id="deleteBookingButton" buttonType="RAISED" layoutX="25.0" layoutY="44.0" onAction="#deleteBookingButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
+                           <JFXButton fx:id="printBookingButton" buttonType="RAISED" layoutX="118.0" layoutY="44.0" onAction="#printBookingButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print" textFill="WHITE" />
+                           <JFXTextField fx:id="searchBookingTextField" focusColor="#641c24" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Id" />
                         </children>
                      </Pane>
                   </children></AnchorPane>
@@ -153,23 +153,35 @@
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.7" prefHeight="448.0" prefWidth="362.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.7" prefHeight="360.0" prefWidth="362.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="101.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      <Pane layoutX="14.0" layoutY="14.0" opacity="0.7" prefHeight="451.0" prefWidth="162.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                         <children>
                            <Pane layoutX="9.0" layoutY="11.0" prefHeight="120.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
-                                 <JFXButton fx:id="searchComplaintsButton" buttonType="RAISED" layoutX="15.0" layoutY="89.0" onAction="#searchComplaintsButtonPressed" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search Complaints" textFill="WHITE" />
-                                 <JFXCheckBox fx:id="handledCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="21.0" onAction="#handledCrossed" text="Handled" unCheckedColor="#641c24" />
-                                 <JFXCheckBox fx:id="notHandledCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="55.0" onAction="#notHandledCrossed" text="Not Handled" unCheckedColor="#641c24" />
+                                 <JFXButton fx:id="searchComplaintsButton" buttonType="RAISED" layoutX="9.0" layoutY="83.0" onAction="#searchComplaintsButtonPressed" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search Complaints" textFill="WHITE" />
+                                 <JFXCheckBox fx:id="handledComplaintCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="21.0" onAction="#handledComplaintCrossed" text="Handled" unCheckedColor="#641c24" />
+                                 <JFXCheckBox fx:id="notHandledComplaintCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="55.0" onAction="#notHandledComplaintCrossed" text="Not Handled" unCheckedColor="#641c24" />
                               </children>
                            </Pane>
-                           <Pane layoutX="9.0" layoutY="145.0" prefHeight="289.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="9.0" layoutY="141.0" prefHeight="297.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
-                                 <JFXTextField fx:id="enterUsernameTextField" focusColor="#641c24" labelFloat="true" layoutX="6.0" layoutY="16.0" prefHeight="25.0" prefWidth="132.0" promptText="Enter a username" unFocusColor="#641c24" />
-                                 <JFXTextArea fx:id="messageTextArea" editable="false" focusColor="#641c24" labelFloat="true" layoutX="7.0" layoutY="93.0" prefHeight="59.0" prefWidth="131.0" promptText="Message" unFocusColor="#641c24" />
-                                 <JFXTextArea fx:id="answerTextArea" focusColor="#641c24" labelFloat="true" layoutX="6.0" layoutY="179.0" prefHeight="52.0" prefWidth="131.0" promptText="Answer" unFocusColor="#641c24" />
-                                 <JFXButton fx:id="compensateButton" buttonType="RAISED" layoutX="4.0" layoutY="250.0" onAction="#compensateButtonPressed" prefHeight="25.0" prefWidth="134.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Compensate" textFill="WHITE" />
+                                 <JFXTextField fx:id="enterComplaintIdTextField" focusColor="#641c24" labelFloat="true" layoutX="6.0" layoutY="16.0" prefHeight="25.0" prefWidth="132.0" promptText="Enter complaint id" unFocusColor="#641c24" />
+                                 <JFXTextArea fx:id="complaintMessageTextArea" editable="false" focusColor="#641c24" labelFloat="true" layoutX="7.0" layoutY="93.0" prefHeight="59.0" prefWidth="131.0" promptText="Message" unFocusColor="#641c24" />
+                                 <JFXTextArea fx:id="complaintAnswerTextArea" focusColor="#641c24" labelFloat="true" layoutX="6.0" layoutY="174.0" prefHeight="52.0" prefWidth="131.0" promptText="Answer" unFocusColor="#641c24" />
+                                 <JFXButton fx:id="handleComplaintButton" buttonType="RAISED" layoutX="8.0" layoutY="238.0" onAction="#handleComplaintButtonPressed" prefHeight="25.0" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Handle" textFill="WHITE" />
                                  <JFXButton fx:id="loadComplaintButton" buttonType="RAISED" layoutX="11.0" layoutY="51.0" onAction="#loadComplaintButtonPressed" prefHeight="25.0" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Load complaint" textFill="WHITE" />
+                                 <JFXButton fx:id="compensateButton" buttonType="RAISED" layoutX="8.0" layoutY="266.0" onAction="#compensateButtonPressed" prefHeight="25.0" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Compensate" textFill="WHITE" />
+                              </children>
+                           </Pane>
+                        </children>
+                     </Pane>
+                     <Pane layoutX="177.0" layoutY="375.0" opacity="0.7" prefHeight="87.0" prefWidth="363.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;">
+                        <children>
+                           <Pane layoutX="7.0" layoutY="7.0" prefHeight="73.0" prefWidth="348.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                              <children>
+                                 <JFXTextField fx:id="complaintIdToPrintTextField" focusColor="#641c24" labelFloat="true" layoutX="9.0" layoutY="12.0" prefHeight="25.0" prefWidth="132.0" promptText="Enter complaint id" unFocusColor="#641c24" />
+                                 <JFXButton fx:id="printAllComplaintsButton" buttonType="RAISED" layoutX="207.0" layoutY="42.0" onAction="#printAllComplaintsButtonPressed" prefHeight="25.0" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />
+                                 <JFXButton fx:id="printComplaintButton" buttonType="RAISED" layoutX="12.0" layoutY="42.0" onAction="#printComplaintButtonPressed" prefHeight="25.0" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print" textFill="WHITE" />
                               </children>
                            </Pane>
                         </children>
