@@ -126,7 +126,9 @@ public class AdminController {
             Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
                     "Choose a different one.", ButtonType.OK);
             a.showAndWait();
+            employeeUsernameTextField.setText("");
             status = false;
+
         }
         if (status) {
             DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
@@ -134,14 +136,16 @@ public class AdminController {
                     employeeEmailTextField.getText(), employeePhoneNbrTextField.getText(),
                     employeeRoleTextField.getText());
 
+            loadEmployees("Select * from Account");
+            employeeUsernameTextField.setText("");
+            employeeFirstNameTextField.setText("");
+            employeeLastNameTextField.setText("");
+            employeeEmailTextField.setText("");
+            employeePhoneNbrTextField.setText("");
+            employeeRoleTextField.setText("");
+
         }
-        loadEmployees("Select * from Account");
-        employeeUsernameTextField.setText("");
-        employeeFirstNameTextField.setText("");
-        employeeLastNameTextField.setText("");
-        employeeEmailTextField.setText("");
-        employeePhoneNbrTextField.setText("");
-        employeeRoleTextField.setText("");
+
 
     }
     @FXML
