@@ -554,6 +554,25 @@ public class DBConnection {
         }
 
     }
+    public void makeComplain(String message){
+        String query = "INSERT INTO Complaint (Message, Account_Username) VALUES (?,?)";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, message);
+            ps.setString(2, Account.getInstance().getAccountId());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 

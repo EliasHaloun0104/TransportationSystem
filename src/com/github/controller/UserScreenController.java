@@ -23,6 +23,7 @@ public class UserScreenController implements Initializable {
     @FXML Label balance;
     @FXML ScrollPane resultsContainer;
     @FXML Tab balanceTab;
+    @FXML TextArea complainArea;
 
 
     @Override
@@ -103,6 +104,13 @@ public class UserScreenController implements Initializable {
             processBtn.setDisable(false);
         }
 
+    }
+    @FXML public void makeComplain(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        dbConnection.makeComplain(complainArea.getText());
+        complainArea.setText("");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Confirmed", ButtonType.OK);
+        alert.showAndWait();
     }
 
     public void setBalance() {

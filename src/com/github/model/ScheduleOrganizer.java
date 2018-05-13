@@ -5,7 +5,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.*;
@@ -136,15 +135,23 @@ public class ScheduleOrganizer {
 
 
     public ArrayList<Vehicle> generateVehicles(){
+        int minuteNow = Calendar.getInstance().get(Calendar.MINUTE);
         ArrayList<Vehicle> vehicles = new ArrayList<>();
         for(Map.Entry<Integer, ArrayList<ScheduledRoute>> entry : items.entrySet()) {
             for (ScheduledRoute t: entry.getValue()) {
-                boolean bol_1 = Calendar.getInstance().get(Calendar.MINUTE)>= t.getStartTime().getMinute();
-                boolean bol_2 = Calendar.getInstance().get(Calendar.MINUTE)< t.getEndTime().getMinute();
-                boolean bol_3 = (t.getStartTime().getMinute()>t.getEndTime().getMinute()) && !bol_1 && !bol_2;
-                if((bol_1 && bol_2) || bol_3){
+                int startTime = t.getStartTime().getMinute();
+                int endTime = t.getEndTime().getMinute();
+                if (endTime < startTime) {
+                    endTime += 60;
+                }
+                if (minuteNow >= startTime) {
+                    if (minuteNow < endTime) {
+                        vehicles.add(new Vehicle(t));
+                    }
+                }else if (minuteNow< endTime- 60) {
                     vehicles.add(new Vehicle(t));
                 }
+
             }
         }
         return vehicles;
