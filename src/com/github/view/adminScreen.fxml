@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -20,16 +21,16 @@
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="employeeTreeView" layoutX="203.0" layoutY="13.0" opacity="0.7" prefHeight="414.0" prefWidth="334.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutX="14.0" layoutY="36.0" prefHeight="451.0" prefWidth="191.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="10.0">
+                     <JFXTreeTableView fx:id="employeeTreeView" layoutX="203.0" layoutY="13.0" opacity="0.85" prefHeight="414.0" prefWidth="334.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutX="14.0" layoutY="36.0" opacity="0.85" prefHeight="451.0" prefWidth="191.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="10.0">
                         <children>
-                           <Pane layoutX="7.0" layoutY="6.0" opacity="0.7" prefHeight="97.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="7.0" layoutY="6.0" opacity="0.85" prefHeight="97.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXTextField fx:id="employeeSearchTextField" focusColor="#641c24" labelFloat="true" layoutX="21.0" layoutY="20.0" prefWidth="130.0" promptText="Enter username" unFocusColor="#641c24" />
-                                 <JFXButton fx:id="searchEmployeeButton" buttonType="RAISED" layoutX="22.0" layoutY="56.0" onAction="#searchEmployeeButtonPressed" prefHeight="25.0" prefWidth="129.0" ripplerFill="#9d8c8c" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
+                                 <JFXButton fx:id="searchEmployeeButton" buttonType="RAISED" layoutX="22.0" layoutY="56.0" onAction="#searchEmployeeButtonPressed" prefHeight="25.0" prefWidth="129.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
                               </children>
                            </Pane>
-                           <Pane layoutX="7.0" layoutY="112.0" opacity="0.7" prefHeight="331.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="7.0" layoutY="112.0" opacity="0.85" prefHeight="331.0" prefWidth="178.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <VBox layoutX="22.0" layoutY="14.0">
                                     <children>
@@ -79,41 +80,70 @@
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="treeView" opacity="0.7" prefHeight="376.0" prefWidth="550.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutY="383.0" opacity="0.7" prefHeight="88.0" prefWidth="550.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="383.0">
+                     <JFXTreeTableView fx:id="treeView" opacity="0.85" prefHeight="376.0" prefWidth="550.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutY="383.0" opacity="0.85" prefHeight="88.0" prefWidth="550.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="383.0">
                         <children>
                            <JFXButton fx:id="printAllBookingsButton" buttonType="RAISED" layoutX="419.0" layoutY="42.0" onAction="#printAllBookingsButtonPressed" prefHeight="30.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />
-                           <JFXButton fx:id="deleteBookingButton" buttonType="RAISED" layoutX="25.0" layoutY="42.0" onAction="#deleteBookingButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
-                           <JFXButton fx:id="printBookingButton" buttonType="RAISED" layoutX="118.0" layoutY="42.0" onAction="#printBookingButtonPressed" prefHeight="30.0" prefWidth="83.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print" textFill="WHITE" />
+                           <JFXButton fx:id="deleteBookingButton" buttonType="RAISED" layoutX="21.0" layoutY="42.0" onAction="#deleteBookingButtonPressed" prefHeight="30.0" prefWidth="90.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
+                           <JFXButton fx:id="printBookingButton" buttonType="RAISED" layoutX="117.0" layoutY="42.0" onAction="#printBookingButtonPressed" prefHeight="30.0" prefWidth="90.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print" textFill="WHITE" />
                            <JFXTextField fx:id="searchBookingTextField" focusColor="#641c24" labelFloat="true" layoutX="14.0" layoutY="12.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Id" />
                         </children>
                      </Pane>
                   </children></AnchorPane>
             </content>
          </Tab>
-         <Tab style="-fx-background-radius: 20;" text="Permission">
+         <Tab fx:id="updatesTab" onSelectionChanged="#updatesTabSelected" style="-fx-background-radius: 20;" text="Schedule-Driver updates">
             <content>
                <Button mnemonicParsing="false" text="Button" />
             </content>
             <content>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <JFXTreeTableView fx:id="updatesTreeView" layoutX="7.0" layoutY="14.0" opacity="0.85" prefHeight="220.0" prefWidth="530.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutX="9.0" layoutY="257.0" opacity="0.85" prefHeight="220.0" prefWidth="530.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <children>
+                           <Pane layoutX="5.0" layoutY="8.0" opacity="0.85" prefHeight="204.0" prefWidth="136.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                              <children>
+                                 <JFXCheckBox fx:id="notAssignedCheckBox" checkedColor="#641c24" layoutX="5.0" layoutY="42.0" onAction="#notAssignedCheckBoxChecked" prefHeight="20.0" prefWidth="125.0" text="No driver assigned" unCheckedColor="#641c24" />
+                                 <JFXCheckBox fx:id="assignedCheckBox" checkedColor="#641c24" layoutX="6.0" layoutY="82.0" onAction="#assignedCheckBoxChecked" prefHeight="20.0" prefWidth="119.0" text="Assigned driver" unCheckedColor="#641c24" />
+                                 <JFXButton fx:id="updatesSearchButton" buttonType="RAISED" layoutX="14.0" layoutY="130.0" onAction="#updatesSearchButtonPressed" prefHeight="25.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
+                              </children>
+                           </Pane>
+                           <Pane layoutX="150.0" layoutY="8.0" opacity="0.85" prefHeight="204.0" prefWidth="374.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                              <children>
+                                 <JFXButton fx:id="updatesLoadButton" buttonType="RAISED" layoutX="207.0" layoutY="16.0" onAction="#updatesLoadButtonPressed" prefHeight="25.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Load" textFill="WHITE" />
+                                 <JFXTextField fx:id="updatesScheduleId" focusColor="#641c24" labelFloat="true" layoutX="61.0" layoutY="16.0" prefHeight="25.0" prefWidth="100.0" promptText="ScheduleID" unFocusColor="#641c24" />
+                                 <JFXTimePicker fx:id="endTimePicker" defaultColor="#641c24" layoutX="11.0" layoutY="102.0" prefHeight="25.0" prefWidth="100.0" promptText="End time" />
+                                 <JFXTimePicker fx:id="startTimePicker" defaultColor="#641c24" layoutX="10.0" layoutY="56.0" prefHeight="25.0" prefWidth="100.0" promptText="Start time" />
+                                 <JFXButton fx:id="updatesUpdateButton" buttonType="RAISED" layoutX="257.0" layoutY="152.0" onAction="#updatesUpdateButtonPressed" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Update" textFill="WHITE" />
+                                 <JFXTextField fx:id="updatesRouteIdTextField" editable="false" focusColor="#641c24" labelFloat="true" layoutX="124.0" layoutY="104.0" prefWidth="100.0" promptText="RouteID" unFocusColor="#641c24" />
+                                 <JFXTextField fx:id="updatesRouteTypeTextField" editable="false" focusColor="#641c24" labelFloat="true" layoutX="124.0" layoutY="152.0" prefHeight="25.0" prefWidth="100.0" promptText="Route type" unFocusColor="#641c24" />
+                                 <JFXTextField fx:id="updatesVehicleIdTextField" editable="false" focusColor="#641c24" labelFloat="true" layoutX="257.0" layoutY="104.0" prefHeight="25.0" prefWidth="100.0" promptText="VehicleID" unFocusColor="#641c24" />
+                                 <JFXTextField fx:id="updatesUsernameTextField" focusColor="#641c24" labelFloat="true" layoutX="257.0" layoutY="58.0" prefWidth="100.0" promptText="Username" unFocusColor="#641c24" />
+                                 <JFXTextField fx:id="updatesPriceTextField" focusColor="#641c24" labelFloat="true" layoutX="124.0" layoutY="58.0" prefWidth="100.0" promptText="Price" unFocusColor="#641c24" />
+                                 <JFXTextField fx:id="updatesPDurationTextField" focusColor="#641c24" labelFloat="true" layoutX="10.0" layoutY="152.0" prefWidth="100.0" promptText="Duration" unFocusColor="#641c24" />
+                              </children>
+                           </Pane>
+                        </children>
+                     </Pane>
+                  </children></AnchorPane>
             </content>
          </Tab>
          <Tab fx:id="complainsTab" onSelectionChanged="#complainsTabSelected" style="-fx-background-radius: 20;" text="Complaints">
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.7" prefHeight="360.0" prefWidth="362.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="101.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutX="14.0" layoutY="14.0" opacity="0.7" prefHeight="451.0" prefWidth="162.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.85" prefHeight="360.0" prefWidth="362.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="101.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutX="14.0" layoutY="14.0" opacity="0.85" prefHeight="451.0" prefWidth="162.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                         <children>
-                           <Pane layoutX="9.0" layoutY="11.0" prefHeight="120.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="9.0" layoutY="11.0" opacity="0.85" prefHeight="120.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXButton fx:id="searchComplaintsButton" buttonType="RAISED" layoutX="9.0" layoutY="83.0" onAction="#searchComplaintsButtonPressed" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search Complaints" textFill="WHITE" />
                                  <JFXCheckBox fx:id="handledComplaintCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="21.0" onAction="#handledComplaintCrossed" text="Handled" unCheckedColor="#641c24" />
                                  <JFXCheckBox fx:id="notHandledComplaintCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="55.0" onAction="#notHandledComplaintCrossed" text="Not Handled" unCheckedColor="#641c24" />
                               </children>
                            </Pane>
-                           <Pane layoutX="9.0" layoutY="141.0" prefHeight="297.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="9.0" layoutY="141.0" opacity="0.85" prefHeight="297.0" prefWidth="143.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXTextField fx:id="enterComplaintIdTextField" focusColor="#641c24" labelFloat="true" layoutX="6.0" layoutY="16.0" prefHeight="25.0" prefWidth="132.0" promptText="Enter complaint id" unFocusColor="#641c24" />
                                  <JFXTextArea fx:id="complaintMessageTextArea" editable="false" focusColor="#641c24" labelFloat="true" layoutX="7.0" layoutY="93.0" prefHeight="59.0" prefWidth="131.0" promptText="Message" unFocusColor="#641c24" />
@@ -125,9 +155,9 @@
                            </Pane>
                         </children>
                      </Pane>
-                     <Pane layoutX="177.0" layoutY="375.0" opacity="0.7" prefHeight="87.0" prefWidth="363.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;">
+                     <Pane layoutX="177.0" layoutY="375.0" opacity="0.85" prefHeight="87.0" prefWidth="363.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;">
                         <children>
-                           <Pane layoutX="7.0" layoutY="7.0" prefHeight="73.0" prefWidth="348.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="7.0" layoutY="7.0" opacity="0.85" prefHeight="73.0" prefWidth="348.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXTextField fx:id="complaintIdToPrintTextField" focusColor="#641c24" labelFloat="true" layoutX="9.0" layoutY="12.0" prefHeight="25.0" prefWidth="132.0" promptText="Enter complaint id" unFocusColor="#641c24" />
                                  <JFXButton fx:id="printAllComplaintsButton" buttonType="RAISED" layoutX="207.0" layoutY="42.0" onAction="#printAllComplaintsButtonPressed" prefHeight="25.0" prefWidth="125.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />

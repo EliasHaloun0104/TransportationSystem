@@ -21,15 +21,15 @@ public class AdminController {
     private VBox textFieldsWrapper;
 
     @FXML
-    private Tab complainsTab, viewBookingTab, employeeTab;
+    private Tab complainsTab, viewBookingTab, employeeTab, updatesTab;
     @FXML
     JFXTreeTableView<Employee> employeeTreeView;
 
     @FXML
-    JFXTextField employeeSearchTextField,employeeUsernameTextField,employeeFirstNameTextField,employeeLastNameTextField,
-            employeeEmailTextField,employeePhoneNbrTextField,employeeRoleTextField;
+    JFXTextField employeeSearchTextField, employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
+            employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField;
     @FXML
-    JFXButton searchEmployeeButton,createEmployeeButton,updateEmployeeButton,deleteEmployeeButton;
+    JFXButton searchEmployeeButton, createEmployeeButton, updateEmployeeButton, deleteEmployeeButton;
 
     @FXML
     private JFXTreeTableView<Booking> treeView;
@@ -56,6 +56,18 @@ public class AdminController {
     private JFXButton searchComplaintsButton, compensateButton, handleComplaintButton,
             loadComplaintButton, printComplaintButton, printAllComplaintsButton;
 
+    @FXML
+    JFXTreeTableView<?> updatesTreeView;
+
+    @FXML
+    JFXCheckBox notAssignedCheckBox, assignedCheckBox;
+    @FXML
+    JFXButton updatesSearchButton, updatesLoadButton, updatesUpdateButton;
+    @FXML
+    JFXTimePicker startTimePicker, endTimePicker;
+    @FXML
+    JFXTextField updatesScheduleId, updatesPriceTextField, updatesRouteIdTextField, updatesRouteTypeTextField,
+            updatesUsernameTextField, updatesVehicleIdTextField, updatesPDurationTextField;
 
     private String status = null;
 
@@ -64,6 +76,8 @@ public class AdminController {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         searchComplaintsButton.setDisable(true);
         compensateButton.setDisable(true);
+        startTimePicker.setIs24HourView(true);
+        endTimePicker.setIs24HourView(true);
 
 
     }
@@ -87,13 +101,15 @@ public class AdminController {
             }
         }
     }
+
     @FXML
-    private void employeeTabSelected(){
+    private void employeeTabSelected() {
         loadEmployees("select * from Account where ROLE not like 'USER'");
 
     }
+
     @FXML
-    private void searchEmployeeButtonPressed(){
+    private void searchEmployeeButtonPressed() {
         employeeUsernameTextField.setText("");
         employeeFirstNameTextField.setText("");
         employeeLastNameTextField.setText("");
@@ -102,14 +118,15 @@ public class AdminController {
         employeeRoleTextField.setText("");
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.getEmployeeInfo(employeeSearchTextField.getText(),employeeUsernameTextField,employeeFirstNameTextField,employeeLastNameTextField,
-                employeeEmailTextField,employeePhoneNbrTextField,employeeRoleTextField);
+        db.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
+                employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField);
 
         employeeSearchTextField.setText("");
 
     }
+
     @FXML
-    private void createEmployeeButtonPressed(){
+    private void createEmployeeButtonPressed() {
         boolean status = true;
 
         if (employeeUsernameTextField.getText().trim().isEmpty() || employeeFirstNameTextField.getText().trim().isEmpty() ||
@@ -148,12 +165,14 @@ public class AdminController {
 
 
     }
+
     @FXML
-    private void updateEmployeeButtonPressed(){
+    private void updateEmployeeButtonPressed() {
 
     }
+
     @FXML
-    private void deleteEmployeeButtonPressed(){
+    private void deleteEmployeeButtonPressed() {
 
     }
 
@@ -298,10 +317,40 @@ public class AdminController {
     }
 
     @FXML
+    private void updatesTabSelected() {
+
+    }
+
+    @FXML
     private void deleteBookingButtonPressed(ActionEvent event) {
     }
 
-    private void loadEmployees(String sql){
+    @FXML
+    private void notAssignedCheckBoxChecked() {
+
+    }
+
+    @FXML
+    private void assignedCheckBoxChecked() {
+
+    }
+
+    @FXML
+    private void updatesSearchButtonPressed() {
+
+    }
+
+    @FXML
+    private void updatesLoadButtonPressed() {
+
+    }
+
+    @FXML
+    private void updatesUpdateButtonPressed() {
+
+    }
+
+    private void loadEmployees(String sql) {
         JFXTreeTableColumn<Employee, String> employee_username = new JFXTreeTableColumn<>("Username");
         employee_username.setPrefWidth(60);
         employee_username.setCellValueFactory(e -> e.getValue().getValue().username);
@@ -334,8 +383,8 @@ public class AdminController {
 
         final TreeItem<Employee> root = new RecursiveTreeItem<>(db.getEmployee(sql), RecursiveTreeObject::getChildren);
 
-        employeeTreeView.getColumns().setAll(employee_username, employee_firstName, employee_lastName, employee_email,employee_phone,
-                employee_role,employee_date);
+        employeeTreeView.getColumns().setAll(employee_username, employee_firstName, employee_lastName, employee_email, employee_phone,
+                employee_role, employee_date);
 
         employeeTreeView.setRoot(root);
         employeeTreeView.setShowRoot(false);
