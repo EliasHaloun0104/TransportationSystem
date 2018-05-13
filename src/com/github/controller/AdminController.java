@@ -57,7 +57,7 @@ public class AdminController {
             loadComplaintButton, printComplaintButton, printAllComplaintsButton;
 
     @FXML
-    JFXTreeTableView<?> updatesTreeView;
+    JFXTreeTableView<Schedule> updatesTreeView;
 
     @FXML
     JFXCheckBox notAssignedCheckBox, assignedCheckBox;
@@ -69,7 +69,8 @@ public class AdminController {
     JFXTextField updatesScheduleId, updatesPriceTextField, updatesRouteIdTextField, updatesRouteTypeTextField,
             updatesUsernameTextField, updatesVehicleIdTextField, updatesPDurationTextField;
 
-    private String status = null;
+    private String complaintStatus = null;
+    private String updateStatus = null;
 
 
     public void initialize() {
@@ -200,8 +201,8 @@ public class AdminController {
     @FXML
     private void notHandledComplaintCrossed() {
         handledComplaintCheckBox.setSelected(false);
-        status = "Select * from Complaint where complaintStatus = 'Not Handled'";
-        System.out.println(status);
+        complaintStatus = "Select * from Complaint where complaintStatus = 'Not Handled'";
+        System.out.println(complaintStatus);
         searchComplaintsButton.setDisable(false);
 
     }
@@ -209,15 +210,15 @@ public class AdminController {
     @FXML
     private void handledComplaintCrossed() {
         notHandledComplaintCheckBox.setSelected(false);
-        status = "Select * from Complaint where complaintStatus = 'Handled'";
-        System.out.println(status);
+        complaintStatus = "Select * from Complaint where complaintStatus = 'Handled'";
+        System.out.println(complaintStatus);
         searchComplaintsButton.setDisable(false);
 
     }
 
     @FXML
     void searchComplaintsButtonPressed(ActionEvent event) {
-        loadCompalaints(status);
+        loadCompalaints(complaintStatus);
 
     }
 
@@ -318,7 +319,12 @@ public class AdminController {
 
     @FXML
     private void updatesTabSelected() {
-
+    loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime,Schedule.Duration,Schedule.Price,Schedule.Station_From,\n" +
+            "Schedule.Station_To,Schedule.Route_Id,Route.RouteType,Schedule.Vehicle_Id,Vehicle.Account_Username,Station.Name,Station.StationId\n" +
+            "FROM \n" +
+            "Schedule inner join Route on Route_Id= Route.IdRoute \n" +
+            "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId\n" +
+            "left join Station on Schedule.ScheduleId = StationId order by ScheduleId");
     }
 
     @FXML
@@ -327,16 +333,30 @@ public class AdminController {
 
     @FXML
     private void notAssignedCheckBoxChecked() {
+        assignedCheckBox.setSelected(false);
+        updateStatus = "SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime,Schedule.Duration,Schedule.Price,Schedule.Station_From,\n" +
+                "Schedule.Station_To,Schedule.Route_Id,Route.RouteType,Schedule.Vehicle_Id,Vehicle.Account_Username,Station.Name,Station.StationId\n" +
+                "FROM \n" +
+                "Schedule inner join Route on Route_Id= Route.IdRoute \n" +
+                "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId\n" +
+                "left join Station on Schedule.ScheduleId = StationId where Vehicle.Account_Username = null order by ScheduleId";
 
     }
 
     @FXML
     private void assignedCheckBoxChecked() {
-
+        notAssignedCheckBox.setSelected(false);
+        updateStatus = "SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime,Schedule.Duration,Schedule.Price,Schedule.Station_From,\n" +
+                "Schedule.Station_To,Schedule.Route_Id,Route.RouteType,Schedule.Vehicle_Id,Vehicle.Account_Username,Station.Name,Station.StationId\n" +
+                "FROM \n" +
+                "Schedule inner join Route on Route_Id= Route.IdRoute \n" +
+                "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId\n" +
+                "left join Station on Schedule.ScheduleId = StationId where Vehicle.Account_Username not like 'null' order by ScheduleId";
     }
 
     @FXML
     private void updatesSearchButtonPressed() {
+        loadAllSchedules(updateStatus);
 
     }
 
@@ -455,6 +475,80 @@ public class AdminController {
                 booking_amount, booking_date);
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+    }
+
+    private void loadAllSchedules(String sql){
+
+        JFXTreeTableColumn<Schedule, String> update_scheduleID = new JFXTreeTableColumn<>("ScheduleID");
+        update_scheduleID.setPrefWidth(70);
+        update_scheduleID.setCellValueFactory(e -> e.getValue().getValue().scheduleId);
+
+        JFXTreeTableColumn<Schedule, String> update_start = new JFXTreeTableColumn<>("Start");
+        update_start.setPrefWidth(60);
+        update_start.setCellValueFactory(e -> e.getValue().getValue().startTime);
+
+        JFXTreeTableColumn<Schedule, String> update_end = new JFXTreeTableColumn<>("End");
+        update_end.setPrefWidth(60);
+        update_end.setCellValueFactory(e -> e.getValue().getValue().endTime);
+
+        JFXTreeTableColumn<Schedule, String> update_duration = new JFXTreeTableColumn<>("Duration");
+        update_duration.setPrefWidth(60);
+        update_duration.setCellValueFactory(e -> e.getValue().getValue().duration);
+
+
+        JFXTreeTableColumn<Schedule, String> update_price = new JFXTreeTableColumn<>("Price");
+        update_price.setPrefWidth(50);
+        update_price.setCellValueFactory(e -> e.getValue().getValue().price);
+
+
+        JFXTreeTableColumn<Schedule, String> update_from = new JFXTreeTableColumn<>("From");
+        update_from.setPrefWidth(50);
+        update_from.setCellValueFactory(e -> e.getValue().getValue().from);
+
+
+        JFXTreeTableColumn<Schedule, String> update_to = new JFXTreeTableColumn<>("To");
+        update_to.setPrefWidth(50);
+        update_to.setCellValueFactory(e -> e.getValue().getValue().to);
+
+
+        JFXTreeTableColumn<Schedule, String> update_routeId = new JFXTreeTableColumn<>("RouteID");
+        update_routeId.setPrefWidth(70);
+        update_routeId.setCellValueFactory(e -> e.getValue().getValue().routeId);
+
+
+        JFXTreeTableColumn<Schedule, String> update_routeType = new JFXTreeTableColumn<>("RouteType");
+        update_routeType.setPrefWidth(80);
+        update_routeType.setCellValueFactory(e -> e.getValue().getValue().routeType);
+
+
+        JFXTreeTableColumn<Schedule, String> update_vehicleId = new JFXTreeTableColumn<>("VehicleId");
+        update_vehicleId.setPrefWidth(80);
+        update_vehicleId.setCellValueFactory(e -> e.getValue().getValue().vehicleId);
+
+
+        JFXTreeTableColumn<Schedule, String> update_username = new JFXTreeTableColumn<>("Username");
+        update_username.setPrefWidth(80);
+        update_username.setCellValueFactory(e -> e.getValue().getValue().username);
+
+
+        JFXTreeTableColumn<Schedule, String> update_stationName = new JFXTreeTableColumn<>("Station Name");
+        update_stationName.setPrefWidth(100);
+        update_stationName.setCellValueFactory(e -> e.getValue().getValue().stationName);
+
+
+        JFXTreeTableColumn<Schedule, String> update_stationID = new JFXTreeTableColumn<>("StationID");
+        update_stationID.setPrefWidth(70);
+        update_stationID.setCellValueFactory(e -> e.getValue().getValue().stationId);
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
+        final TreeItem<Schedule> root = new RecursiveTreeItem<>(db.getScheduleInfo(sql),RecursiveTreeObject::getChildren);
+
+        updatesTreeView.getColumns().setAll(update_scheduleID,update_start,update_end,update_duration,update_price,update_from,update_to,
+                update_routeId,update_routeType,update_vehicleId,update_username,update_stationName,update_stationID);
+        updatesTreeView.setRoot(root);
+        updatesTreeView.setShowRoot(false);
+
     }
 
 

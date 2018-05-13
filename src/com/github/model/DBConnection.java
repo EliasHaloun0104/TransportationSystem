@@ -1,9 +1,6 @@
 package com.github.model;
 
-import com.github.controller.Booking;
-import com.github.controller.Complaint;
-import com.github.controller.Delays;
-import com.github.controller.Employee;
+import com.github.controller.*;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
@@ -826,5 +823,36 @@ public class DBConnection {
 
         }
 
+    }
+    public ObservableList<Schedule> getScheduleInfo(String sql){
+        ObservableList<Schedule> schedulesInfo = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    schedulesInfo.add(new Schedule(rs.getString(1),rs.getString(2),
+                            rs.getString(3), rs.getString(4),rs.getString(5),
+                            rs.getString(6),rs.getString(7), rs.getString(8),
+                            rs.getString(9),rs.getString(10), rs.getString(11),
+                            rs.getString(12),rs.getString(13)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        return schedulesInfo;
     }
 }
