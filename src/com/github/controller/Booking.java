@@ -41,6 +41,13 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
         this.date = new SimpleStringProperty(date);
     }
 
+    public Booking(String accountUserName, String fromStation, String toStation, String amount) {
+        this.accountUserName = new SimpleStringProperty(accountUserName);
+        this.fromStation = new SimpleStringProperty(fromStation);
+        this.toStation = new SimpleStringProperty(toStation);
+        this.amount = new SimpleStringProperty(amount);
+    }
+
     @Override
     public <T> void printToPdf(T... list) throws IOException {
 
@@ -81,9 +88,12 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
                     startY -= diffY;
                     contents.newLineAtOffset(100, startY);
                 }
-                contents.showText("Booking ID: ");
-                contents.setFont(fontRegular, 12);
-                contents.showText(bookingList[i].bookingId.getValue());
+
+                if (bookingList[i].bookingId != null) {
+                    contents.showText("Booking ID: ");
+                    contents.setFont(fontRegular, 12);
+                    contents.showText(bookingList[i].bookingId.getValue());
+                }
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
@@ -103,11 +113,13 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
                 contents.setFont(fontRegular, 12);
                 contents.showText(bookingList[i].toStation.getValue());
 
-                contents.setFont(fontBold, 12);
-                contents.newLineAtOffset(0, -15);
-                contents.showText("Route ID: ");
-                contents.setFont(fontRegular, 12);
-                contents.showText(bookingList[i].routId.getValue());
+                if (bookingList[i].routId != null) {
+                    contents.setFont(fontBold, 12);
+                    contents.newLineAtOffset(0, -15);
+                    contents.showText("Route ID: ");
+                    contents.setFont(fontRegular, 12);
+                    contents.showText(bookingList[i].routId.getValue());
+                }
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);
@@ -115,11 +127,13 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
                 contents.setFont(fontRegular, 12);
                 contents.showText(bookingList[i].amount.getValue());
 
-                contents.setFont(fontBold, 12);
-                contents.newLineAtOffset(0, -15);
-                contents.showText("Date: ");
-                contents.setFont(fontRegular, 12);
-                contents.showText(bookingList[i].date.getValue());
+                if (bookingList[i].date != null) {
+                    contents.setFont(fontBold, 12);
+                    contents.newLineAtOffset(0, -15);
+                    contents.showText("Date: ");
+                    contents.setFont(fontRegular, 12);
+                    contents.showText(bookingList[i].date.getValue());
+                }
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -30);

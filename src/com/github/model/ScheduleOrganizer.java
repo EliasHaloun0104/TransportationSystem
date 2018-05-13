@@ -1,12 +1,15 @@
 package com.github.model;
 
+import com.github.controller.Booking;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -92,7 +95,13 @@ public class ScheduleOrganizer {
             }
             Button printButton = new Button("Print");
             printButton.setDisable(true);
-            // TODO printButton.setOnAction(); bla bla bla
+
+            printButton.setOnAction(event -> print(((Label)getNodeFromGridPane(gridPane, 0, 1)).getText(),
+                    ((Label)getNodeFromGridPane(gridPane, 1, 1)).getText(),
+                    ((Label)getNodeFromGridPane(gridPane, 2, 1)).getText(),
+                    ((Label)getNodeFromGridPane(gridPane, 3, 1)).getText(),
+                    ((Label)getNodeFromGridPane(gridPane, 4, 1)).getText()));
+
             Button finalBookButton1 = bookButton;
             bookButton.setOnAction(event -> {
                 makeBooking(
@@ -155,5 +164,29 @@ public class ScheduleOrganizer {
             }
         }
         return vehicles;
+    }
+
+    private void print(String from, String timeFrom, String to, String timeTo, String price) {
+        Booking[] bookingList = new Booking[1];
+        Booking booking = new Booking(
+                Account.getInstance().getAccountId(),
+                from + " " + timeFrom,
+                to +  " " + timeTo,
+                price);
+        bookingList[0] = booking;
+        try {
+            booking.printToPdf(bookingList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
     }
 }
