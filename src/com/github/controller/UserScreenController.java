@@ -5,14 +5,16 @@ import com.github.model.DBConnection;
 import com.github.model.Destinations;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UserScreenController implements Initializable {
-    @FXML private Button signOutButton;
+    @FXML private Button signOutButton, printBookingHistory;
     @FXML ComboBox fromCombo;
     @FXML ComboBox toCombo;
     @FXML Label cost;
@@ -72,6 +74,7 @@ public class UserScreenController implements Initializable {
     @FXML private void bookingHistory(){
         DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         resultsContainer.setContent(dbConnection.getBookingHistory());
+        printBookingHistory.setDisable(false);
     }
 
     @FXML
@@ -115,5 +118,37 @@ public class UserScreenController implements Initializable {
 
     public void setBalance() {
         balance.setText(Account.getInstance().getBalance() + " GD");
+    }
+
+    @FXML
+    private void handlePrintBookingHistoryButtonPressed() {
+        GridPane gp = (GridPane)resultsContainer.getContent();
+        int count = gp.getRowCount() - 1;
+//        ((Label)getNodeFromGridPane(gp, 0, 1)).getText();
+
+        Booking[] bookingList = new Booking[count];
+        for (int i = 0; i < count; i++) {
+            System.out.println(i);
+            Booking booking = new Booking(Account.getInstance().getAccountId(),
+                    ((Label)getNodeFromGridPane(gp, 0, i + 1)).getText(),
+                    ((Label)getNodeFromGridPane(gp, 1, i + 1)).getText(),
+                    ((Label)getNodeFromGridPane(gp, 3, i + 1)).getText(),
+                    ((Label)getNodeFromGridPane(gp, 4, i + 1)).getText());
+            bookingList[i] = booking;
+        }
+        try {
+            new Booking().printToPdf(bookingList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
     }
 }

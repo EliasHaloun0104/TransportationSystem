@@ -48,6 +48,14 @@ public class Booking extends RecursiveTreeObject<Booking> implements Printable {
         this.amount = new SimpleStringProperty(amount);
     }
 
+    public Booking(String accountUserName, String fromStation, String toStation, String amount, String date) {
+        this.accountUserName = new SimpleStringProperty(accountUserName);
+        this.fromStation = new SimpleStringProperty(fromStation);
+        this.toStation = new SimpleStringProperty(toStation);
+        this.amount = new SimpleStringProperty(amount);
+        this.date = new SimpleStringProperty(date);
+    }
+
     @Override
     public <T> void printToPdf(T... list) throws IOException {
 
