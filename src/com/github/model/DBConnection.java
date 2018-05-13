@@ -3,7 +3,9 @@ package com.github.model;
 import com.github.controller.Booking;
 import com.github.controller.Complaint;
 import com.github.controller.Delays;
+import com.github.controller.Employee;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -556,16 +558,13 @@ public class DBConnection {
 
 
     public void addEmployee(String userName, String firstName, String lastName, String email,
-                            String phoneNbr, String role, String password) {
-        String query = "INSERT INTO Account (userName, firstName, lastName, email, phoneNumber, password, role,confirmationCode ) VALUES (?,?,?,?,?,?,?,?)";
+                            String phoneNbr, String role) {
+        int confirmationCode = 0;
+        String password = "Westeros@18";
+        String query = "INSERT INTO Account (Username,FirstName,LastName,Email,PhoneNumber,Password,ROLE,ConfirmationCode ) VALUES (?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
 
-            SecureRandom random = new SecureRandom();
-            String confirmationCode = "";
-            for (int i = 0; i < 8; i++) {
-                confirmationCode += random.nextInt(9);
-            }
             ps.setString(1, userName);
             ps.setString(2, firstName);
             ps.setString(3, lastName);
@@ -573,7 +572,7 @@ public class DBConnection {
             ps.setString(5, phoneNbr);
             ps.setString(6, password);
             ps.setString(7, role);
-            ps.setString(8, confirmationCode);
+            ps.setString(8, String.valueOf(confirmationCode));
 
 
             ps.executeUpdate();
@@ -747,6 +746,66 @@ public class DBConnection {
 
         }
         return username;
+
+    }
+    public ObservableList<Employee> getEmployee(String sql){
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    employees.add(new Employee(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),
+                            rs.getString(5),rs.getString(7),rs.getString(8)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        return employees;
+    }
+    public void getEmployeeInfo(String searchedUsername, JFXTextField username,JFXTextField firstName,JFXTextField lastName,
+                                JFXTextField email,JFXTextField phone,JFXTextField role){
+
+        String query = "SELECT * from Account where Username=?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1,searchedUsername);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    username.setText(rs.getString(1));
+                    firstName.setText(rs.getString(2));
+                    lastName.setText(rs.getString(3));
+                    email.setText(rs.getString(4));
+                    phone.setText(rs.getString(5));
+                    role.setText(rs.getString(7));
+
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
 
     }
 }
