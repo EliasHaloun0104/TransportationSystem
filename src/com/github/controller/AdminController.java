@@ -235,47 +235,66 @@ public class AdminController {
     }
 
     @FXML
-    private void printComplaintButtonPressed() {
-
+    private void printComplaintButtonPressed(ActionEvent event) {
+        loadCompalaints("Select * from Complaint where ComplaintID ='" + complaintIdToPrintTextField.getText() + "'");
+        print(complaintTreeView, event);
     }
 
     @FXML
-    private void printAllComplaintsButtonPressed() {
-
+    private void printAllComplaintsButtonPressed(ActionEvent event) {
+        print(complaintTreeView, event);
     }
 
 
     @FXML
     private void printAllBookingsButtonPressed(ActionEvent event) {
-        print();
+        print(treeView, event);
     }
 
     @FXML
     private void printBookingButtonPressed(ActionEvent event) {
         loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date " +
                 "from Booking where BookingId ='" + searchBookingTextField.getText() + "'");
-        print();
+        print(treeView, event);
     }
 
-    private void print() {
-        int count = treeView.currentItemsCountProperty().getValue();
-        Booking[] bookingList = new Booking[count];
-        for (int i = 0; i < count; i++) {
-            Booking booking = new Booking(treeView.getColumns().get(0).getCellObservableValue(i).getValue().toString(),
-                    treeView.getColumns().get(1).getCellObservableValue(i).getValue().toString(),
-                    treeView.getColumns().get(2).getCellObservableValue(i).getValue().toString(),
-                    treeView.getColumns().get(3).getCellObservableValue(i).getValue().toString(),
-                    treeView.getColumns().get(4).getCellObservableValue(i).getValue().toString(),
-                    treeView.getColumns().get(5).getCellObservableValue(i).getValue().toString(),
-                    treeView.getColumns().get(6).getCellObservableValue(i).getValue().toString());
-            bookingList[i] = booking;
+    private <T extends RecursiveTreeObject<T>> void print(JFXTreeTableView<T> tree, ActionEvent event) {
+        int count = tree.currentItemsCountProperty().getValue();
+        if (event.getSource().toString().toLowerCase().contains("booking")) {
+            System.out.println("print booking");
+            Booking[] bookingList = new Booking[count];
+            for (int i = 0; i < count; i++) {
+                Booking booking = new Booking(tree.getColumns().get(0).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(1).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(2).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(3).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(4).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(5).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(6).getCellObservableValue(i).getValue().toString());
+                bookingList[i] = booking;
+            }
+            try {
+                new Booking().printToPdf(bookingList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (event.getSource().toString().toLowerCase().contains("complaint")) {
+            System.out.println("print complaint");
+            Complaint[] complaintList = new Complaint[count];
+            for (int i = 0; i < count; i++) {
+                Complaint complaint = new Complaint(tree.getColumns().get(0).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(1).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(2).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(3).getCellObservableValue(i).getValue().toString());
+                complaintList[i] = complaint;
+            }
+            try {
+                new Complaint().printToPdf(complaintList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        try {
-            new Booking().printToPdf(bookingList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
