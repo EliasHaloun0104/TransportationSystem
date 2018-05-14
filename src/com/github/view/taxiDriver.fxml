@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.Button?>
@@ -8,7 +9,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.TaxiDriver">
    <TabPane prefHeight="500.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
@@ -20,15 +20,15 @@
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <Button layoutX="223.0" layoutY="390.0" mnemonicParsing="false" onAction="#saveTaxiAvailability" prefHeight="31.0" prefWidth="94.0" style="-fx-background-radius: 40; -fx-background-color: #641c24;" text="Save" textFill="#fffefe">
-                        <font>
-                           <Font size="15.0" />
-                        </font></Button>
-                     <CheckBox fx:id="available" layoutX="338.0" layoutY="40.0" mnemonicParsing="false" text="Available" />
-                     <CheckBox fx:id="unAvailable" layoutX="338.0" layoutY="78.0" mnemonicParsing="false" text="Unavailable" />
-                     <JFXTreeTableView fx:id="treeTableView" layoutX="14.0" layoutY="139.0" prefHeight="224.0" prefWidth="249.0" />
-                     <JFXTextField fx:id="stationId" layoutX="14.0" layoutY="74.0" />
+                     <CheckBox fx:id="available" layoutX="14.0" layoutY="322.0" mnemonicParsing="false" text="Available" />
+                     <CheckBox fx:id="unAvailable" layoutX="14.0" layoutY="355.0" mnemonicParsing="false" text="Unavailable" />
+                     <JFXTreeTableView fx:id="treeTableView" layoutX="187.0" prefHeight="472.0" prefWidth="365.0" />
+                     <JFXTextField fx:id="stationId" layoutX="14.0" layoutY="83.0" />
                      <Label layoutX="14.0" layoutY="40.0" text="Station_Id:" />
+                     <JFXButton layoutX="70.0" layoutY="406.0" onAction="#saveTaxiAvailability" text="Save" />
+                     <JFXButton layoutX="16.0" layoutY="406.0" onAction="#addDriver" text="Create" />
+                     <JFXTextField fx:id="taxiId" layoutX="14.0" layoutY="243.0" />
+                     <Label layoutX="16.0" layoutY="193.0" text="Taxi_Id:" />
                   </children></AnchorPane>
             </content>
          </Tab>

@@ -989,8 +989,8 @@ public class DBConnection {
             }
         }
     }
-    public ObservableList<TaxiStation> taxiSchedule(String sql) {
-        ObservableList<TaxiStation> taxiSc = FXCollections.observableArrayList();
+    public ObservableList<TaxiStation> taxiStation(String sql) {
+        ObservableList<TaxiStation> taxiS = FXCollections.observableArrayList();
 
         String query = sql;
 
@@ -999,7 +999,8 @@ public class DBConnection {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
 
-                    taxiSc.add(new TaxiStation(rs.getString(1), rs.getString(2)));
+                    taxiS.add(new TaxiStation(rs.getString(1), rs.getString(2),
+                            rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)));
 
                 }
             }
@@ -1012,7 +1013,27 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
-        return taxiSc;
+        return taxiS;
     }
 
+    public void setTaxiDriver(String driverName,String stationId) {
+        String query = "INSERT INTO Taxi (Account_Username,Station_Id) VALUES (?,?)";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            ps.setString(1, driverName);
+            ps.setString(2, stationId);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
