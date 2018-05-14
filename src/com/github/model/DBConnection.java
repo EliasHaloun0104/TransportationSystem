@@ -969,8 +969,8 @@ public class DBConnection {
         }
 
     }
-    public void updateAvailability(int taxiId, String availability) {
-        String query = "UPDATE Taxi SET TaxiStatus = ? WHERE TaxiId ='"+taxiId+"'";
+    public void updateAvailability(int stationId, String availability) {
+        String query = "UPDATE Taxi SET TaxiStatus = ? WHERE TaxiId ='"+stationId+"'";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
 

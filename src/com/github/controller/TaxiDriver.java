@@ -19,7 +19,7 @@ public class TaxiDriver implements Initializable {
     private ExtendedButton extendedButton;
     @FXML private CheckBox available;
     @FXML private CheckBox unAvailable;
-    @FXML private JFXTextField taxiId;
+    @FXML private JFXTextField stationId;
     @FXML private JFXTreeTableView<TaxiStation> treeTableView;
 
 
@@ -32,17 +32,17 @@ public class TaxiDriver implements Initializable {
     @FXML
     private void saveTaxiAvailability(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        if (taxiId.getText().trim().isEmpty() ) {
+        if (stationId.getText().trim().isEmpty() ) {
             alert.setContentText("The field is empty.\n" +
                     "Please make sure you fill the fields.");
             alert.showAndWait();
         }else
         if (available.isSelected()) {
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            db.updateAvailability(Integer.parseInt(taxiId.getText()), "available");
+            db.updateAvailability(Integer.parseInt(stationId.getText()), "available");
         }if (unAvailable.isSelected()){
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            db.updateAvailability(Integer.parseInt(taxiId.getText()), "unAvailable");
+            db.updateAvailability(Integer.parseInt(stationId.getText()), "unAvailable");
         }
     }
     private void viewStation(){
@@ -54,7 +54,7 @@ public class TaxiDriver implements Initializable {
         StationId.setCellValueFactory(e->e.getValue().getValue().stationId);
 
         JFXTreeTableColumn<TaxiStation,String> StationName=new JFXTreeTableColumn<>("StationName");
-        StationName.setPrefWidth(100);
+        StationName.setPrefWidth(140);
         StationName.setCellValueFactory(e->e.getValue().getValue().stationName);
 
 

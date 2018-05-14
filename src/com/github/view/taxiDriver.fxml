@@ -24,13 +24,11 @@
                         <font>
                            <Font size="15.0" />
                         </font></Button>
-                     <CheckBox fx:id="available" layoutX="21.0" layoutY="201.0" mnemonicParsing="false" text="Available" />
-                     <CheckBox fx:id="unAvailable" layoutX="21.0" layoutY="257.0" mnemonicParsing="false" text="Unavailable" />
-                     <JFXTextField fx:id="taxiId" layoutX="24.0" layoutY="65.0" />
-                     <Label layoutX="22.0" layoutY="31.0" text="Taxt_Id:" />
-                     <JFXTreeTableView fx:id="treeTableView" layoutX="317.0" layoutY="132.0" prefHeight="224.0" prefWidth="213.0" />
-                     <JFXTextField layoutX="345.0" layoutY="65.0" />
-                     <Label layoutX="345.0" layoutY="31.0" text="Station_Id:" />
+                     <CheckBox fx:id="available" layoutX="338.0" layoutY="40.0" mnemonicParsing="false" text="Available" />
+                     <CheckBox fx:id="unAvailable" layoutX="338.0" layoutY="78.0" mnemonicParsing="false" text="Unavailable" />
+                     <JFXTreeTableView fx:id="treeTableView" layoutX="14.0" layoutY="139.0" prefHeight="224.0" prefWidth="249.0" />
+                     <JFXTextField fx:id="stationId" layoutX="14.0" layoutY="74.0" />
+                     <Label layoutX="14.0" layoutY="40.0" text="Station_Id:" />
                   </children></AnchorPane>
             </content>
          </Tab>
