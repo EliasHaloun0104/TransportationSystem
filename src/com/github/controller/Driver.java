@@ -19,7 +19,7 @@ public class Driver implements Initializable {
     @FXML private JFXTextField delay;
     @FXML private JFXTextArea driverMessage;
     @FXML private JFXTreeTableView<Delays> treeView;
-    @FXML private JFXTextField taxiId ;
+    @FXML private JFXTextField driverId ;
 
 
 
@@ -34,16 +34,16 @@ public class Driver implements Initializable {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
-            if (delay.getText().trim().isEmpty() || driverMessage.getText().trim().isEmpty() || taxiId.getText().trim().isEmpty()) {
+            if (delay.getText().trim().isEmpty() || driverMessage.getText().trim().isEmpty() || driverId.getText().trim().isEmpty()) {
                 alert.setContentText("The fields are empty.\n" +
                         "Please make sure you fill the fields.");
                 alert.showAndWait();
-            }
-            if ((!delay.getText().matches("\\d+")) || !taxiId.getText().matches("\\d+")) {
+            }else
+            if ((!delay.getText().matches("\\d+")) || !driverId.getText().matches("\\d+")) {
                 alert.setContentText("The Delay,TaxiId fields should be digits.\n"+"Please make sure you fill the fields.");
                 alert.showAndWait();
             }
-            db.updateDelayAndMessage(Integer.parseInt(taxiId.getText()),delay.getText(),driverMessage.getText());
+            db.updateDelayAndMessage(Integer.parseInt(driverId.getText()),delay.getText(),driverMessage.getText());
     }
 
     private void viewUpdateTimeTab(){

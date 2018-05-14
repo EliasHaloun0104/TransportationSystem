@@ -57,10 +57,14 @@ public class TaxiDriver implements Initializable {
             alert.setContentText("The Taxi-Id field should be digits.\n"+"Please make sure you fill the fields.");
             alert.showAndWait();
         }
-
+        if (available.isSelected()) {
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
             db.updateAvailability(Integer.parseInt(taxiId.getText()), "Available");
-
+        }
+        if (unAvailable.isSelected()){
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db.updateAvailability(Integer.parseInt(taxiId.getText()), "NotAvailable");
+        }
 
     }
     @FXML
