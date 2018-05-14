@@ -76,7 +76,7 @@ public class TaxiDriver implements Initializable {
         available.setSelected(false);
     }
     private void viewStation(){
-        load("SELECT TaxiId,TaxiStatus,Account_Username,Station_Id,StationId,Name FROM Taxi RIGHT JOIN Station on TaxiId = StationId");
+        load("SELECT TaxiId,TaxiStatus,Account_Username,Station_Id,StationId,Name FROM Taxi RIGHT JOIN Station on TaxiId = StationId AND Account_Username ='"+ Account.getInstance().getAccountId()+"'");
     }
     private void load(String sql){
         JFXTreeTableColumn<TaxiStation,String> taxiId=new JFXTreeTableColumn<>("taxiId");
