@@ -1,5 +1,6 @@
 package com.github.model;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,16 @@ public class Destinations {
 
     public Collection<Station> getStationsName(){
         return stations.values();
+    }
+    public Collection<String> getRegionName(){
+        Collection<String> regionsName = new ArrayDeque<>();
+        for (Station s: stations.values()
+             ) {
+            if(!regionsName.contains(s.getCity())){
+                regionsName.add(s.getCity());
+            }
+        }
+        return regionsName;
     }
     public int getStationID(String stationName){
         for (Map.Entry<Integer, Station> entry : stations.entrySet()) {

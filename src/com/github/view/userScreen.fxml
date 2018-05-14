@@ -9,9 +9,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="root" minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="762.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserScreenController">
+<AnchorPane id="root" minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="762.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserScreenController">
          <children>
             <TabPane prefHeight="501.0" prefWidth="762.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -19,13 +20,18 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="241.0">
                      <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="122.0" layoutX="14.0" layoutY="219.0" stroke="#7a7a7a33" strokeType="INSIDE" strokeWidth="4.0" width="175.0" />
                         <ComboBox fx:id="fromCombo" layoutX="28.0" layoutY="45.0" prefWidth="150.0" />
                         <ComboBox fx:id="toCombo" layoutX="28.0" layoutY="105.0" prefWidth="150.0" />
                         <Label layoutX="28.0" layoutY="28.0" prefHeight="17.0" prefWidth="71.0" text="From:" />
                         <Label layoutX="28.0" layoutY="88.0" prefHeight="17.0" prefWidth="71.0" text="To:" />
                         <Label fx:id="cost" layoutX="197.0" layoutY="8.0" prefHeight="389.0" prefWidth="434.0" />
                         <ScrollPane fx:id="searchResults" layoutX="198.0" layoutY="12.0" prefHeight="339.0" prefWidth="500.0" />
-                        <Button fx:id="searchButton" disable="true" layoutX="28.0" layoutY="162.0" mnemonicParsing="false" onAction="#setSearchResult" prefHeight="28.0" prefWidth="150.0" text="Search" />
+                        <Button fx:id="searchButton" disable="true" layoutX="28.0" layoutY="162.0" mnemonicParsing="false" onAction="#setSearchResult" prefHeight="32.0" prefWidth="150.0" text="Search" />
+                        <ComboBox fx:id="comboTaxi" layoutX="28.0" layoutY="246.0" prefWidth="150.0" />
+                        <Label layoutX="28.0" layoutY="226.0" prefHeight="17.0" prefWidth="71.0" text="I'm in:" />
+                        <Label layoutX="28.0" layoutY="273.0" prefHeight="17.0" prefWidth="116.0" text="I want to order a taxi:" />
+                        <Button fx:id="orderTaxi" layoutX="28.0" layoutY="296.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="150.0" disable="true" text="Order" />
                      </children></AnchorPane>
                   </content>
                 </Tab>
@@ -46,7 +52,7 @@
                         </ScrollPane>
                         <Button layoutX="427.0" layoutY="13.0" mnemonicParsing="false" onAction="#transactionHistory" prefHeight="25.0" prefWidth="120.0" text="Transaction" />
                         <Button fx:id="bookingHistory" layoutX="565.0" layoutY="13.0" mnemonicParsing="false" onAction="#bookingHistory" prefHeight="25.0" prefWidth="120.0" text="Booking History" />
-                        <Button fx:id="printBookingHistory" onAction="#handlePrintBookingHistoryButtonPressed" alignment="CENTER" disable="true" layoutX="476.0" layoutY="414.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="149.0" text="Print Booking History" textAlignment="JUSTIFY" textOverrun="LEADING_ELLIPSIS" />
+                        <Button fx:id="printBookingHistory" alignment="CENTER" disable="true" layoutX="476.0" layoutY="414.0" mnemonicParsing="false" onAction="#handlePrintBookingHistoryButtonPressed" prefHeight="31.0" prefWidth="149.0" text="Print Booking History" textAlignment="JUSTIFY" textOverrun="LEADING_ELLIPSIS" />
                      </children></AnchorPane>
                      </content>
                   </Tab>

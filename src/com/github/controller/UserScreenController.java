@@ -26,12 +26,15 @@ public class UserScreenController implements Initializable {
     @FXML ScrollPane resultsContainer;
     @FXML Tab balanceTab;
     @FXML TextArea complainArea;
+    @FXML ComboBox comboTaxi;
+    @FXML Button orderTaxi;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         fromCombo.getItems().addAll(Destinations.getInstance().getStationsName());
+        comboTaxi.getItems().addAll(Destinations.getInstance().getRegionName());
         balance.setText(Account.getInstance().getBalance() + " GD");
 
         fromCombo.valueProperty().addListener((observableValue, oldString, newString) -> {
@@ -48,6 +51,13 @@ public class UserScreenController implements Initializable {
                 searchButton.setDisable(false);
             }
         });
+        comboTaxi.valueProperty().addListener((observableValue, oldString, newString) -> {
+            if(!comboTaxi.getSelectionModel().isEmpty()){
+                orderTaxi.setDisable(false);
+            }else{
+                searchButton.setDisable(true);
+            }
+        });
 
         balanceTab.setOnSelectionChanged(event -> setBalance());
 
@@ -59,6 +69,10 @@ public class UserScreenController implements Initializable {
 
 
 
+    }
+
+    @FXML private void setOrderTaxi(){
+        //DBConnection
     }
 
     @FXML private void processButton(){

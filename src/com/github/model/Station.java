@@ -26,6 +26,9 @@ public class Station{
         return name;
     }
 
+    public String getCity() {
+        return city;
+    }
 
     public Vector2D getPosition() {
         return position;
@@ -36,4 +39,5 @@ public class Station{
     public String toString() {
         return name;
     }
+
 }
