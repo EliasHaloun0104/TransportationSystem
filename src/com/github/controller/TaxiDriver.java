@@ -33,6 +33,15 @@ public class TaxiDriver implements Initializable {
     }
     @FXML
     private void addDriver(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        if (stationId.getText().trim().isEmpty() ) {
+            alert.setContentText("The field is empty.\n" +
+                    "Please make sure you fill the fields.");
+            alert.showAndWait();
+        }else if  (!stationId.getText().matches("\\d+")){
+            alert.setContentText("The Station-Id field should be digits.\n"+"Please make sure you fill the fields.");
+            alert.showAndWait();
+        }
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
         db.setTaxiDriver(Account.getInstance().getAccountId(),stationId.getText());
     }
@@ -44,12 +53,15 @@ public class TaxiDriver implements Initializable {
             alert.setContentText("The field is empty.\n" +
                     "Please make sure you fill the fields.");
             alert.showAndWait();
-        }else
-        if (available.isSelected()) {
+        }else if  (!taxiId.getText().matches("\\d+")){
+            alert.setContentText("The Taxi-Id field should be digits.\n"+"Please make sure you fill the fields.");
+            alert.showAndWait();
+        }
+
             DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
             db.updateAvailability(Integer.parseInt(taxiId.getText()), "Available");
 
-        }
+
     }
     @FXML
     private void availableCheckBox(){
