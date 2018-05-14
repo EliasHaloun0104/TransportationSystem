@@ -29,7 +29,7 @@ public class AdminController {
     JFXTextField employeeSearchTextField, employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
             employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField;
     @FXML
-    JFXButton searchEmployeeButton, createEmployeeButton, updateEmployeeButton, deleteEmployeeButton;
+    JFXButton searchEmployeeButton, createEmployeeButton, deleteEmployeeButton;
 
     @FXML
     private JFXTreeTableView<Booking> treeView;
@@ -78,6 +78,7 @@ public class AdminController {
         searchComplaintsButton.setDisable(true);
         compensateButton.setDisable(true);
         updatesUpdateButton.setDisable(true);
+        deleteEmployeeButton.setDisable(true);
 
 
     }
@@ -110,24 +111,30 @@ public class AdminController {
 
     @FXML
     private void searchEmployeeButtonPressed() {
-        employeeUsernameTextField.setText("");
-        employeeFirstNameTextField.setText("");
-        employeeLastNameTextField.setText("");
-        employeeEmailTextField.setText("");
-        employeePhoneNbrTextField.setText("");
-        employeeRoleTextField.setText("");
 
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
-                employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField);
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
+                    employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField);
 
-        employeeSearchTextField.setText("");
+            employeeSearchTextField.setText("");
+            deleteEmployeeButton.setDisable(false);
+
+
 
     }
 
     @FXML
     private void createEmployeeButtonPressed() {
         boolean status = true;
+        if (!employeeUsernameTextField.getText().trim().matches("^\\S+$")|!employeeFirstNameTextField.getText().trim().matches("^\\S+$")
+                |!employeeLastNameTextField.getText().trim().matches("^\\S+$")|!employeeEmailTextField.getText().trim().matches("^\\S+$")
+                |!employeePhoneNbrTextField.getText().trim().matches("^\\S+$")|!employeeRoleTextField.getText().trim().matches("^\\S+$")){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Whitespace is not allowed"
+                    , ButtonType.OK);
+            a.showAndWait();
+
+            status = false;
+        }
 
         if (employeeUsernameTextField.getText().trim().isEmpty() || employeeFirstNameTextField.getText().trim().isEmpty() ||
                 employeeLastNameTextField.getText().trim().isEmpty() || employeePhoneNbrTextField.getText().trim().isEmpty() ||
@@ -147,6 +154,23 @@ public class AdminController {
             status = false;
 
         }
+        if (employeeUsernameTextField.getText().length()>10){
+            Alert a = new Alert(Alert.AlertType.WARNING, "'username should be only 10 letters' already taken"
+                    , ButtonType.OK);
+            a.showAndWait();
+            employeeUsernameTextField.setText("");
+            status = false;
+        }
+        if (!employeeFirstNameTextField.getText().matches("\\p{L}+")|!employeeLastNameTextField.getText().matches("\\p{L}+")){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Only letters are accepted for First and Last name fields"
+                    , ButtonType.OK);
+            a.showAndWait();
+            employeeFirstNameTextField.setText("");
+            employeeLastNameTextField.setText("");
+
+            status = false;
+        }
+
         if (status) {
             DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
             dbConnection.addEmployee(employeeUsernameTextField.getText(), employeeFirstNameTextField.getText(), employeeLastNameTextField.getText(),
@@ -161,18 +185,60 @@ public class AdminController {
             employeePhoneNbrTextField.setText("");
             employeeRoleTextField.setText("");
 
+
         }
 
 
     }
 
     @FXML
-    private void updateEmployeeButtonPressed() {
-
-    }
-
-    @FXML
     private void deleteEmployeeButtonPressed() {
+
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
+        if (employeeRoleTextField.getText().equals("ADMIN")){
+            Alert a = new Alert(Alert.AlertType.WARNING, "ADMIN CANNOT BE DELETED FROM THE SYSTEM"
+                    , ButtonType.OK);
+            a.showAndWait();
+            deleteEmployeeButton.setDisable(true);
+
+            employeeSearchTextField.setText("");
+            employeeUsernameTextField.setText("");
+            employeeFirstNameTextField.setText("");
+            employeeLastNameTextField.setText("");
+            employeeEmailTextField.setText("");
+            employeePhoneNbrTextField.setText("");
+            employeeRoleTextField.setText("");
+
+        }if (employeeRoleTextField.getText().equals("USER")) {
+            db.deleteAccount(employeeUsernameTextField.getText());
+            deleteEmployeeButton.setDisable(true);
+
+            employeeSearchTextField.setText("");
+            employeeUsernameTextField.setText("");
+            employeeFirstNameTextField.setText("");
+            employeeLastNameTextField.setText("");
+            employeeEmailTextField.setText("");
+            employeePhoneNbrTextField.setText("");
+            employeeRoleTextField.setText("");
+
+        }
+        else {
+            DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db1.setVehicleUsernameTONull(employeeUsernameTextField.getText());
+            db.deleteAccount(employeeUsernameTextField.getText());
+
+            deleteEmployeeButton.setDisable(true);
+
+            employeeSearchTextField.setText("");
+            employeeUsernameTextField.setText("");
+            employeeFirstNameTextField.setText("");
+            employeeLastNameTextField.setText("");
+            employeeEmailTextField.setText("");
+            employeePhoneNbrTextField.setText("");
+            employeeRoleTextField.setText("");
+
+        }
 
     }
 
@@ -338,7 +404,7 @@ public class AdminController {
                 "FROM \n" +
                 "Schedule inner join Route on Route_Id= Route.IdRoute \n" +
                 "inner join Vehicle on Schedule.Vehicle_Id = Vehicle.VehicleId\n" +
-                "left join Station on Schedule.ScheduleId = StationId where Vehicle.Account_Username = null order by ScheduleId";
+                "left join Station on Schedule.ScheduleId = StationId where Vehicle.Account_Username is null order by ScheduleId";
 
     }
 

@@ -34,7 +34,7 @@
                               <children>
                                  <VBox layoutX="22.0" layoutY="14.0">
                                     <children>
-                                       <JFXTextField fx:id="employeeUsernameTextField" editable="false" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Username*" unFocusColor="#641c24">
+                                       <JFXTextField fx:id="employeeUsernameTextField" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="Username*" unFocusColor="#641c24">
                                           <VBox.margin>
                                              <Insets top="10.0" />
                                           </VBox.margin>
@@ -59,16 +59,15 @@
                                              <Insets top="20.0" />
                                           </VBox.margin>
                                        </JFXTextField>
-                                       <JFXTextField fx:id="employeeRoleTextField" editable="false" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="ROLE" unFocusColor="#641c24">
+                                       <JFXTextField fx:id="employeeRoleTextField" focusColor="#641c24" labelFloat="true" prefWidth="130.0" promptText="ROLE" unFocusColor="#641c24">
                                           <VBox.margin>
                                              <Insets top="20.0" />
                                           </VBox.margin>
                                        </JFXTextField>
                                     </children>
                                  </VBox>
-                                 <JFXButton fx:id="createEmployeeButton" buttonType="RAISED" layoutX="6.0" layoutY="288.0" onAction="#createEmployeeButtonPressed" prefWidth="51.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Create" textFill="WHITE" />
-                                 <JFXButton fx:id="updateEmployeeButton" buttonType="RAISED" layoutX="61.0" layoutY="288.0" onAction="#updateEmployeeButtonPressed" prefWidth="55.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Update" textFill="WHITE" />
-                                 <JFXButton fx:id="deleteEmployeeButton" buttonType="RAISED" layoutX="120.0" layoutY="288.0" onAction="#deleteEmployeeButtonPressed" prefWidth="51.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
+                                 <JFXButton fx:id="createEmployeeButton" buttonType="RAISED" layoutX="19.0" layoutY="288.0" onAction="#createEmployeeButtonPressed" prefHeight="25.0" prefWidth="64.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Create" textFill="WHITE" />
+                                 <JFXButton fx:id="deleteEmployeeButton" buttonType="RAISED" layoutX="89.0" layoutY="288.0" onAction="#deleteEmployeeButtonPressed" prefHeight="25.0" prefWidth="64.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
                               </children>
                            </Pane>
                         </children>

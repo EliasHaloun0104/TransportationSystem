@@ -595,7 +595,7 @@ public class DBConnection {
             ps.setString(8, String.valueOf(confirmationCode));
 
 
-            ps.executeUpdate();
+                ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
 
@@ -935,6 +935,46 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    public void deleteAccount(String username){
+
+        String query = "DELETE from Account where Username = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void setVehicleUsernameTONull(String username) {
+
+        String query = "Update Vehicle set Account_Username = NULL where Account_Username =?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
 
     }
 }
