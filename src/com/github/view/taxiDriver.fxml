@@ -36,8 +36,8 @@
                            </Pane>
                            <Pane layoutX="8.0" layoutY="189.0" opacity="0.85" prefHeight="94.0" prefWidth="173.0" style="-fx-border-color: #ccc; -fx-background-radius: 2px; -fx-border-radius: 15;">
                               <children>
-                                 <CheckBox fx:id="available" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Available" />
-                                 <CheckBox fx:id="unAvailable" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" text="Unavailable" />
+                                 <CheckBox fx:id="available" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#availableCheckBox" text="Available" />
+                                 <CheckBox fx:id="unAvailable" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#notavailableCheckBox" text="Unavailable" />
                               </children>
                            </Pane>
                         </children>

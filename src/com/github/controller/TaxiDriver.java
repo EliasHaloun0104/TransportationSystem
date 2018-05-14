@@ -29,9 +29,6 @@ public class TaxiDriver implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         viewStation();
-        if (available.isSelected()){
-            unAvailable.setDisable(true);
-        }
 
     }
     @FXML
@@ -53,6 +50,14 @@ public class TaxiDriver implements Initializable {
             db.updateAvailability(Integer.parseInt(taxiId.getText()), "Available");
 
         }
+    }
+    @FXML
+    private void availableCheckBox(){
+    unAvailable.setSelected(false);
+    }
+    @FXML
+    private void notavailableCheckBox(){
+        available.setSelected(false);
     }
     private void viewStation(){
         load("SELECT TaxiId,TaxiStatus,Account_Username,Station_Id,StationId,Name FROM Taxi RIGHT JOIN Station on TaxiId = StationId");
