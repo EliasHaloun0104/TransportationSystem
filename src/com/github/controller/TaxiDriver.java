@@ -40,20 +40,20 @@ public class TaxiDriver implements Initializable {
         db.setTaxiDriver(Account.getInstance().getAccountId(),stationId.getText());
     }
 
-//    @FXML
-//    private void saveTaxiAvailability(){
-//        Alert alert = new Alert(Alert.AlertType.WARNING);
-//        if (taxiId.getText().trim().isEmpty() ) {
-//            alert.setContentText("The field is empty.\n" +
-//                    "Please make sure you fill the fields.");
-//            alert.showAndWait();
-//        }else
-//        if (available.isSelected()) {
-//            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-//            db.updateAvailability(Integer.parseInt(taxiId.getText()), "Available");
-//
-//        }
-//    }
+    @FXML
+    private void saveTaxiAvailability(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        if (taxiId.getText().trim().isEmpty() ) {
+            alert.setContentText("The field is empty.\n" +
+                    "Please make sure you fill the fields.");
+            alert.showAndWait();
+        }else
+        if (available.isSelected()) {
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db.updateAvailability(Integer.parseInt(taxiId.getText()), "Available");
+
+        }
+    }
     private void viewStation(){
         load("SELECT TaxiId,TaxiStatus,Account_Username,Station_Id,StationId,Name FROM Taxi RIGHT JOIN Station on TaxiId = StationId");
     }
