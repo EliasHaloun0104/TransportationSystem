@@ -989,5 +989,30 @@ public class DBConnection {
             }
         }
     }
+    public ObservableList<TaxiStation> taxiSchedule(String sql) {
+        ObservableList<TaxiStation> taxiSc = FXCollections.observableArrayList();
+
+        String query = sql;
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    taxiSc.add(new TaxiStation(rs.getString(1), rs.getString(2)));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return taxiSc;
+    }
 
 }
