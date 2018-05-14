@@ -968,6 +968,26 @@ public class DBConnection {
             }
         }
 
-
     }
+    public void updateAvailability(int taxiId, String availability) {
+        String query = "UPDATE Taxi SET TaxiStatus = ? WHERE TaxiId ='"+taxiId+"'";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+
+            ps.setString(1, availability);
+
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

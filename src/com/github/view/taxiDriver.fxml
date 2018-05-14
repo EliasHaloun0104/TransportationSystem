@@ -19,7 +19,7 @@
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <Button fx:id="saveTaxiAvailability" layoutX="223.0" layoutY="390.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" style="-fx-background-radius: 40; -fx-background-color: #641c24;" text="Save" textFill="#fffefe">
+                     <Button layoutX="223.0" layoutY="390.0" mnemonicParsing="false" onAction="#saveTaxiAvailability" prefHeight="31.0" prefWidth="94.0" style="-fx-background-radius: 40; -fx-background-color: #641c24;" text="Save" textFill="#fffefe">
                         <font>
                            <Font size="15.0" />
                         </font></Button>

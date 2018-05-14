@@ -25,7 +25,18 @@ public class TaxiDriver implements Initializable {
 
     @FXML
     private void saveTaxiAvailability(){
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        if (taxiId.getText().trim().isEmpty() ) {
+            alert.setContentText("The field is empty.\n" +
+                    "Please make sure you fill the fields.");
+            alert.showAndWait();
+        }else
+        if (available.isSelected()) {
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db.updateAvailability(Integer.parseInt(taxiId.getText()), "available");
+        }if (unAvailable.isSelected()){
+            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db.updateAvailability(Integer.parseInt(taxiId.getText()), "unAvailable");
+        }
     }
 }
