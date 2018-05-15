@@ -631,18 +631,16 @@ public class DBConnection {
 
         return bookings;
     }
-    public ObservableList<Delays> getSchedule(String sql) {
-        ObservableList<Delays> delays = FXCollections.observableArrayList();
-
-        String query = sql;
+    public String getCurrentRouteForDriver() {
+        String delays = "Your Schedule:\n";
+        String query = "SELECT StartTime, EndTime, Delay, DelayMessage, Station_From, Station_To FRom Schedule WHERE Vehicle_Id IN (SELECT VehicleId from Vehicle where Account_Username = ?)";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
-
+            ps.setString(1,Account.getInstance().getAccountId());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
 
-                    delays.add(new Delays(rs.getString(1), rs.getString(2), rs.getString(3)
-                    ,rs.getString(4),rs.getString(5),rs.getString(6)));
+                    delays += String.format("Start %s, End %s,  Delay %s, Message %s, From %s, To %s%n",rs.getString(1),rs.getString(2), rs.getString(3),rs.getString(4),Destinations.getInstance().getStations().get(rs.getInt(5)),Destinations.getInstance().getStations().get(rs.getInt(6)));
 
                 }
             }
@@ -657,13 +655,14 @@ public class DBConnection {
         }
         return delays;
     }
-    public void updateDelayAndMessage(int driverId, String delay, String delayMessage) {
-        String query = "UPDATE Schedule SET Delay = ?, DelayMessage=? WHERE ScheduleId ='"+driverId+"'";
+    public void updateDelayAndMessage(String delay, String delayMessage) {
+        String query = "UPDATE Schedule SET Delay = ?, DelayMessage = ? WHERE Vehicle_Id IN (SELECT VehicleId from Vehicle where Account_Username = ?)";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
 
             ps.setString(1, delay);
             ps.setString(2, delayMessage);
+            ps.setString(3,Account.getInstance().getAccountId());
 
             ps.executeUpdate();
         } catch (SQLException ex) {

@@ -2,87 +2,56 @@ package com.github.controller;
 
 import com.github.model.Account;
 import com.github.model.DBConnection;
-import com.jfoenix.controls.*;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.application.Platform;
+import com.github.model.Destinations;
+import com.github.model.TimeProcess;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class Driver implements Initializable {
-
+public class Driver implements Initializable{
     @FXML private Button signOutButton;
-    @FXML private JFXTextField delay;
-    @FXML private JFXTextArea driverMessage;
-    @FXML private JFXTreeTableView<Delays> treeView;
-    @FXML private JFXTextField driverId ;
-
+    @FXML private ComboBox comboLate;
+    @FXML private Button confirmBtn;
+    @FXML private Label driverStatus;
+    @FXML private TextField delayMessage;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
-        viewUpdateTimeTab();
+        //ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
+        comboLate.getItems().addAll("02 min","04 min","06 min","08 min","10 min");
+        comboLate.valueProperty().addListener((observableValue, oldString, newString) -> {
+            if(!comboLate.getSelectionModel().isEmpty()){
+                confirmBtn.setDisable(false);
+            }else{
+                confirmBtn.setDisable(true);
+            }
+        });
+        setDriverSchedule();
+
+
 
     }
     @FXML
     private void saveDelayAndMessage() {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        Alert alert = new Alert(Alert.AlertType.WARNING);
 
-            if (delay.getText().trim().isEmpty() || driverMessage.getText().trim().isEmpty() || driverId.getText().trim().isEmpty()) {
-                alert.setContentText("The fields are empty.\n" +
-                        "Please make sure you fill the fields.");
-                alert.showAndWait();
-            }else
-            if ((!delay.getText().matches("\\d+")) || !driverId.getText().matches("\\d+")) {
-                alert.setContentText("The Delay,TaxiId fields should be digits.\n"+"Please make sure you fill the fields.");
-                alert.showAndWait();
-            }
-            db.updateDelayAndMessage(Integer.parseInt(driverId.getText()),delay.getText(),driverMessage.getText());
-    }
+        String delayString = "00:" + comboLate.getSelectionModel().getSelectedItem().toString().substring(0,2) + ":00";
+        db.updateDelayAndMessage(delayString,delayMessage.getText());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Confirmed", ButtonType.OK);
+        alert.showAndWait();
+        setDriverSchedule();
 
-    private void viewUpdateTimeTab(){
-        load("SELECT ScheduleId, Station_From, Station_To, StartTime, Delay, DelayMessage FROM Schedule JOIN Vehicle ON Vehicle.VehicleId= Schedule.Vehicle_Id AND Account_Username ='"+ Account.getInstance().getAccountId()+"'");
-    }
-    private void load(String sql){
-        JFXTreeTableColumn<Delays,String> scheduleId=new JFXTreeTableColumn<>("Id");
-        scheduleId.setPrefWidth(30);
-        scheduleId.setCellValueFactory(e->e.getValue().getValue().ScheduleId);
-
-        JFXTreeTableColumn<Delays,String> Station_From=new JFXTreeTableColumn<>("From");
-        Station_From.setPrefWidth(100);
-        Station_From.setCellValueFactory(e->e.getValue().getValue().From);
-
-        JFXTreeTableColumn<Delays,String> Station_To=new JFXTreeTableColumn<>("To");
-        Station_To.setPrefWidth(100);
-        Station_To.setCellValueFactory(e->e.getValue().getValue().To);
-
-        JFXTreeTableColumn<Delays,String> StartTime=new JFXTreeTableColumn<>("StartTime");
-        StartTime.setPrefWidth(100);
-        StartTime.setCellValueFactory(e->e.getValue().getValue().ActualTime);
-
-        JFXTreeTableColumn<Delays,String> Delay=new JFXTreeTableColumn<>("Delay");
-        Delay.setPrefWidth(100);
-        Delay.setCellValueFactory(e->e.getValue().getValue().Delay);
-
-        JFXTreeTableColumn<Delays,String> DelayMessage=new JFXTreeTableColumn<>("DelayMessage");
-        DelayMessage.setPrefWidth(130);
-        DelayMessage.setCellValueFactory(e->e.getValue().getValue().Message);
-
-        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        final TreeItem<Delays> root = new RecursiveTreeItem<>(db.getSchedule(sql), RecursiveTreeObject::getChildren);
-
-        treeView.getColumns().setAll(scheduleId,Station_From,Station_To,StartTime,Delay,DelayMessage);
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-    }
-    public void handleDescription(){
 
     }
+
+    private void setDriverSchedule(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        driverStatus.setText(dbConnection.getCurrentRouteForDriver());
+    }
+
 
 }
