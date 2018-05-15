@@ -3,10 +3,7 @@ package com.github.controller;
 import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.github.model.Destinations;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,13 +15,13 @@ import java.util.ResourceBundle;
 public class TaxiDriver implements Initializable {
 
     @FXML private Button signOutButton;
-    @FXML private CheckBox available;
-    @FXML private CheckBox unAvailable;
+    @FXML private JFXCheckBox available;
+    @FXML private JFXCheckBox unAvailable;
     @FXML private JFXTextField stationId;
     @FXML private JFXTextField taxiId;
     @FXML private JFXTreeTableView<TaxiStation> treeTableView;
-    @FXML private ComboBox comboTaxi;
-    @FXML private Button confirmBtn;
+    @FXML private JFXComboBox comboTaxi;
+    @FXML private JFXButton confirmBtn;
     @FXML private Label taxiStatus;
 
 
