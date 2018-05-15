@@ -17,7 +17,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <AnchorPane id="root" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="760.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserScreenController">
-         <children>
             <TabPane prefHeight="501.0" prefWidth="762.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab style="-fx-background-radius: 20;" text="new Booking">
@@ -72,6 +71,6 @@
                   <fx:include source="viewProfile.fxml" />
               </tabs>
             </TabPane>
-         </children>
+
    <Button id="exitLoginButton"  fx:id="signOutButton" layoutX="736.0" layoutY="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
 </AnchorPane>
