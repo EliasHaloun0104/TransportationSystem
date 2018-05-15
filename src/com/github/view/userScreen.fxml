@@ -12,7 +12,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="root" minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="762.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserScreenController">
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<AnchorPane id="root" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="760.0" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.UserScreenController">
          <children>
             <TabPane prefHeight="501.0" prefWidth="762.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -21,17 +25,17 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="241.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="122.0" layoutX="14.0" layoutY="219.0" stroke="#7a7a7a33" strokeType="INSIDE" strokeWidth="4.0" width="175.0" />
-                        <ComboBox fx:id="fromCombo" layoutX="28.0" layoutY="45.0" prefWidth="150.0" />
-                        <ComboBox fx:id="toCombo" layoutX="28.0" layoutY="105.0" prefWidth="150.0" />
-                        <Label layoutX="28.0" layoutY="28.0" prefHeight="17.0" prefWidth="71.0" text="From:" />
-                        <Label layoutX="28.0" layoutY="88.0" prefHeight="17.0" prefWidth="71.0" text="To:" />
-                        <Label fx:id="cost" layoutX="197.0" layoutY="8.0" prefHeight="389.0" prefWidth="434.0" />
+                        <JFXComboBox fx:id="fromCombo" layoutX="28.0" layoutY="45.0" prefWidth="150.0" />
+                        <JFXComboBox fx:id="toCombo" layoutX="28.0" layoutY="105.0" prefWidth="150.0" />
+                        <Label layoutX="28.0" layoutY="28.0" textFill="#641c24" prefHeight="17.0" prefWidth="71.0" text="From:" />
+                        <Label layoutX="28.0" layoutY="88.0" textFill="#641c24" prefHeight="17.0" prefWidth="71.0" text="To:" />
+                        <Label fx:id="cost" layoutX="197.0" textFill="#641c24" layoutY="8.0" prefHeight="389.0" prefWidth="434.0" />
                         <ScrollPane fx:id="searchResults" layoutX="198.0" layoutY="12.0" prefHeight="339.0" prefWidth="500.0" />
-                        <Button fx:id="searchButton" disable="true" layoutX="28.0" layoutY="162.0" mnemonicParsing="false" onAction="#setSearchResult" prefHeight="32.0" prefWidth="150.0" text="Search" />
-                        <ComboBox fx:id="comboTaxi" layoutX="28.0" layoutY="246.0" prefWidth="150.0" />
-                        <Label layoutX="28.0" layoutY="226.0" prefHeight="17.0" prefWidth="71.0" text="I'm in:" />
-                        <Label layoutX="28.0" layoutY="273.0" prefHeight="17.0" prefWidth="116.0" text="I want to order a taxi:" />
-                        <Button fx:id="orderTaxi" layoutX="28.0" layoutY="296.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="150.0" disable="true" text="Order" />
+                        <JFXButton fx:id="searchButton" ripplerFill="WHITE" textFill="WHITE" style="-fx-background-color: #641c24;" buttonType="RAISED" disable="true" layoutX="28.0" layoutY="162.0" mnemonicParsing="false" onAction="#setSearchResult" prefHeight="32.0" prefWidth="150.0" text="Search" />
+                        <JFXComboBox fx:id="comboTaxi" layoutX="28.0" layoutY="246.0" prefWidth="150.0" />
+                        <Label layoutX="28.0" textFill="#641c24" layoutY="226.0" prefHeight="17.0" prefWidth="71.0" text="I'm in:" />
+                        <Label layoutX="28.0" textFill="#641c24" layoutY="273.0" prefHeight="17.0" prefWidth="116.0" text="I want to order a taxi:" />
+                        <JFXButton fx:id="orderTaxi" ripplerFill="WHITE" textFill="WHITE" style="-fx-background-color: #641c24;" buttonType="RAISED" layoutX="28.0" layoutY="296.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="150.0" disable="true" text="Order" />
                      </children></AnchorPane>
                   </content>
                 </Tab>
@@ -39,20 +43,19 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="480.0">
                      <children>
-                        <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="184.0" text="Your Balance:" />
-                        <Label layoutX="31.0" layoutY="209.0" prefHeight="17.0" prefWidth="184.0" text="Add credit:" />
-                        <TextField fx:id="deposit" layoutX="31.0" layoutY="233.0" />
-                        <Button fx:id="processBtn" disable="true" layoutX="249.0" layoutY="286.0" mnemonicParsing="false" onAction="#processButton" prefHeight="45.0" prefWidth="115.0" text="Process" />
-                        <Label fx:id="balance" alignment="CENTER" layoutX="31.0" layoutY="57.0" prefHeight="111.0" prefWidth="312.0" text="Label" textAlignment="CENTER">
+                        <Label layoutX="31.0" textFill="#641c24" layoutY="25.0" prefHeight="17.0" prefWidth="184.0" text="Your Balance:" />
+                        <JFXTextField fx:id="deposit" unFocusColor="#641c24" focusColor="#641c24" labelFloat="true" layoutX="31.0"  layoutY="233.0" promptText="Add credit" />
+                        <JFXButton fx:id="processBtn" textFill="WHITE" ripplerFill="WHITE" style="-fx-background-color: #641c24;" buttonType="RAISED" disable="true" layoutX="249.0" layoutY="286.0" mnemonicParsing="false" onAction="#processButton" prefHeight="45.0" prefWidth="115.0" text="Process" />
+                        <Label fx:id="balance" alignment="CENTER" textFill="#641c24" layoutX="31.0" layoutY="57.0" prefHeight="111.0" prefWidth="312.0" text="Label" textAlignment="CENTER">
                            <font>
                               <Font size="60.0" />
                            </font>
                         </Label>
                         <ScrollPane fx:id="resultsContainer" layoutX="386.0" layoutY="49.0" prefHeight="337.0" prefWidth="358.0">
                         </ScrollPane>
-                        <Button layoutX="427.0" layoutY="13.0" mnemonicParsing="false" onAction="#transactionHistory" prefHeight="25.0" prefWidth="120.0" text="Transaction" />
-                        <Button fx:id="bookingHistory" layoutX="565.0" layoutY="13.0" mnemonicParsing="false" onAction="#bookingHistory" prefHeight="25.0" prefWidth="120.0" text="Booking History" />
-                        <Button fx:id="printBookingHistory" alignment="CENTER" disable="true" layoutX="476.0" layoutY="414.0" mnemonicParsing="false" onAction="#handlePrintBookingHistoryButtonPressed" prefHeight="31.0" prefWidth="149.0" text="Print Booking History" textAlignment="JUSTIFY" textOverrun="LEADING_ELLIPSIS" />
+                        <JFXButton layoutX="427.0" ripplerFill="WHITE" buttonType="RAISED" textFill="WHITE" style="-fx-background-color: #641c24;" layoutY="13.0" mnemonicParsing="false" onAction="#transactionHistory" prefHeight="25.0" prefWidth="120.0" text="Transaction" />
+                        <JFXButton fx:id="bookingHistory" buttonType="RAISED" ripplerFill="WHITE" textFill="WHITE" layoutX="565.0" style="-fx-background-color: #641c24;" layoutY="13.0" mnemonicParsing="false" onAction="#bookingHistory" prefHeight="25.0" prefWidth="120.0" text="Booking History" />
+                        <JFXButton fx:id="printBookingHistory" textFill="WHITE" buttonType="RAISED" ripplerFill="WHITE" style="-fx-background-color: #641c24;" alignment="CENTER" disable="true" layoutX="476.0" layoutY="414.0" mnemonicParsing="false" onAction="#handlePrintBookingHistoryButtonPressed" prefHeight="31.0" prefWidth="149.0" text="Print Booking History" textAlignment="JUSTIFY" textOverrun="LEADING_ELLIPSIS" />
                      </children></AnchorPane>
                      </content>
                   </Tab>
@@ -60,9 +63,9 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea fx:id="complainArea" layoutX="245.0" layoutY="75.0" prefHeight="261.0" prefWidth="273.0" />
-                        <Button layoutX="466.0" layoutY="343.0" mnemonicParsing="false" onAction="#makeComplain" text="Submit" />
-                        <Label layoutX="245.0" layoutY="52.0" text="Descripe your issue" />
+                        <JFXTextArea fx:id="complainArea" focusColor="#641c24" labelFloat="true" unFocusColor="#641c24" layoutX="245.0" layoutY="75.0" prefHeight="261.0" prefWidth="273.0" />
+                        <JFXButton layoutX="466.0" textFill="WHITE" buttonType="RAISED" ripplerFill="WHITE" style="-fx-background-color: #641c24;" layoutY="343.0" mnemonicParsing="false" onAction="#makeComplain" text="Submit" />
+                        <Label layoutX="245.0" layoutY="52.0" textFill="#641c24" text="Describe your issue" />
                      </children></AnchorPane>
                      </content>
                   </Tab>
@@ -70,5 +73,5 @@
               </tabs>
             </TabPane>
          </children>
-   <Button id="exitLoginButton" fx:id="signOutButton" layoutX="736.0" layoutY="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
+   <Button id="exitLoginButton"  fx:id="signOutButton" layoutX="736.0" layoutY="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
 </AnchorPane>

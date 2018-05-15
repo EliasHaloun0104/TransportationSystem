@@ -3,6 +3,9 @@ package com.github.controller;
 import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.github.model.Destinations;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -14,20 +17,24 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UserScreenController implements Initializable {
-    @FXML private Button signOutButton, printBookingHistory;
-    @FXML ComboBox fromCombo;
-    @FXML ComboBox toCombo;
+    @FXML private Button signOutButton;
+    @FXML JFXButton printBookingHistory;
+    @FXML JFXComboBox fromCombo;
+    @FXML JFXComboBox toCombo;
     @FXML Label cost;
     @FXML TextField deposit;
-    @FXML Button processBtn;
+    @FXML JFXButton processBtn;
     @FXML ScrollPane searchResults;
-    @FXML Button searchButton;
+    @FXML
+    JFXButton searchButton;
     @FXML Label balance;
     @FXML ScrollPane resultsContainer;
     @FXML Tab balanceTab;
-    @FXML TextArea complainArea;
-    @FXML ComboBox comboTaxi;
-    @FXML Button orderTaxi;
+    @FXML
+    JFXTextArea complainArea;
+    @FXML
+    JFXComboBox comboTaxi;
+    @FXML JFXButton orderTaxi;
 
 
     @Override
