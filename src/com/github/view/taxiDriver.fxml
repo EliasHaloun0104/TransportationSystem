@@ -1,53 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.TaxiDriver">
-   <TabPane prefHeight="500.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
-     <tabs>
-         <Tab style="-fx-background-radius: 20;" text="Availability">
-            <content>
-               <Button mnemonicParsing="false" text="Button" />
-            </content>
-            <content>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                     <Pane prefHeight="471.0" prefWidth="188.0">
-                        <children>
-                           <Pane layoutX="8.0" layoutY="14.0" opacity="0.85" prefHeight="146.0" prefWidth="173.0" style="-fx-background-radius: 2px; -fx-border-color: #ccc; -fx-border-radius: 15;">
-                              <children>
-                                 <JFXTextField fx:id="stationId" layoutX="22.0" layoutY="33.0" promptText="Station-Id" />
-                                 <JFXButton buttonType="RAISED" layoutX="22.0" layoutY="107.0" onAction="#addDriver" prefHeight="25.0" prefWidth="129.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Create" textFill="WHITE" />
-                              </children>
-                           </Pane>
-                           <Pane layoutX="8.0" layoutY="320.0" opacity="0.85" prefHeight="146.0" prefWidth="173.0" style="-fx-background-radius: 2px; -fx-border-color: #ccc; -fx-border-radius: 15;">
-                              <children>
-                                 <JFXTextField fx:id="taxiId" layoutX="26.0" layoutY="31.0" promptText="Taxi-Id" />
-                                 <JFXButton buttonType="RAISED" layoutX="29.0" layoutY="96.0" onAction="#saveTaxiAvailability" prefWidth="129.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Save" textFill="WHITE" />
-                              </children>
-                           </Pane>
-                           <Pane layoutX="8.0" layoutY="189.0" opacity="0.85" prefHeight="94.0" prefWidth="173.0" style="-fx-border-color: #ccc; -fx-background-radius: 2px; -fx-border-radius: 15;">
-                              <children>
-                                 <CheckBox fx:id="available" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#availableCheckBox" text="Available" />
-                                 <CheckBox fx:id="unAvailable" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#notavailableCheckBox" text="Unavailable" />
-                              </children>
-                           </Pane>
-                        </children>
-                     </Pane>
-                     <JFXTreeTableView fx:id="treeTableView" layoutX="187.0" prefHeight="472.0" prefWidth="365.0" />
-                  </children></AnchorPane>
-            </content>
-         </Tab>
-        <fx:include source="viewProfile.fxml" />
-     </tabs>
-   </TabPane>
-   <Button id="exitLoginButton" fx:id="signOutButton" layoutX="522.0" layoutY="1.5" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.TaxiDriver" stylesheets="@../../../resources/style/login.css">
+   <children>
+      <TabPane prefHeight="501.0" prefWidth="762.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab style="-fx-background-radius: 20;" text="Update status">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="241.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="122.0" layoutX="294.0" layoutY="174.0" stroke="#7a7a7a33" strokeType="INSIDE" strokeWidth="4.0" width="175.0" />
+                        <ComboBox fx:id="comboTaxi" layoutX="307.0" layoutY="203.0" prefWidth="150.0" />
+                        <Label layoutX="301.0" layoutY="186.0" prefHeight="17.0" prefWidth="71.0" text="I'm in:" />
+                        <Label layoutX="301.0" layoutY="236.0" prefHeight="17.0" prefWidth="116.0" text="I'm availiable:" />
+                        <Button fx:id="confirmBtn" disable="true" layoutX="306.0" layoutY="253.0" mnemonicParsing="false" onAction="#saveTaxiAvailability" prefHeight="32.0" prefWidth="150.0" text="Confirm" />
+                        <Label fx:id="taxiStatus" layoutX="30.0" layoutY="29.0" prefHeight="76.0" prefWidth="708.0">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="46.0" layoutX="295.0" layoutY="305.0" stroke="#7a7a7a33" strokeType="INSIDE" strokeWidth="4.0" width="175.0" />
+                        <Button layoutX="307.0" layoutY="312.0" mnemonicParsing="false" onAction="#saveTaxiUnAvailability" prefHeight="32.0" prefWidth="150.0" text="I'm not available" />
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <fx:include source="viewProfile.fxml" />
+         </tabs>
+      </TabPane>
+   </children>
+   <Button id="exitLoginButton" fx:id="signOutButton" layoutX="736.0" layoutY="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
 </AnchorPane>

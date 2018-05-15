@@ -969,14 +969,12 @@ public class DBConnection {
         }
 
     }
-    public void updateAvailability(int stationId, String availability) {
-        String query = "UPDATE Taxi SET TaxiStatus = ? WHERE TaxiId ='"+stationId+"'";
-
+    public void updateAvailability(int stationId, int isAvailable) {
+        String query = "UPDATE Taxi SET TaxiStatus = ?, Station_Id = ? WHERE Account_Username = ?";
         try (PreparedStatement ps = c.prepareStatement(query)) {
-
-            ps.setString(1, availability);
-
-
+            ps.setInt(1, isAvailable);
+            ps.setInt(2, stationId);
+            ps.setString(3, Account.getInstance().getAccountId());
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -988,6 +986,36 @@ public class DBConnection {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String checkTaxiAvailabilities() {
+        String count = "";
+        String query = "SELECT TaxiStatus, Station_Id FROM Taxi WHERE Account_Username = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, Account.getInstance().getAccountId());
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    if(rs.getInt(1)== 1) {
+                        count = "Your Status: Available in " + Destinations.getInstance().getStations().get(rs.getInt(2)).toString();
+                    }else{
+                        count = "Your Status: unAvailable";
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("validate login failed.");
+            ex.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
     }
     public ObservableList<TaxiStation> taxiStation(String sql) {
         ObservableList<TaxiStation> taxiS = FXCollections.observableArrayList();
