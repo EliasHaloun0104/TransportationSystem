@@ -4,6 +4,9 @@ import com.github.model.Account;
 import com.github.model.DBConnection;
 import com.github.model.Destinations;
 import com.github.model.TimeProcess;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,10 +16,10 @@ import java.util.ResourceBundle;
 
 public class Driver implements Initializable{
     @FXML private Button signOutButton;
-    @FXML private ComboBox comboLate;
-    @FXML private Button confirmBtn;
+    @FXML private JFXComboBox comboLate;
+    @FXML private JFXButton confirmBtn;
     @FXML private Label driverStatus;
-    @FXML private TextField delayMessage;
+    @FXML private JFXTextField delayMessage;
 
 
     @Override
