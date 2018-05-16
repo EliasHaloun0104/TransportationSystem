@@ -104,3 +104,44 @@ GridPane Label{
 .tree-table-row-cell:hover{
     -fx-background-color: #9d8c8c;
 }
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-radius:20;
+    -fx-background-color: #F9F2DE;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #641c24;
+}
+.tab-pane .tab :hover{
+    -fx-background-color: #9d8c8c;
+    -fx-background-radius:20;
+    -fx-text-fill: #e6e6e6;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #e6e6e6;
+}

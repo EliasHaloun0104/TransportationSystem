@@ -15,22 +15,22 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-image: url(/resources/img/LoadingBackground.png)" stylesheets="@../../../resources/style/login.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.controller.AdminController">
-   <TabPane prefHeight="500.0" prefWidth="760.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE">
+   <TabPane prefHeight="500.0" prefWidth="760.0" rotateGraphic="true" stylesheets="@../../../resources/style/login.css" tabClosingPolicy="UNAVAILABLE">
      <tabs>
-         <Tab fx:id="employeeTab" onSelectionChanged="#employeeTabSelected" style="-fx-background-radius: 20;" text="Employees">
+         <Tab fx:id="employeeTab" onSelectionChanged="#employeeTabSelected" text="Employees">
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="employeeTreeView" layoutX="203.0" layoutY="13.0" opacity="0.85" prefHeight="451.0" prefWidth="528.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutX="14.0" layoutY="36.0" opacity="0.85" prefHeight="451.0" prefWidth="206.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="544.0" AnchorPane.topAnchor="10.0">
+                     <JFXTreeTableView fx:id="employeeTreeView" layoutX="203.0" layoutY="13.0" opacity="0.8" prefHeight="451.0" prefWidth="528.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutX="14.0" layoutY="36.0" opacity="0.8" prefHeight="451.0" prefWidth="206.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="544.0" AnchorPane.topAnchor="10.0">
                         <children>
-                           <Pane layoutX="7.0" layoutY="6.0" opacity="0.85" prefHeight="97.0" prefWidth="189.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="7.0" layoutY="6.0" opacity="0.8" prefHeight="97.0" prefWidth="189.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXTextField fx:id="employeeSearchTextField" focusColor="#641c24" labelFloat="true" layoutX="21.0" layoutY="20.0" prefWidth="150.0" promptText="Enter username" unFocusColor="#641c24" />
                                  <JFXButton fx:id="searchEmployeeButton" buttonType="RAISED" layoutX="22.0" layoutY="56.0" onAction="#searchEmployeeButtonPressed" prefHeight="25.0" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
                               </children>
                            </Pane>
-                           <Pane layoutX="7.0" layoutY="112.0" opacity="0.85" prefHeight="331.0" prefWidth="189.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="7.0" layoutY="112.0" opacity="0.8" prefHeight="331.0" prefWidth="189.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <VBox layoutX="15.0" layoutY="14.0" prefWidth="160.0">
                                     <children>
@@ -75,12 +75,12 @@
                   </children></AnchorPane>
             </content>
          </Tab>
-       <Tab fx:id="viewBookingTab" onSelectionChanged="#viewBookingTabSelected" style="-fx-background-radius: 20;" text="View Booking">
+       <Tab fx:id="viewBookingTab" onSelectionChanged="#viewBookingTabSelected" text="View Booking">
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="treeView" opacity="0.85" prefHeight="376.0" prefWidth="550.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutY="383.0" opacity="0.85" prefHeight="88.0" prefWidth="550.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="383.0">
+                     <JFXTreeTableView fx:id="treeView" opacity="0.8" prefHeight="376.0" prefWidth="550.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutY="383.0" opacity="0.8" prefHeight="88.0" prefWidth="550.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="383.0">
                         <children>
                            <JFXButton fx:id="printAllBookingsButton" buttonType="RAISED" layoutX="625.0" layoutY="42.0" onAction="#printAllBookingsButtonPressed" prefHeight="30.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Print All" textFill="WHITE" />
                            <JFXButton fx:id="deleteBookingButton" buttonType="RAISED" layoutX="21.0" layoutY="42.0" onAction="#deleteBookingButtonPressed" prefHeight="30.0" prefWidth="90.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Delete" textFill="WHITE" />
@@ -91,24 +91,24 @@
                   </children></AnchorPane>
             </content>
          </Tab>
-         <Tab fx:id="updatesTab" onSelectionChanged="#updatesTabSelected" style="-fx-background-radius: 20;" text="Schedule-Driver updates">
+         <Tab fx:id="updatesTab" onSelectionChanged="#updatesTabSelected" text="Schedule-Driver updates">
             <content>
                <Button mnemonicParsing="false" text="Button" />
             </content>
             <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="updatesTreeView" layoutX="7.0" layoutY="14.0" opacity="0.85" prefHeight="220.0" prefWidth="530.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutX="9.0" layoutY="257.0" opacity="0.85" prefHeight="220.0" prefWidth="530.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <JFXTreeTableView fx:id="updatesTreeView" layoutX="7.0" layoutY="14.0" opacity="0.8" prefHeight="236.0" prefWidth="740.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutX="9.0" layoutY="257.0" opacity="0.8" prefHeight="209.0" prefWidth="740.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                         <children>
-                           <Pane layoutX="5.0" layoutY="8.0" opacity="0.85" prefHeight="204.0" prefWidth="157.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="5.0" layoutY="8.0" opacity="0.8" prefHeight="204.0" prefWidth="157.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXCheckBox fx:id="notAssignedCheckBox" checkedColor="#641c24" layoutX="5.0" layoutY="42.0" onAction="#notAssignedCheckBoxChecked" prefHeight="20.0" prefWidth="140.0" text="No driver assigned" unCheckedColor="#641c24" />
                                  <JFXCheckBox fx:id="assignedCheckBox" checkedColor="#641c24" layoutX="6.0" layoutY="82.0" onAction="#assignedCheckBoxChecked" prefHeight="20.0" prefWidth="140.0" text="Assigned driver" unCheckedColor="#641c24" />
                                  <JFXButton fx:id="updatesSearchButton" buttonType="RAISED" layoutX="14.0" layoutY="130.0" onAction="#updatesSearchButtonPressed" prefHeight="25.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search" textFill="WHITE" />
                               </children>
                            </Pane>
-                           <Pane layoutX="175.0" layoutY="8.0" opacity="0.85" prefHeight="204.0" prefWidth="557.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="175.0" layoutY="8.0" opacity="0.8" prefHeight="204.0" prefWidth="557.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXButton fx:id="updatesLoadButton" buttonType="RAISED" layoutX="370.0" layoutY="16.0" onAction="#updatesLoadButtonPressed" prefHeight="25.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Load" textFill="WHITE" />
                                  <JFXTextField fx:id="updatesScheduleIdTextField" focusColor="#641c24" labelFloat="true" layoutX="154.0" layoutY="16.0" prefHeight="25.0" prefWidth="120.0" promptText="ScheduleID" unFocusColor="#641c24" />
@@ -128,21 +128,21 @@
                   </children></AnchorPane>
             </content>
          </Tab>
-         <Tab fx:id="complainsTab" onSelectionChanged="#complainsTabSelected" style="-fx-background-radius: 20;" text="Complaints">
+         <Tab fx:id="complainsTab" onSelectionChanged="#complainsTabSelected" text="Complaints">
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.85" prefHeight="360.0" prefWidth="547.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="101.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     <Pane layoutX="14.0" layoutY="14.0" opacity="0.85" prefHeight="451.0" prefWidth="185.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <JFXTreeTableView fx:id="complaintTreeView" layoutX="174.0" layoutY="14.0" opacity="0.8" prefHeight="360.0" prefWidth="547.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="101.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     <Pane layoutX="14.0" layoutY="14.0" opacity="0.8" prefHeight="451.0" prefWidth="185.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                         <children>
-                           <Pane layoutX="12.0" layoutY="11.0" opacity="0.85" prefHeight="120.0" prefWidth="157.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="12.0" layoutY="11.0" opacity="0.8" prefHeight="120.0" prefWidth="157.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXButton fx:id="searchComplaintsButton" buttonType="RAISED" layoutX="9.0" layoutY="83.0" onAction="#searchComplaintsButtonPressed" prefWidth="140.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Search Complaints" textFill="WHITE" />
                                  <JFXCheckBox fx:id="handledComplaintCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="21.0" onAction="#handledComplaintCrossed" prefWidth="140.0" text="Handled" unCheckedColor="#641c24" />
                                  <JFXCheckBox fx:id="notHandledComplaintCheckBox" checkedColor="#641c24" layoutX="16.0" layoutY="55.0" onAction="#notHandledComplaintCrossed" prefWidth="140.0" text="Not Handled" unCheckedColor="#641c24" />
                               </children>
                            </Pane>
-                           <Pane layoutX="12.0" layoutY="141.0" opacity="0.85" prefHeight="297.0" prefWidth="160.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
+                           <Pane layoutX="12.0" layoutY="141.0" opacity="0.8" prefHeight="297.0" prefWidth="160.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
                                  <JFXTextField fx:id="enterComplaintIdTextField" focusColor="#641c24" labelFloat="true" layoutX="6.0" layoutY="16.0" prefHeight="25.0" prefWidth="140.0" promptText="Enter complaint id" unFocusColor="#641c24" />
                                  <JFXTextArea fx:id="complaintMessageTextArea" editable="false" focusColor="#641c24" labelFloat="true" layoutX="7.0" layoutY="93.0" prefHeight="59.0" prefWidth="140.0" promptText="Message" unFocusColor="#641c24" />
@@ -154,7 +154,7 @@
                            </Pane>
                         </children>
                      </Pane>
-                     <Pane layoutX="218.0" layoutY="374.0" opacity="0.85" prefHeight="87.0" prefWidth="547.0" style="-fx-background-color: #fff; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <Pane layoutX="218.0" layoutY="374.0" opacity="0.8" prefHeight="87.0" prefWidth="547.0" style="-fx-background-color: #F9F2DE; -fx-background-radius: 6px;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                         <children>
                            <Pane layoutX="15.0" layoutY="7.0" opacity="0.85" prefHeight="73.0" prefWidth="516.0" style="-fx-background-radius: 2px; -fx-border-radius: 15; -fx-border-color: #ccc;">
                               <children>
