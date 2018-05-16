@@ -71,12 +71,14 @@ public class ScheduleOrganizer {
         gridPane.add(new Label("Price"),4,rowNo);
         gridPane.add(new Label(""),5,rowNo);
         gridPane.add(new Label(""),6,rowNo);
+        gridPane.add(new Label("Note"),7,rowNo);
         rowNo++;
         findRouteContain2Value(from, to);
         for(Map.Entry<Integer, ArrayList<ScheduledRoute>> entry : searchResults.entrySet()) {
             gridPane.add(new Label(Destinations.getInstance().getStations().get(entry.getValue().get(0).getStation_from()).toString()),0,rowNo);
             gridPane.add(new Label(entry.getValue().get(0).getStartTime().toString()),1,rowNo);
             gridPane.add(new Label(Destinations.getInstance().getStations().get(entry.getValue().get(entry.getValue().size()-1).getStation_to()).toString()),2,rowNo);
+            //if()
             gridPane.add(new Label(entry.getValue().get(entry.getValue().size()-1).getEndTime().toString()),3,rowNo);
             int thisBookingPrice = price.get(entry.getKey());
             gridPane.add(new Label( thisBookingPrice+ " GD"),4,rowNo);
@@ -116,6 +118,9 @@ public class ScheduleOrganizer {
             });
             gridPane.add(bookButton,5,rowNo);
             gridPane.add(printButton,6,rowNo);
+            if(entry.getValue().get(0).getDelayMessage() != null){
+                gridPane.add(new Label(entry.getValue().get(0).getDelay()), 7, rowNo);
+            }
 
 
 

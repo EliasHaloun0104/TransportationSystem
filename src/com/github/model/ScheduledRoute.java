@@ -88,5 +88,11 @@ public class ScheduledRoute {
         return t.before(endTime) && t.after(startTime);
     }
 
+    public String getDelay() {
+        return "Late for " +delay.getMinute() + " min: " + delayMessage;
+    }
 
+    public String getDelayMessage() {
+        return delayMessage;
+    }
 }
