@@ -481,27 +481,27 @@ loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime
 
     private void loadEmployees(String sql) {
         JFXTreeTableColumn<Employee, String> employee_username = new JFXTreeTableColumn<>("Username");
-        employee_username.setPrefWidth(60);
+        employee_username.setPrefWidth(80);
         employee_username.setCellValueFactory(e -> e.getValue().getValue().username);
 
         JFXTreeTableColumn<Employee, String> employee_firstName = new JFXTreeTableColumn<>("First name");
-        employee_firstName.setPrefWidth(60);
+        employee_firstName.setPrefWidth(80);
         employee_firstName.setCellValueFactory(e -> e.getValue().getValue().firstName);
 
         JFXTreeTableColumn<Employee, String> employee_lastName = new JFXTreeTableColumn<>("Last name");
-        employee_lastName.setPrefWidth(60);
+        employee_lastName.setPrefWidth(80);
         employee_lastName.setCellValueFactory(e -> e.getValue().getValue().lastName);
 
         JFXTreeTableColumn<Employee, String> employee_email = new JFXTreeTableColumn<>("Email");
-        employee_email.setPrefWidth(60);
+        employee_email.setPrefWidth(80);
         employee_email.setCellValueFactory(e -> e.getValue().getValue().email);
 
         JFXTreeTableColumn<Employee, String> employee_phone = new JFXTreeTableColumn<>("Phone");
-        employee_phone.setPrefWidth(60);
+        employee_phone.setPrefWidth(80);
         employee_phone.setCellValueFactory(e -> e.getValue().getValue().phone);
 
         JFXTreeTableColumn<Employee, String> employee_role = new JFXTreeTableColumn<>("Role");
-        employee_role.setPrefWidth(60);
+        employee_role.setPrefWidth(80);
         employee_role.setCellValueFactory(e -> e.getValue().getValue().role);
 
         JFXTreeTableColumn<Employee, String> employee_date = new JFXTreeTableColumn<>("Date");
