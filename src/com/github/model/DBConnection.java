@@ -1063,4 +1063,22 @@ public class DBConnection {
         }
 
     }
+    public void deleteTaxiDriver(String username){
+
+        String query = "DELETE from Taxi where  Account_Username = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

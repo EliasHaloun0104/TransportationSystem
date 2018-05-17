@@ -222,6 +222,17 @@ public class AdminController {
             employeePhoneNbrTextField.setText("");
             employeeRoleTextField.setText("");
 
+        }if (employeeRoleTextField.getText().equals("TAXI_DRIVER")){
+            db.deleteTaxiDriver(employeeUsernameTextField.getText());
+            deleteEmployeeButton.setDisable(true);
+
+            employeeSearchTextField.setText("");
+            employeeUsernameTextField.setText("");
+            employeeFirstNameTextField.setText("");
+            employeeLastNameTextField.setText("");
+            employeeEmailTextField.setText("");
+            employeePhoneNbrTextField.setText("");
+            employeeRoleTextField.setText("");
         }
         else {
             DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
@@ -283,6 +294,11 @@ public class AdminController {
 
     @FXML
     void searchComplaintsButtonPressed(ActionEvent event) {
+        if (complaintStatus.equals(null)){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Please Make sure to check a box first!"
+                    , ButtonType.OK);
+            a.showAndWait();
+        }else
         loadCompalaints(complaintStatus);
 
     }
@@ -323,6 +339,7 @@ public class AdminController {
     private void printComplaintButtonPressed(ActionEvent event) {
         loadCompalaints("Select * from Complaint where ComplaintID ='" + complaintIdToPrintTextField.getText() + "'");
         print(complaintTreeView, event);
+        loadCompalaints("Select * from Complaint");
     }
 
     @FXML
@@ -341,6 +358,7 @@ public class AdminController {
         loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date " +
                 "from Booking where BookingId ='" + searchBookingTextField.getText() + "'");
         print(treeView, event);
+        loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date FROM Booking");
     }
 
     private <T extends RecursiveTreeObject<T>> void print(JFXTreeTableView<T> tree, ActionEvent event) {
