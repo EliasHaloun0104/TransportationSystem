@@ -573,8 +573,9 @@ public class DBConnection {
     public void addEmployee(String userName, String firstName, String lastName, String email,
                             String phoneNbr, String role) {
         int confirmationCode = 0;
+        int isActive = 1;
         String password = "Westeros@18";
-        String query = "INSERT INTO Account (Username,FirstName,LastName,Email,PhoneNumber,Password,ROLE,ConfirmationCode ) VALUES (?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO Account (Username,FirstName,LastName,Email,PhoneNumber,Password,ROLE,ConfirmationCode,IsActive ) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = c.prepareStatement(query)) {
 
@@ -586,7 +587,7 @@ public class DBConnection {
             ps.setString(6, password);
             ps.setString(7, role);
             ps.setString(8, String.valueOf(confirmationCode));
-
+            ps.setString(9, String.valueOf(isActive));
 
                 ps.executeUpdate();
         } catch (SQLException ex) {
@@ -1016,53 +1017,53 @@ public class DBConnection {
         }
         return count;
     }
-    public ObservableList<TaxiStation> taxiStation(String sql) {
-        ObservableList<TaxiStation> taxiS = FXCollections.observableArrayList();
+//    public ObservableList<TaxiStation> taxiStation(String sql) {
+//        ObservableList<TaxiStation> taxiS = FXCollections.observableArrayList();
+//
+//        String query = sql;
+//
+//        try (PreparedStatement ps = c.prepareStatement(query)) {
+//
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//
+//                    taxiS.add(new TaxiStation(rs.getString(1), rs.getString(2),
+//                            rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)));
+//
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                c.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return taxiS;
+//    }
 
-        String query = sql;
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-
-                    taxiS.add(new TaxiStation(rs.getString(1), rs.getString(2),
-                            rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)));
-
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return taxiS;
-    }
-
-    public void setTaxiDriver(String driverName,String stationId) {
-        String query = "INSERT INTO Taxi (Account_Username,Station_Id) VALUES (?,?)";
-
-        try (PreparedStatement ps = c.prepareStatement(query)) {
-
-            ps.setString(1, driverName);
-            ps.setString(2, stationId);
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-
-        } finally {
-            try {
-                c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
+//    public void setTaxiDriver(String driverName,String stationId) {
+//        String query = "INSERT INTO Taxi (Account_Username,Station_Id) VALUES (?,?)";
+//
+//        try (PreparedStatement ps = c.prepareStatement(query)) {
+//
+//            ps.setString(1, driverName);
+//            ps.setString(2, stationId);
+//            ps.executeUpdate();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//
+//        } finally {
+//            try {
+//                c.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
     public void deleteTaxiDriver(String username){
 
         String query = "DELETE from Taxi where  Account_Username = ?";

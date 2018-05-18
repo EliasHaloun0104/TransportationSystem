@@ -105,7 +105,7 @@ public class AdminController {
 
     @FXML
     private void employeeTabSelected() {
-        loadEmployees("select * from Account where ROLE not like 'USER'");
+        loadEmployees("select * from Account");
 
     }
 
@@ -195,6 +195,8 @@ public class AdminController {
     private void deleteEmployeeButtonPressed() {
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
 
         if (employeeRoleTextField.getText().equals("ADMIN")){
             Alert a = new Alert(Alert.AlertType.WARNING, "ADMIN CANNOT BE DELETED FROM THE SYSTEM"
@@ -214,6 +216,8 @@ public class AdminController {
             db.deleteAccount(employeeUsernameTextField.getText());
             deleteEmployeeButton.setDisable(true);
 
+            loadEmployees("Select * from Account");
+
             employeeSearchTextField.setText("");
             employeeUsernameTextField.setText("");
             employeeFirstNameTextField.setText("");
@@ -224,7 +228,10 @@ public class AdminController {
 
         }if (employeeRoleTextField.getText().equals("TAXI_DRIVER")){
             db.deleteTaxiDriver(employeeUsernameTextField.getText());
+            db1.deleteAccount(employeeUsernameTextField.getText());
             deleteEmployeeButton.setDisable(true);
+
+            loadEmployees("Select * from Account");
 
             employeeSearchTextField.setText("");
             employeeUsernameTextField.setText("");
@@ -235,11 +242,11 @@ public class AdminController {
             employeeRoleTextField.setText("");
         }
         else {
-            DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
             db1.setVehicleUsernameTONull(employeeUsernameTextField.getText());
             db.deleteAccount(employeeUsernameTextField.getText());
 
             deleteEmployeeButton.setDisable(true);
+            loadEmployees("Select * from Account");
 
             employeeSearchTextField.setText("");
             employeeUsernameTextField.setText("");
@@ -388,7 +395,8 @@ public class AdminController {
                 Complaint complaint = new Complaint(tree.getColumns().get(0).getCellObservableValue(i).getValue().toString(),
                         tree.getColumns().get(1).getCellObservableValue(i).getValue().toString(),
                         tree.getColumns().get(2).getCellObservableValue(i).getValue().toString(),
-                        tree.getColumns().get(3).getCellObservableValue(i).getValue().toString());
+                        tree.getColumns().get(3).getCellObservableValue(i).getValue().toString(),
+                        tree.getColumns().get(4).getCellObservableValue(i).getValue().toString());
                 complaintList[i] = complaint;
             }
             try {
@@ -555,11 +563,15 @@ loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime
         complaint_isHandled.setPrefWidth(100);
         complaint_isHandled.setCellValueFactory(e -> e.getValue().getValue().isHandled);
 
+        JFXTreeTableColumn<Complaint, String> complaint_message = new JFXTreeTableColumn<>("Status");
+        complaint_message.setPrefWidth(100);
+        complaint_message.setCellValueFactory(e -> e.getValue().getValue().message);
+
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
 
         final TreeItem<Complaint> root = new RecursiveTreeItem<>(db.getComplaints(sql), RecursiveTreeObject::getChildren);
 
-        complaintTreeView.getColumns().setAll(complaint_id, complaint_username, complaint_date, complaint_isHandled);
+        complaintTreeView.getColumns().setAll(complaint_id, complaint_username, complaint_date, complaint_isHandled, complaint_message);
         complaintTreeView.setRoot(root);
         complaintTreeView.setShowRoot(false);
     }
