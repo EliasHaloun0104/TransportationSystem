@@ -35,12 +35,12 @@ public class Complaint extends RecursiveTreeObject<Complaint> implements Printab
         this.message = new SimpleStringProperty(message);
     }
 
-    public Complaint(String id, String username, String date, String isHandled) {
-        this.id = new SimpleStringProperty(id);
-        this.username = new SimpleStringProperty(username);
-        this.date = new SimpleStringProperty(date);
-        this.isHandled = new SimpleStringProperty(isHandled);
-    }
+//    public Complaint(String id, String username, String date, String isHandled) {
+//        this.id = new SimpleStringProperty(id);
+//        this.username = new SimpleStringProperty(username);
+//        this.date = new SimpleStringProperty(date);
+//        this.isHandled = new SimpleStringProperty(isHandled);
+//    }
 
     @Override
     public <T> void printToPdf(T... list) throws IOException {
@@ -103,6 +103,12 @@ public class Complaint extends RecursiveTreeObject<Complaint> implements Printab
                 contents.showText("Status: ");
                 contents.setFont(fontRegular, 12);
                 contents.showText(complaintList[i].isHandled.getValue());
+
+                contents.setFont(fontBold, 12);
+                contents.newLineAtOffset(0, -15);
+                contents.showText("Message: ");
+                contents.setFont(fontRegular, 12);
+                contents.showText(complaintList[i].message.getValue());
 
                 contents.setFont(fontBold, 12);
                 contents.newLineAtOffset(0, -15);

@@ -39,11 +39,19 @@ public class LoginController {
     // LOGIN PANE
     @FXML
     private void loginButtonPressed() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         if (validateLogin(tfAccountLogin.getText(), pfPasswordLogin.getText())) {
             loadAccount(tfAccountLogin.getText());
-            login(Account.getInstance().getAccountId());
-            tfAccountLogin.setText("");
-            pfPasswordLogin.setText("");
+            if (db.getStatus(Account.getInstance().getAccountId())>0){
+                handleForgotPasswordButtonPressed();
+                System.out.println("new account");
+                tfAccountLogin.setText("");
+                pfPasswordLogin.setText("");
+            }else {
+                login(Account.getInstance().getAccountId());
+                tfAccountLogin.setText("");
+                pfPasswordLogin.setText("");
+            }
         } else {
             invalidLogin();
         }
@@ -111,7 +119,7 @@ public class LoginController {
     // fades in new user registration pane and fades out login pane
     @FXML
     private void handleNewUserButtonPressed() {
-        newUserMsgLabel.setText("If you require an account with special access contact helpdesk");
+        newUserMsgLabel.setText("If you require an account with special access contact help desk");
         paneFadeTransition(loginPane, registrationPane);
     }
 
@@ -132,6 +140,13 @@ public class LoginController {
 
                 DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
                 db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
+                DBConnection db1 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+                DBConnection db2 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
+
+                if(db1.getStatus(Account.getInstance().getAccountId())>0){
+                    db2.setIsActive(Account.getInstance().getAccountId());
+                }
+
             }
 
             Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
