@@ -573,7 +573,7 @@ public class DBConnection {
     public void addEmployee(String userName, String firstName, String lastName, String email,
                             String phoneNbr, String role) {
         int confirmationCode = 0;
-        int isActive = 1;
+        int status = 1;
         String password = "Westeros@18";
         String query = "INSERT INTO Account (Username,FirstName,LastName,Email,PhoneNumber,Password,ROLE,ConfirmationCode,IsActive ) VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -587,7 +587,8 @@ public class DBConnection {
             ps.setString(6, password);
             ps.setString(7, role);
             ps.setString(8, String.valueOf(confirmationCode));
-            ps.setString(9, String.valueOf(isActive));
+            ps.setString(9, String.valueOf(status));
+
 
                 ps.executeUpdate();
         } catch (SQLException ex) {
@@ -1081,5 +1082,45 @@ public class DBConnection {
             }
         }
 
+    }
+    public int getStatus(String userName) {
+        int isActive = 0;
+        String query = "SELECT isActive FROM Account WHERE Username = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, userName);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    isActive = rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return isActive;
+    }
+    public void setIsActive(String username) {
+        String query = "UPDATE Account SET isActive = 0 WHERE Username = ?";
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
