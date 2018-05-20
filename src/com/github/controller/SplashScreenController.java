@@ -20,7 +20,8 @@ public class SplashScreenController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("..\\..\\..\\resources\\img\\Presentation1.mp4").toExternalForm()));
+//        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("..\\..\\..\\resources\\img\\Presentation1.mp4").toExternalForm()));
+        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("../../../resources/img/Presentation1.mp4").toExternalForm()));
         mediaView.setMediaPlayer(player);
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(15000));
         fadeTransition.setFromValue(1);
