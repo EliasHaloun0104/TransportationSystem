@@ -150,7 +150,7 @@ public class LoginController {
             }
 
             Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
-                    tfEmailReset.getText() + " with the confirmation code.");
+                    tfEmailReset.getText() + " and your mobile phone with the confirmation code.");
             a.showAndWait();
             paneFadeTransition(resetPasswordPane, passwordPane);
 
@@ -209,7 +209,7 @@ public class LoginController {
                 db.addUser(accountId, firstName, lastName, email, phone, confirmationCode);
             }
             // fade out registration pane and fade in password pane
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Confirmation code was sent to " + email + ".", ButtonType.OK);
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Confirmation code was sent to " + email + " and to your mobile phone.", ButtonType.OK);
             a.showAndWait();
             paneFadeTransition(registrationPane, passwordPane);
 
@@ -339,7 +339,7 @@ public class LoginController {
             if (!pfPasswordPass.getText().trim().isEmpty() && password.equals(passwordConfirmation)) {
                 if (db.setupPassword(account, password)) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION, "Your account is setup." +
-                            "You'll be taken to the login pane.");
+                            " You'll be taken to the login pane.");
                     a.showAndWait();
                     paneFadeTransition(passwordPane, loginPane);
                 }
