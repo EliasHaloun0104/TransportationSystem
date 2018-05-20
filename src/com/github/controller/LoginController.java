@@ -140,6 +140,10 @@ public class LoginController {
 
                 DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
                 db.addConfirmationCode(tfEmailReset.getText(), confirmationCode);
+                Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
+                        tfEmailReset.getText() + " and your mobile phone with the confirmation code.");
+                a.showAndWait();
+                paneFadeTransition(resetPasswordPane, passwordPane);
                 DBConnection db1 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
                 DBConnection db2 = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
 
@@ -149,10 +153,7 @@ public class LoginController {
 
             }
 
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "An email was sent to " +
-                    tfEmailReset.getText() + " and your mobile phone with the confirmation code.");
-            a.showAndWait();
-            paneFadeTransition(resetPasswordPane, passwordPane);
+
 
         } else {
             Alert a = new Alert(Alert.AlertType.INFORMATION, "Invalid email address.", ButtonType.OK);
@@ -207,11 +208,12 @@ public class LoginController {
             // TODO: needs better handling (account is being added with certain invalid email addresses)
             if (sendConfirmationCodeEmail(email, confirmationCode)) {
                 db.addUser(accountId, firstName, lastName, email, phone, confirmationCode);
+                // fade out registration pane and fade in password pane
+                Alert a = new Alert(Alert.AlertType.INFORMATION, "Confirmation code was sent to " + email + " and to your mobile phone.", ButtonType.OK);
+                a.showAndWait();
+                paneFadeTransition(registrationPane, passwordPane);
             }
-            // fade out registration pane and fade in password pane
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Confirmation code was sent to " + email + " and to your mobile phone.", ButtonType.OK);
-            a.showAndWait();
-            paneFadeTransition(registrationPane, passwordPane);
+
 
         }
     }
@@ -321,7 +323,11 @@ public class LoginController {
             emailSent = true;
         } catch (MessagingException e) {
             e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.WARNING, "Email not sent." +
+                    "\nCheck if you entered a valid email.", ButtonType.OK);
+            a.showAndWait();
         }
+
 
         return emailSent;
     }
