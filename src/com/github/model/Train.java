@@ -2,7 +2,6 @@ package com.github.model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 public class Train {
     private Image image;
@@ -37,13 +36,10 @@ public class Train {
             //Stop for new Passengers
             if(position.getX() <410 && position.getX()> 408.8f){
                 isStop = true;
-                stopTimer = 300;
+                stopTimer = 500;
             }
 
-            //Back to beginning
-            if(position.getX() < -200 && variable.getX()<0 || position.getX() > 1200 && variable.getX()>0){
-                position.set(startPosition.getX(),startPosition.getY());
-            }
+
 
 
         }else{

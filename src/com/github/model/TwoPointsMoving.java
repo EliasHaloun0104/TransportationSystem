@@ -15,7 +15,6 @@ public class TwoPointsMoving {
         this.t = t;
         from_station = Destinations.getInstance().getStations().get(t.getStation_from());
         to_station = Destinations.getInstance().getStations().get(t.getStation_to());
-        System.out.println(from_station + ", " + to_station);
         this.from = new Vector2D(from_station.getPosition());
         this.to = new Vector2D(to_station.getPosition());
         calculatePosition();
@@ -60,7 +59,11 @@ public class TwoPointsMoving {
 
     @Override
     public String toString() {
-        return "From: " + from_station.getName() +
+        String a = "From: " + from_station.getName() +
             " To: " + to_station.getName();
+        if( t.getDelayMessage()!=null){
+            a += ", " + t.getDelay();
+        }
+        return a;
     }
 }

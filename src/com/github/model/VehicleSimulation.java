@@ -48,9 +48,14 @@ public class VehicleSimulation {
     }
     public ArrayList<Text> getNews(){
         ArrayList<Text> news = new ArrayList<>();
+        news.add(new Text("Please, note that this simulation is a beta version"));
+        news.add(new Text("And it's not considered as a trusted source"));
+        news.add(new Text("Call customer's service or application instead"));
+
         for (Vehicle v: vehicles) {
             news.add(new Text(v.getMove().toString()));
         }
+
         return news;
     }
 
