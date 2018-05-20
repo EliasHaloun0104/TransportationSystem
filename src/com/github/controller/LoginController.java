@@ -234,6 +234,12 @@ public class LoginController {
             invalidFieldAlert(tf);
             ok = false;
         } else if (tf == tfUsernameReg) {
+            if (tf.getLength() > 10) {
+                Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' has 10 characters limit.\n" +
+                        "Choose a different one.", ButtonType.OK);
+                a.showAndWait();
+                ok = false;
+            }
             DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
             if (db.usernameExists(tf.getText())) {
                 Alert a = new Alert(Alert.AlertType.WARNING, "'Account ID' already taken.\n" +
