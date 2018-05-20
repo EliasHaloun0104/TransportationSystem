@@ -1,6 +1,7 @@
 package com.github.controller;
 
 import com.github.model.DBConnection;
+import com.github.model.SMS_Manager;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.event.ActionEvent;
@@ -10,9 +11,14 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 public class AdminController {
     @FXML
@@ -71,6 +77,8 @@ public class AdminController {
 
     private String complaintStatus = null;
     private String updateStatus = null;
+    private SMS_Manager sms;
+
 
 
     public void initialize() {
@@ -79,6 +87,7 @@ public class AdminController {
         compensateButton.setDisable(true);
         updatesUpdateButton.setDisable(true);
         deleteEmployeeButton.setDisable(true);
+        sms = new SMS_Manager();
 
 
     }
@@ -322,7 +331,11 @@ public class AdminController {
     @FXML
     private void handleComplaintButtonPressed() {
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
         db.updateComplainAnswer(complaintAnswerTextArea.getText(), enterComplaintIdTextField.getText());
+        String email = db1.returnValue("SELECT Email from Account join Complaint on Username = Account_Username and ComplaintId = '"+enterComplaintIdTextField.getText()+"'");
+       sendComplaintReplay(email,complaintMessageTextArea.getText(),complaintAnswerTextArea.getText());
 
         complaintMessageTextArea.setText("");
         complaintAnswerTextArea.setText("");
@@ -341,6 +354,13 @@ public class AdminController {
 
         DBConnection db2 = new DBConnection(DBConnection.ConnectionType.ADMIN);
         db2.setBalance(50, "Deposit", username);
+
+        DBConnection db3 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        db3.updateComplainAnswer(complaintAnswerTextArea.getText(), enterComplaintIdTextField.getText());
+        DBConnection db4 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        String email = db4.returnValue("SELECT Email from Account join Complaint on Username = Account_Username and ComplaintId = '"+enterComplaintIdTextField.getText()+"'");
+        sendComplaintReplay(email,complaintMessageTextArea.getText(),complaintAnswerTextArea.getText());
+
 
 
         complaintMessageTextArea.setText("");
@@ -378,8 +398,8 @@ public class AdminController {
 
         if (db.bookingExists(searchBookingTextField.getText())) {
 
-            String username = db1.returnBookingValue("SELECT Account_Username FROM Booking where BookingId ='" + searchBookingTextField.getText() + "'");
-            int amount = Integer.valueOf(db2.returnBookingValue("SELECT AMOUNT FROM Booking where BookingId ='" + searchBookingTextField.getText() + "'"));
+            String username = db1.returnValue("SELECT Account_Username FROM Booking where BookingId ='" + searchBookingTextField.getText() + "'");
+            int amount = Integer.valueOf(db2.returnValue("SELECT AMOUNT FROM Booking where BookingId ='" + searchBookingTextField.getText() + "'"));
             System.out.println(username + " " + amount);
             db3.setBalance(amount, "Deposit", username);
 
@@ -595,8 +615,8 @@ loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime
         complaint_isHandled.setPrefWidth(100);
         complaint_isHandled.setCellValueFactory(e -> e.getValue().getValue().isHandled);
 
-        JFXTreeTableColumn<Complaint, String> complaint_message = new JFXTreeTableColumn<>("Status");
-        complaint_message.setPrefWidth(100);
+        JFXTreeTableColumn<Complaint, String> complaint_message = new JFXTreeTableColumn<>("Complaint Message");
+        complaint_message.setPrefWidth(150);
         complaint_message.setCellValueFactory(e -> e.getValue().getValue().message);
 
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
@@ -721,7 +741,45 @@ loadAllSchedules("SELECT Schedule.ScheduleId,Schedule.StartTime,Schedule.EndTime
         updatesTreeView.setShowRoot(false);
 
     }
+    private boolean sendComplaintReplay(String email, String complaintMessage, String reply) {
+        boolean emailSent = false;
+        Properties prop = new Properties();
+        try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("resources/properties/db.properties")) {
+            prop.load(in);
+            prop.put("mail.smtp.auth", "true");
+            prop.put("mail.smtp.starttls.enable", "true");
+            prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            prop.put("mail.smtp.host", "smtp.gmail.com");
+            prop.put("mail.smtp.port", "587");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(prop.getProperty("sendEmailUsername"), prop.getProperty("sendEmailPassword"));
+                    }
+                });
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(prop.getProperty("sendEmailUsername")));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Westeros Traffic: Complaint reply");
+            message.setText("Complaint:\n'"+complaintMessage+"'\nHere's the reply to the complaint:\n'" + reply+"'");
+            Transport.send(message);
+            sms.sendSMS("Complaint reply: " + reply);
+            emailSent = true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.WARNING, "Email was not sent." +
+                    "\nCheck if you entered a valid email.", ButtonType.OK);
+            a.showAndWait();
+        }
+
+
+        return emailSent;
+    }
 
 }
 

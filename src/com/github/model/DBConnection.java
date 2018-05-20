@@ -1141,7 +1141,7 @@ public class DBConnection {
         }
 
     }
-    public String returnBookingValue(String sql){
+    public String returnValue(String sql){
 
         String value="";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
