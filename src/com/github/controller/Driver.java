@@ -24,7 +24,7 @@ public class Driver implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
+        ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
         comboLate.getItems().addAll("02 min","04 min","06 min","08 min","10 min");
         comboLate.valueProperty().addListener((observableValue, oldString, newString) -> {
             if(!comboLate.getSelectionModel().isEmpty()){
