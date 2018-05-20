@@ -104,7 +104,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="54.0" prefWidth="219.0">
                      <children>
-                        <Label id="newUserLabel" text="Choose a password" />
+                        <Label id="newUserLabel" prefHeight="17.0" prefWidth="227.0" text="Choose a password" textAlignment="CENTER" />
                      </children>
                   </HBox>
                   <JFXTextField fx:id="tfAccountPass" focusColor="#641c24" labelFloat="true" prefHeight="30.0" prefWidth="219.0" promptText="*Account ID" unFocusColor="#641c24">
@@ -144,7 +144,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="117.0" prefWidth="219.0">
                      <children>
-                        <Label id="resetLabel" text="Reset Password" />
+                        <Label id="resetLabel" prefHeight="33.0" prefWidth="173.0" text="Reset Password" textAlignment="CENTER" />
                      </children>
                   </HBox>
                   <JFXTextField id="emailField" fx:id="tfEmailReset" focusColor="#641c24" labelFloat="true" prefHeight="30.0" prefWidth="219.0" promptText="*Email" unFocusColor="#641c24" />

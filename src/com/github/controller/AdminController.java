@@ -111,14 +111,22 @@ public class AdminController {
 
     @FXML
     private void searchEmployeeButtonPressed() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
 
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            db.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
+        if (db.usernameExists(employeeSearchTextField.getText())) {
+            DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db1.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
                     employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField);
 
             employeeSearchTextField.setText("");
             deleteEmployeeButton.setDisable(false);
+        }else {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Account does not exist!\n" +
+                    "Please try another", ButtonType.OK);
+            a.showAndWait();
+            employeeSearchTextField.setText("");
 
+        }
 
 
     }
@@ -213,6 +221,7 @@ public class AdminController {
             employeeRoleTextField.setText("");
 
         }if (employeeRoleTextField.getText().equals("USER")) {
+            db1.deleteEmployeesBalance(employeeUsernameTextField.getText());
             db.deleteAccount(employeeUsernameTextField.getText());
             deleteEmployeeButton.setDisable(true);
 
@@ -241,7 +250,7 @@ public class AdminController {
             employeePhoneNbrTextField.setText("");
             employeeRoleTextField.setText("");
         }
-        else {
+        if (employeeRoleTextField.getText().equals("BUS_DRIVER")){
             db1.setVehicleUsernameTONull(employeeUsernameTextField.getText());
             db.deleteAccount(employeeUsernameTextField.getText());
 

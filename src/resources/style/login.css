@@ -44,7 +44,7 @@ GridPane Label{
     -fx-text-fill: #373738;
 }
 #newUserLabel, #resetLabel {
-    -fx-font-size: 24;
+    -fx-font-size: 16;
     -fx-text-fill: #373738;
     -fx-font-family: "Game of Thrones";
 }

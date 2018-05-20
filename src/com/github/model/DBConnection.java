@@ -1123,4 +1123,22 @@ public class DBConnection {
             }
         }
     }
+    public void deleteEmployeesBalance(String username){
+
+        String query = "DELETE from Balance where  Account_Username = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
