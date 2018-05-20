@@ -111,14 +111,22 @@ public class AdminController {
 
     @FXML
     private void searchEmployeeButtonPressed() {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
 
-            DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-            db.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
+        if (db.usernameExists(employeeSearchTextField.getText())) {
+            DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+            db1.getEmployeeInfo(employeeSearchTextField.getText(), employeeUsernameTextField, employeeFirstNameTextField, employeeLastNameTextField,
                     employeeEmailTextField, employeePhoneNbrTextField, employeeRoleTextField);
 
             employeeSearchTextField.setText("");
             deleteEmployeeButton.setDisable(false);
+        }else {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Account does not exist!\n" +
+                    "Please try another", ButtonType.OK);
+            a.showAndWait();
+            employeeSearchTextField.setText("");
 
+        }
 
 
     }
@@ -213,6 +221,7 @@ public class AdminController {
             employeeRoleTextField.setText("");
 
         }if (employeeRoleTextField.getText().equals("USER")) {
+            db1.deleteEmployeesBalance(employeeUsernameTextField.getText());
             db.deleteAccount(employeeUsernameTextField.getText());
             deleteEmployeeButton.setDisable(true);
 
@@ -241,7 +250,7 @@ public class AdminController {
             employeePhoneNbrTextField.setText("");
             employeeRoleTextField.setText("");
         }
-        else {
+        if (employeeRoleTextField.getText().equals("BUS_DRIVER")|employeeRoleTextField.getText().equals("TRAIN_DRIVER")){
             db1.setVehicleUsernameTONull(employeeUsernameTextField.getText());
             db.deleteAccount(employeeUsernameTextField.getText());
 
@@ -359,6 +368,32 @@ public class AdminController {
     private void printAllBookingsButtonPressed(ActionEvent event) {
         print(treeView, event);
     }
+    @FXML
+    private void deleteBookingButtonPressed(ActionEvent event) {
+        DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        DBConnection db1 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        DBConnection db2 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        DBConnection db3 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        DBConnection db4 = new DBConnection(DBConnection.ConnectionType.ADMIN);
+
+        if (db.bookingExists(searchBookingTextField.getText())) {
+
+            String username = db1.returnBookingValue("SELECT Account_Username FROM Booking where BookingId ='" + searchBookingTextField.getText() + "'");
+            int amount = Integer.valueOf(db2.returnBookingValue("SELECT AMOUNT FROM Booking where BookingId ='" + searchBookingTextField.getText() + "'"));
+            System.out.println(username + " " + amount);
+            db3.setBalance(amount, "Deposit", username);
+
+            db4.deleteBooking(searchBookingTextField.getText());
+            searchBookingTextField.setText("");
+            loadBookings("SELECT BookingId,Account_Username,Station_From,Station_To,Route_Id,AMOUNT,Date FROM Booking");
+        }else {
+            Alert a = new Alert(Alert.AlertType.WARNING, "BookingID does not exist!\n" +
+                    "Please try another", ButtonType.OK);
+            a.showAndWait();
+            searchBookingTextField.setText("");
+        }
+
+    }
 
     @FXML
     private void printBookingButtonPressed(ActionEvent event) {
@@ -418,9 +453,6 @@ public class AdminController {
             "left join Station on Schedule.ScheduleId = StationId order by ScheduleId");
     }
 
-    @FXML
-    private void deleteBookingButtonPressed(ActionEvent event) {
-    }
 
     @FXML
     private void notAssignedCheckBoxChecked() {

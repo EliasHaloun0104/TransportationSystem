@@ -1123,4 +1123,71 @@ public class DBConnection {
             }
         }
     }
+    public void deleteEmployeesBalance(String username){
+
+        String query = "DELETE from Balance where  Account_Username = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public String returnBookingValue(String sql){
+
+        String value="";
+        try (PreparedStatement ps = c.prepareStatement(sql)) {
+
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    value = rs.getString(1);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return value;
+    }
+    public void deleteBooking(String bookingId){
+
+        String query = "DELETE from Booking where  BookingId = ?";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, bookingId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public boolean bookingExists(String bookingId) {
+
+        String query = "SELECT count(*) FROM Booking WHERE BookingId = ?";
+        int count = dbValidation(query, bookingId);
+
+        return count > 0;
+    }
 }
