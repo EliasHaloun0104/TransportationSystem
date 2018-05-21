@@ -38,7 +38,7 @@
                                     <JFXComboBox fx:id="comboTaxi" focusColor="#641c24" labelFloat="true" layoutX="25.0" layoutY="32.0" prefWidth="150.0" promptText="I'm in:" unFocusColor="#641c24" />
                                     <!--<Label layoutX="28.0" textFill="#641c24" layoutY="226.0" prefHeight="17.0" prefWidth="71.0" text="I'm in:" />-->
                                     <Label layoutX="30.0" layoutY="82.0" prefHeight="17.0" prefWidth="116.0" text="I want to order a taxi:" />
-                                    <JFXButton fx:id="orderTaxi" buttonType="RAISED" disable="true" layoutX="13.0" layoutY="123.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Order" textFill="WHITE" />
+                                    <JFXButton fx:id="orderTaxi" buttonType="RAISED" disable="true" layoutX="13.0" layoutY="123.0" mnemonicParsing="false" onAction="#orderTaxi" prefHeight="32.0" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #641c24;" text="Order" textFill="WHITE" />
                               </children>
                            </Pane>
                         </children>

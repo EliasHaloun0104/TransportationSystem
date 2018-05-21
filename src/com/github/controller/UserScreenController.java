@@ -62,7 +62,7 @@ public class UserScreenController implements Initializable {
             if(!comboTaxi.getSelectionModel().isEmpty()){
                 orderTaxi.setDisable(false);
             }else{
-                searchButton.setDisable(true);
+                orderTaxi.setDisable(true);
             }
         });
 
@@ -171,5 +171,11 @@ public class UserScreenController implements Initializable {
             }
         }
         return null;
+    }
+
+    @FXML
+    private void orderTaxi(){
+        DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
+        dbConnection.checkAvailableTaxi(Destinations.getInstance().getStationID(comboTaxi.getSelectionModel().getSelectedItem().toString()));
     }
 }

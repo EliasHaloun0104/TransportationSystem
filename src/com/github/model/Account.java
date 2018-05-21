@@ -105,6 +105,7 @@ public class Account implements Printable {
         balance = db.getValue(accountId);
     }
     public void addToBalance(int add){
+        setBalance();
         DBConnection db = new DBConnection(DBConnection.ConnectionType.LOGIN_PROCESS);
         db.setBalance(add,"Deposit", accountId);
         balance += add;

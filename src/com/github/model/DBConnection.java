@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -970,12 +972,12 @@ public class DBConnection {
         }
 
     }
-    public void updateAvailability(int stationId, int isAvailable) {
+    public void updateAvailability(int stationId, int isAvailable, String accountID) {
         String query = "UPDATE Taxi SET TaxiStatus = ?, Station_Id = ? WHERE Account_Username = ?";
         try (PreparedStatement ps = c.prepareStatement(query)) {
             ps.setInt(1, isAvailable);
             ps.setInt(2, stationId);
-            ps.setString(3, Account.getInstance().getAccountId());
+            ps.setString(3, accountID);
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -997,14 +999,46 @@ public class DBConnection {
             ps.setString(1, Account.getInstance().getAccountId());
 
             try (ResultSet rs = ps.executeQuery()) {
-
                 while (rs.next()) {
-                    if(rs.getInt(1)== 1) {
-                        count = "Your Status: Available in " + Destinations.getInstance().getStations().get(rs.getInt(2)).toString();
-                    }else{
+                    if(rs.getInt(1) != 0){
+                        count = "Your Status: Available in " + Destinations.getInstance().getStations().get(rs.getInt(2));
+                    }else {
+
                         count = "Your Status: unAvailable";
+
                     }
+
                 }
+            }
+        } catch (SQLException ex) {
+            System.out.println("validate login failed.");
+            ex.printStackTrace();
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
+    public String checkAvailableTaxi(int stationId) {
+        String count = "";
+        String query = "SELECT TaxiStatus, Station_Id, Account_Username FROM Taxi where Station_Id = ? and TaxiStatus = 1";
+
+        try (PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setInt(1, stationId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    Alert a = new Alert(Alert.AlertType.WARNING, "No taxi available", ButtonType.OK);
+                    a.showAndWait();
+                }else{
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Your Taxi is waiting in the requested station", ButtonType.OK);
+                    a.showAndWait();
+                    updateAvailability(stationId,0, rs.getString(3));
+                }
+
             }
         } catch (SQLException ex) {
             System.out.println("validate login failed.");

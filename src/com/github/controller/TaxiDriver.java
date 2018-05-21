@@ -46,7 +46,7 @@ public class TaxiDriver implements Initializable {
     private void saveTaxiAvailability(){
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
         int stationId = Destinations.getInstance().getStationID(comboTaxi.getSelectionModel().getSelectedItem().toString());
-        db.updateAvailability(stationId, 1);
+        db.updateAvailability(stationId, 1, Account.getInstance().getAccountId());
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Confirmed", ButtonType.OK);
         alert.showAndWait();
         taxiStatus.setText("Your Status: Available in " + comboTaxi.getSelectionModel().getSelectedItem().toString());
@@ -54,7 +54,7 @@ public class TaxiDriver implements Initializable {
     @FXML
     private void saveTaxiUnAvailability(){
         DBConnection db = new DBConnection(DBConnection.ConnectionType.ADMIN);
-        db.updateAvailability(1, 0);
+        db.updateAvailability(1, 0, Account.getInstance().getAccountId());
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Confirmed", ButtonType.OK);
         alert.showAndWait();
         taxiStatus.setText("Your Status: UnAvailable");

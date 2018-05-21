@@ -25,7 +25,7 @@ public class Driver implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ExtendedButton.setFunction(signOutButton, ExtendedButton.Type.TO_LOGIN);
-        comboLate.getItems().addAll("02 min","04 min","06 min","08 min","10 min");
+        comboLate.getItems().addAll("02 min","04 min","06 min","08 min","10 min", "12 min","14 min","16 min","18 min","20 min","22 min","24 min","26 min","28 min","30 min", "32 min","34 min","36 min","38 min","40 min", "42 min","44 min","46 min","48 min","50 min", "52 min","54 min","56 min","58 min","60 min");
         comboLate.valueProperty().addListener((observableValue, oldString, newString) -> {
             if(!comboLate.getSelectionModel().isEmpty()){
                 confirmBtn.setDisable(false);
@@ -55,6 +55,8 @@ public class Driver implements Initializable{
         DBConnection dbConnection = new DBConnection(DBConnection.ConnectionType.ADMIN);
         driverStatus.setText(dbConnection.getCurrentRouteForDriver());
     }
+
+
 
 
 }
